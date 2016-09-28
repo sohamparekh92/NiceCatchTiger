@@ -204,8 +204,8 @@ public class ReportPage3 extends AppCompatActivity {
             params.put("photoPath", "0");
 
 
-            String url = "http://people.cs.clemson.edu/~sdprovo/AndroidProject/API/submitReport.php";
-           // String url = "https://people.cs.clemson.edu/~jacosta/api/v1/submitReport.php";
+            // String url = "http://people.cs.clemson.edu/~sdprovo/AndroidProject/API/submitReport.php";
+            String url = "https://people.cs.clemson.edu/~jacosta/api/v1/reports";
             JSONObject json = jsonParser.makeHttpRequest(url, "POST", params);
 
             String msg = null;
