@@ -4,6 +4,8 @@ package com.example.ngratzi.nicecatchtiger;
  * Created by ngratzi on 4/13/2016.
  */
 import android.util.Log;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedInputStream;
@@ -51,6 +53,8 @@ public class JSONParser {
         if (method.equals("POST")) {
             // request method is POST
             try {
+
+                Log.i("Entered Block","POST in JSONParser");
                 urlObj = new URL(url);
 
                 conn = (HttpURLConnection) urlObj.openConnection();
@@ -65,11 +69,17 @@ public class JSONParser {
                 conn.setConnectTimeout(15000);
 
                 conn.connect();
+                Log.i("Entered Block", "After Connect");
 
                 paramsString = sbParams.toString();
 
+                //JSONObject testJSON = new JSONObject();
+                //testJSON.put("test",);
+
                 wr = new DataOutputStream(conn.getOutputStream());
                 wr.writeBytes(paramsString);
+
+                Log.i("Entered Block", "After Write bytes");
                 wr.flush();
                 wr.close();
 

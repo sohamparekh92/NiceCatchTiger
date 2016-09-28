@@ -207,7 +207,7 @@ public class ReportPage3 extends AppCompatActivity {
             // String url = "http://people.cs.clemson.edu/~sdprovo/AndroidProject/API/submitReport.php";
             String url = "https://people.cs.clemson.edu/~jacosta/api/v1/reports";
             Log.i("Logged url", url);
-            //JSONObject json = jsonParser.makeHttpRequest(url, "POST", params);
+            JSONObject json = jsonParser.makeHttpRequest(url, "POST", params);
 
             String msg = "Hi";
             /*try {
