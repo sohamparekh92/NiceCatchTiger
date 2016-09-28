@@ -111,7 +111,7 @@ public class ReportPage3 extends AppCompatActivity {
 
 
         if(error != 0) {
-            Toast.makeText(getApplicationContext(), "Please Fill In ALl Fields!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Please Fill In All Fields.", Toast.LENGTH_SHORT).show();
         }
         else {
             //Page 1
@@ -206,15 +206,17 @@ public class ReportPage3 extends AppCompatActivity {
 
             // String url = "http://people.cs.clemson.edu/~sdprovo/AndroidProject/API/submitReport.php";
             String url = "https://people.cs.clemson.edu/~jacosta/api/v1/reports";
-            JSONObject json = jsonParser.makeHttpRequest(url, "POST", params);
+            Log.i("Logged url", url);
+            //JSONObject json = jsonParser.makeHttpRequest(url, "POST", params);
 
-            String msg = null;
-            try {
-                msg = json.getString("message");
+            String msg = "Hi";
+            /*try {
+                //msg = json.getString("message");
+
             } catch (JSONException e) {
                 e.printStackTrace();
-            }
-            Log.i("Note:", msg);
+            }*/
+            //Log.i("Note:", msg);
             return null;
 
         }
