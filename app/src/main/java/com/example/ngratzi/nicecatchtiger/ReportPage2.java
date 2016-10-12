@@ -146,6 +146,7 @@ public class ReportPage2 extends AppCompatActivity {
                 android.R.layout.simple_list_item_1,contentBuildings);
         adp1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         buildingSpinner.setAdapter(adp2);
+        new ExternalDBHandler().execute("getBuildings");
     }
 
     public void startPage3(View view) {
