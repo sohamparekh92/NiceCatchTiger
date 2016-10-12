@@ -131,7 +131,10 @@ public class ReportPage3 extends AppCompatActivity {
             PN = PhoneNumber.getText().toString();
 
             //IN PHONE
-            new submitReport().execute();
+            //new submitReport().execute();
+            ExternalDBHandler externalDBHandler = new ExternalDBHandler();
+            externalDBHandler.execute("submitReport", new JSONObject(getReportMap()).toString());
+
 
 
             startActivity(new Intent(ReportPage3.this, SucessSubmit.class));
@@ -179,6 +182,25 @@ public class ReportPage3 extends AppCompatActivity {
         client.disconnect();
     }
 
+    private HashMap<String, String> getReportMap(){
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("personKindID", Integer.toString(Designation));
+        params.put("personName", NAME);
+        params.put("personPhone", PN);
+        params.put("personEmail", EMAIL);
+        params.put("buildingID", Integer.toString(Building));
+        params.put("room", roomNumber);
+        params.put("description", description);
+        params.put("involvementKindID", Integer.toString(involve));
+        params.put("reportKindID", Integer.toString(report));
+        params.put("departmentID", Integer.toString(Department));
+        params.put("latitude", "0");
+        params.put("logitude", "0");
+        params.put("photoPath", "0");
+        return params;
+    }
+
+
 
     class submitReport extends AsyncTask<String, String, Void> {
 
@@ -203,9 +225,12 @@ public class ReportPage3 extends AppCompatActivity {
             params.put("logitude", "0");
             params.put("photoPath", "0");
 
+           // ExternalDBHandler externalDBHandler = new ExternalDBHandler(params);
+           // externalDBHandler.execute("submitReport");
+
 
             // String url = "http://people.cs.clemson.edu/~sdprovo/AndroidProject/API/submitReport.php";
-            String url = "https://people.cs.clemson.edu/~jacosta/api/v1/reports";
+            /*String url = "https://people.cs.clemson.edu/~jacosta/api/v1/reports";
             Log.i("Logged url", url);
             JSONObject json = jsonParser.makeHttpRequest(url, "POST", params);
 
@@ -216,7 +241,7 @@ public class ReportPage3 extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }*/
-            //Log.i("Note:", msg);
+            //Log.i("Note:", msg);*/
             return null;
 
         }
