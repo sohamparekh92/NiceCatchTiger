@@ -83,7 +83,6 @@ public class ExternalDBHandler extends  AsyncTask< String ,Void,String> {
     }
     @Override
     protected String doInBackground(String... params) {
-
         String method = params[0];
         String url = "https://people.cs.clemson.edu/~jacosta/api/v1/reports";
         //String url = "https://people.cs.clemson.edu/~sohamap/nct_test/nct.php";
@@ -102,10 +101,7 @@ public class ExternalDBHandler extends  AsyncTask< String ,Void,String> {
                 urlConn = (HttpURLConnection) urlObj.openConnection();
                 urlConn.setDoOutput(true);
                 urlConn.setRequestMethod("POST");
-               // urlConn.setUseCaches(false);
-               // urlConn.setRequestProperty("Content-Type", "application/json");
                 urlConn.connect();
-                //Create JSONObject here
                 JSONObject jsonParam = new JSONObject();
                 JSONObject jsonOuter = new JSONObject();
                 jsonParam.put("ID", "25");
@@ -115,46 +111,44 @@ public class ExternalDBHandler extends  AsyncTask< String ,Void,String> {
                 jsonOuter.put("data", jsonParam);
 
                 String urlParameters =
-                        URLEncoder.encode("description", "UTF-8")+"="+URLEncoder.encode("HeyBro","UTF-8")+"&"
+                        URLEncoder.encode("description", "UTF-8")+"="+URLEncoder.encode("Refined inputstream","UTF-8")+"&"
                                 +URLEncoder.encode("involvementKind","UTF-8")+"="+URLEncoder.encode("Equipment","UTF-8")+"&"
-                                +URLEncoder.encode("reportKind","UTF-8")+"="+URLEncoder.encode("CloseCall","UTF-8")+"&"
+                                +URLEncoder.encode("reportKind","UTF-8")+"="+URLEncoder.encode("Close Call","UTF-8")+"&"
                                 +URLEncoder.encode("buildingName","UTF-8")+"="+URLEncoder.encode("BRC","UTF-8")+"&"
                                 +URLEncoder.encode("room","UTF-8")+"="+URLEncoder.encode("12","UTF-8")+"&"
-                                +URLEncoder.encode("name","UTF-8")+"="+URLEncoder.encode("josh","UTF-8")+"&"
-                                +URLEncoder.encode("username","UTF-8")+"="+URLEncoder.encode("gta","UTF-8")+"&"
+                                +URLEncoder.encode("personKind","UTF-8")+"="+URLEncoder.encode("Faculty","UTF-8")+"&"
+                                +URLEncoder.encode("name","UTF-8")+"="+URLEncoder.encode("Donald Trump","UTF-8")+"&"
+                                +URLEncoder.encode("username","UTF-8")+"="+URLEncoder.encode("djtrump","UTF-8")+"&"
                                 +URLEncoder.encode("phone","UTF-8")+"="+URLEncoder.encode("","UTF-8")+"&"
                                 +URLEncoder.encode("department","UTF-8")+"="+URLEncoder.encode("Architecture","UTF-8")+"&"
                                 +URLEncoder.encode("reportTime","UTF-8")+"="+URLEncoder.encode("2016-10-12 13:28:09","UTF-8")+"&"
                                 +URLEncoder.encode("statusID","UTF-8")+"="+URLEncoder.encode("1","UTF-8")+"&"
-                                +URLEncoder.encode("actionTaken","UTF-8")+"="+URLEncoder.encode("lol","UTF-8")+"&"
+                                +URLEncoder.encode("actionTaken","UTF-8")+"="+URLEncoder.encode("action","UTF-8")+"&"
                                 +URLEncoder.encode("incidentTime","UTF-8")+"="+URLEncoder.encode("2016-10-12 13:28:09","UTF-8")+"&"
                                 +URLEncoder.encode("isIOS","UTF-8")+"="+URLEncoder.encode("0","UTF-8");
-                String reportJSONString = "description=123&involvementKind=Equipment&reportKind=Equipment&buildingName=BRC&room=123&personKind=Faculty&name=Joey&username=jacosta&phone=&department=Architecture&reportTime=&statusID=1&actionTaken=&incidentTime=&isIOS=0";
+
+                //Sample string below works with no spaces, use for testing purpose
+                //String reportJSONString = "description=NoSpace&involvementKind=Equipment&reportKind=Equipment&buildingName=BRC&room=123&personKind=Faculty&name=Joey&username=jacosta&phone=&department=Architecture&reportTime=&statusID=1&actionTaken=&incidentTime=&isIOS=0";
 
                 printout = new DataOutputStream(urlConn.getOutputStream());
-
-                //printout.writeBytes(URLEncoder.encode(jsonOuter.toString(),"UTF-8"));
-                printout.writeBytes(reportJSONString);
-
-                Log.i("Http Response message", urlConn.getResponseMessage());
-                Log.i("Http Response code", urlConn.getResponseCode()+"");
+                printout.writeBytes(urlParameters);
                 printout.flush();
                 printout.close();
 
-                InputStream IS = urlConn.getInputStream();
-
-
-                //InputStream IS = urlConn.getInputStream();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(IS, "iso-8859-1"));
+                Log.i("Http Response message", urlConn.getResponseMessage());
+                Log.i("Http Response code", urlConn.getResponseCode()+"");
+                InputStream inputStream = urlConn.getInputStream() ;
+                if(inputStream==null){
+                    inputStream = urlConn.getErrorStream();
+                }
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
                 String response = "";
                 String line = "";
                 while( (line = bufferedReader.readLine())!=null ){
                     response+=line;
                 }
                 bufferedReader.close();
-
-                IS.close();
-                Log.i("End of","submitReport");
+                inputStream.close();
 
                 return response;
 
@@ -218,7 +212,7 @@ public class ExternalDBHandler extends  AsyncTask< String ,Void,String> {
 
 
                 Log.i("String Entity",EntityUtils.toString(new UrlEncodedFormEntity(myList) ) );
-                httpPost.setEntity(new UrlEncodedFormEntity(myList));
+                httpPost.setEntity(nparax);
 
                 //httpPost.setEntity(entity);
                 HttpResponse httpResponse = httpClient.execute(httpPost);
