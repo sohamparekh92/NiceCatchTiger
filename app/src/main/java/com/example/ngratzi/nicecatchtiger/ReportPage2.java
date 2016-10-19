@@ -12,6 +12,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -22,12 +23,17 @@ import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 public class ReportPage2 extends AppCompatActivity {
 
@@ -146,7 +152,23 @@ public class ReportPage2 extends AppCompatActivity {
                 android.R.layout.simple_list_item_1,contentBuildings);
         adp1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         buildingSpinner.setAdapter(adp2);
-        new ExternalDBHandler().execute("getBuildings");
+
+        try {
+            String result = new ExternalDBHandler().execute("getBuildings").get();
+            Log.i("ResultBui",":"+result);
+
+            JSONObject buildingJSON = new JSONObject(result);
+            JSONArray data = buildingJSON.getJSONArray("data");
+            //JSONObject individual = buildingJSON.getJSONObject("data");
+            Log.i("Json building sample", data.getJSONObject(1).getString("buildingName") );
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public void startPage3(View view) {

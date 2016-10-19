@@ -133,7 +133,7 @@ public class ReportPage3 extends AppCompatActivity {
             //IN PHONE
             //new submitReport().execute();
             ExternalDBHandler externalDBHandler = new ExternalDBHandler();
-            externalDBHandler.execute("submitReport", new JSONObject(getReportMap()).toString());
+            externalDBHandler.execute("submitReportURLConn", new JSONObject(getReportMap()).toString());
 
 
 
