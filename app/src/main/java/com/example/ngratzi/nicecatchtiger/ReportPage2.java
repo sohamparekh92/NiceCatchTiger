@@ -80,16 +80,13 @@ public class ReportPage2 extends AppCompatActivity {
 
         //Populate Departments Array: content
         ArrayList<String> departmentsList = FormData.getInstance().getFormData("departments","departmentName");
-
         ArrayAdapter<String> deaprtmentsAdapter=new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,departmentsList);
         deaprtmentsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         departmentSpinner.setAdapter(deaprtmentsAdapter);
 
         //Populate Building Array: content
-        //ArrayList<String> buildingsList = new FormData().getFormData("buildings","buildingName");
         ArrayList<String> buildingsList = FormData.getInstance().getFormData("buildings","buildingName");
-
         ArrayAdapter<String> buildingsAdapter=new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,buildingsList);
         buildingsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

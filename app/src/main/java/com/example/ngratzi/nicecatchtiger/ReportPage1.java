@@ -88,6 +88,7 @@ public class ReportPage1 extends AppCompatActivity {
                     otherInvolve.setVisibility(View.VISIBLE);
                 } else {
                     otherInvolve.setVisibility(View.INVISIBLE);
+
                 }
             }
         });
