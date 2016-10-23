@@ -233,101 +233,13 @@ public class ExternalDBHandler extends  AsyncTask< String ,Void,String> {
         }
 
 
-        if(method.equals("submitReport")) {
-
-            Log.i("Entered", "Submitreport");
-            Log.i("JSON_Object", params[1]);
-
-
-            /*String reportJSONString =  "description=finalReportData" +
-                    "&involvementKind=Chemical" +
-                    "&reportKind=Lesson Learned" +
-                    "&buildingName=Freeman Hall" +
-                    "&room=123" +
-                    "&personKind=Faculty" +
-                    "&name=" +
-                    "&username=" +
-                    "&phone=" +
-                    "&department=" +
-                    "&reportTime=" +
-                    "&statusID=1" +
-                    "&actionTaken=" +
-                    "&incidentTime=";*/
-            //String reportJSONString = params[1];
-            //String reportJSONString = "description=123&involvementKind=Work Practice/Procedure&reportKind=Close Call&buildingName=BRC&room=123&personKind=Faculty&name=Joey&username=jacosta&phone=&department=Architecture&reportTime=2016-10-12 13:28:09&statusID=1&actionTaken=&incidentTime=2016-10-12 13:28:01&isIOS=0";
+        if (method.equals("getData")){
             try {
-                urlObj = new URL(url);
-                HttpURLConnection httpURLConnection = (HttpURLConnection) urlObj.openConnection();
-                httpURLConnection.setRequestMethod("POST");
-                JSONObject obj2 = new JSONObject();
-                obj2.put("description","123");
-                obj2.put("involvementKind","Work Practice/Procedure");
-                obj2.put("reportKind","Close Call");
-                obj2.put("buildingName","BRC");
-                obj2.put("room","123");
-                obj2.put("personKind","Faculty");
-                obj2.put("name","Joey2");
-                obj2.put("username","jacosta");
-                obj2.put("phone","1234569874");
-                obj2.put("department","Architecture");
-                obj2.put("reportTime","2016-10-12 13:28:09");
-                obj2.put("statusID","1");
-                obj2.put("actionTaken","123");
-                obj2.put("incidentTime","2016-10-12 13:28:01");
-                obj2.put("isIOS","0");
-                //httpURLConnection.setRequestProperty("Content-Type", "application/json");
-
-                httpURLConnection.setDoOutput(true);
-                httpURLConnection.connect();
-
-                OutputStream OS = httpURLConnection.getOutputStream();
-                Log.i("Http response Message", httpURLConnection.getResponseMessage());
-                Log.i("Http response Code", httpURLConnection.getResponseCode()+"");
-                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(OS, "UTF-8"));
-                String data = obj2.toString();
-                Log.i("URL_OUTPUT", data);
-                bufferedWriter.write(data);
-                //bufferedWriter.flush();
-                //bufferedWriter.close();
-               // OS.close();
-                Log.i("End of","os");
-
-                InputStream IS = httpURLConnection.getInputStream();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(IS, "iso-8859-1"));
-                String response = "";
-                String line = "";
-                while( (line = bufferedReader.readLine())!=null ){
-                    response+=line;
-                }
-                bufferedReader.close();
-                IS.close();
-                httpURLConnection.disconnect();
-                Log.i("End of","submitReport");
-                httpURLConnection.disconnect();
-                return response;
-
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-                Log.i("Exception", "MalinformedURL");
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (ProtocolException e) {
-                e.printStackTrace();
-                Log.i("Exception", "protocol");
-            } catch (IOException e) {
-                e.printStackTrace();
-                Log.i("Exception submit", "io");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-        }
-
-        if (method.equals("getBuildings")){
-            try {
-                URL urlB = new URL(home_url+url_buildings);
-                HttpsURLConnection httpsURLConnection = (HttpsURLConnection)urlB.openConnection();
+                String elementsType = params[1];
+                String final_url = home_url + elementsType;
+                URL url_get = new URL(final_url);
+                Log.i("Final URL", final_url);
+                HttpsURLConnection httpsURLConnection = (HttpsURLConnection)url_get.openConnection();
                 httpsURLConnection.setRequestMethod("GET");
                 httpsURLConnection.setDoInput(true);
                 //httpsURLConnection.setDoOutput(true);
@@ -343,7 +255,7 @@ public class ExternalDBHandler extends  AsyncTask< String ,Void,String> {
                 bufferedReader.close();
                 IS.close();
                 httpsURLConnection.disconnect();
-                Log.i("End of","getBuildings");
+                Log.i("End of","getData");
                 return response;
 
             } catch (MalformedURLException e) {
@@ -362,17 +274,10 @@ public class ExternalDBHandler extends  AsyncTask< String ,Void,String> {
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
         if(s!=null){
-            Log.i("Response", s);
-            Log.i("Error", "Yes Postexecute");
-            if(s.equals("student_registration_success")) {
-                Log.i("Error", "Success Postexecute");
-            }
-            else{
-                Log.i("Error2", s);
-            }
+            Log.i("Response Recieved",s);
         }
         if(s==null){
-            Log.i("Null Response", "Got null");
+            Log.i("Response Recieved", "NULL");
         }
     }
 
