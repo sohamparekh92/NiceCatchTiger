@@ -16,49 +16,6 @@
         android:layout_marginTop="100dp"
         android:id="@+id/radioGroup">
 
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Faculty"
-            android:id="@+id/fauclty"
-            android:layout_below="@+id/textView5"
-            android:layout_alignLeft="@+id/textView5"
-            android:layout_alignStart="@+id/textView5"
-            android:checked="false"
-            android:textSize="20dp" />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Staff"
-            android:id="@+id/staff"
-            android:layout_below="@+id/fauclty"
-            android:layout_alignLeft="@+id/fauclty"
-            android:layout_alignStart="@+id/fauclty"
-            android:checked="false"
-            android:textSize="20dp" />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Student"
-            android:id="@+id/student"
-            android:layout_above="@+id/staff"
-            android:layout_toRightOf="@+id/fauclty"
-            android:layout_toEndOf="@+id/fauclty"
-            android:checked="false"
-            android:textSize="20dp" />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Other:"
-            android:id="@+id/other"
-            android:layout_alignTop="@+id/staff"
-            android:layout_toRightOf="@+id/staff"
-            android:layout_toEndOf="@+id/staff"
-            android:checked="false"
-            android:textSize="20dp" />
 
     </RadioGroup>
 
