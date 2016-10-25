@@ -80,10 +80,10 @@ public class ReportPage2 extends AppCompatActivity {
 
         //Populate Departments Array: content
         ArrayList<String> departmentsList = FormData.getInstance().getFormData("departments","departmentName");
-        ArrayAdapter<String> deaprtmentsAdapter=new ArrayAdapter<String>(this,
+        ArrayAdapter<String> departmentsAdapter=new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,departmentsList);
-        deaprtmentsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        departmentSpinner.setAdapter(deaprtmentsAdapter);
+        departmentsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        departmentSpinner.setAdapter(departmentsAdapter);
 
         //Populate Building Array: content
         ArrayList<String> buildingsList = FormData.getInstance().getFormData("buildings","buildingName");
@@ -97,45 +97,39 @@ public class ReportPage2 extends AppCompatActivity {
 
         int error = 0;
         //data validation
+        String descriptionString = "";
+        String departmentString = "";
+        String buildingString = "";
+        String roomString = "";
 
-        /*
-
-        if(!description.getText().toString().isEmpty()) {
-            Description = description.getText().toString();
+        try{
+            descriptionString = description.getText().toString();
+            departmentString = departmentSpinner.toString();
+            buildingString = buildingSpinner.toString();
+            roomString = roomNumber.getText().toString();
         }
-        else {
+        catch (Exception e){
             error = 1;
         }
 
-        if(departmentIDs.get(departmentSpinner.getSelectedItemPosition()) != 0) {
-            department = departmentIDs.get(departmentSpinner.getSelectedItemPosition());
-        }
-        else {
+        if(departmentString.equals("") ||
+                descriptionString.equals("") ||
+                buildingString.equals("") ||
+                roomString.equals("")) {
+
             error = 1;
         }
-
-        if(buildingIDs.get(buildingSpinner.getSelectedItemPosition()) != 0) {
-            building = buildingIDs.get(buildingSpinner.getSelectedItemPosition());
-        }
-        else {
-            error = 1;
-        }
-
-        if(!roomNumber.getText().toString().isEmpty()) {
-            RNumber = roomNumber.getText().toString();
-        }
-        else {
-            error = 1;
-        }*/
-
 
         if(error == 0) {
+            FormData.getInstance().addFormData("department",departmentString);
+            FormData.getInstance().addFormData("description",descriptionString);
+            FormData.getInstance().addFormData("room",roomString);
+            FormData.getInstance().addFormData("buildingName",buildingString);
             startActivity(new Intent(ReportPage2.this, ReportPage3.class));
         }
         else {
-            Toast.makeText(getApplicationContext(), "Please Fill In ALl Fields!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Please Fill In All The Fields.", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     static final int REQUEST_VIDEO_CAPTURE = 1;

@@ -133,21 +133,17 @@ public class ReportPage1 extends AppCompatActivity {
         RadioGroup radioGroupReport = (RadioGroup) findViewById(R.id.ReportRG);
 
         RadioButton checkedButtonReport = (RadioButton) findViewById(radioGroupReport.getCheckedRadioButtonId());
-        String checkedValueReport = checkedButtonReport.getText().toString();
-
         RadioButton checkedButtonInvolve = (RadioButton) findViewById(radioGroupInvolve.getCheckedRadioButtonId());
-        String checkedValueInvolved = checkedButtonInvolve.getText().toString();
+        String checkedValueReport = "";
+        String checkedValueInvolved = "";
 
-        if(checkedValueInvolved.equals("") || checkedButtonReport.equals("")){
+        try {
+            checkedValueInvolved = checkedButtonInvolve.getText().toString();
+            checkedValueReport = checkedButtonReport.getText().toString();
+        }
+        catch (Exception e){
             error = 1;
         }
-        else{
-            error = 0;
-            FormData.getInstance().addFormData("involvementKind",checkedValueInvolved);
-            FormData.getInstance().addFormData("reportKind",checkedValueReport);
-        }
-
-
 
         /*
 
@@ -198,14 +194,12 @@ public class ReportPage1 extends AppCompatActivity {
         else {
             error = 1;
         }*/
-
-
-
-
         if (error == 0) {
+            FormData.getInstance().addFormData("involvementKind",checkedValueInvolved);
+            FormData.getInstance().addFormData("reportKind",checkedValueReport);
             startActivity(new Intent(ReportPage1.this, ReportPage2.class));
         } else {
-            Toast.makeText(getApplicationContext(), "Please Fill In ALl Fields!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Please Fill In All Fields.", Toast.LENGTH_SHORT).show();
         }
 
     }

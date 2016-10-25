@@ -98,8 +98,8 @@ public class ExternalDBHandler extends  AsyncTask< String ,Void,String> {
                         URLEncoder.encode("description", "UTF-8")+"="+URLEncoder.encode("Mid form submit Test","UTF-8")+"&"
                                 +URLEncoder.encode("involvementKind","UTF-8")+"="+URLEncoder.encode("Equipment","UTF-8")+"&" //done
                                 +URLEncoder.encode("reportKind","UTF-8")+"="+URLEncoder.encode("Close Call","UTF-8")+"&"  //done
-                                +URLEncoder.encode("buildingName","UTF-8")+"="+URLEncoder.encode("BRC","UTF-8")+"&"
-                                +URLEncoder.encode("room","UTF-8")+"="+URLEncoder.encode("12","UTF-8")+"&"
+                                +URLEncoder.encode("buildingName","UTF-8")+"="+URLEncoder.encode("BRC","UTF-8")+"&" //done
+                                +URLEncoder.encode("room","UTF-8")+"="+URLEncoder.encode("12","UTF-8")+"&" //done
                                 +URLEncoder.encode("personKind","UTF-8")+"="+URLEncoder.encode("Faculty","UTF-8")+"&"
                                 +URLEncoder.encode("name","UTF-8")+"="+URLEncoder.encode("Donald Trump","UTF-8")+"&"
                                 +URLEncoder.encode("username","UTF-8")+"="+URLEncoder.encode("djtrump","UTF-8")+"&"
@@ -110,6 +110,7 @@ public class ExternalDBHandler extends  AsyncTask< String ,Void,String> {
                                 +URLEncoder.encode("actionTaken","UTF-8")+"="+URLEncoder.encode("action","UTF-8")+"&"
                                 +URLEncoder.encode("incidentTime","UTF-8")+"="+URLEncoder.encode("2016-10-12 13:28:09","UTF-8")+"&"
                                 +URLEncoder.encode("isIOS","UTF-8")+"="+URLEncoder.encode("0","UTF-8");
+
 
                 /*String urlParameters2 =
                         URLEncoder.encode("description", "UTF-8")+"="+URLEncoder.encode(formInstance.getFormElement("description"),"UTF-8")+"&"
@@ -171,10 +172,8 @@ public class ExternalDBHandler extends  AsyncTask< String ,Void,String> {
                 HttpsURLConnection httpsURLConnection = (HttpsURLConnection)url_get.openConnection();
                 httpsURLConnection.setRequestMethod("GET");
                 httpsURLConnection.setDoInput(true);
-                //httpsURLConnection.setDoOutput(true);
                 InputStream IS = httpsURLConnection.getInputStream();
                 int status = httpsURLConnection.getResponseCode();
-
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(IS, "iso-8859-1"));
                 String response = "";
                 String line = "";

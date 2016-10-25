@@ -25,6 +25,7 @@ public class FormData {
     }
 
     public void addFormData(String name, String value){
+        Log.i("Form Data Added",name+" : "+value);
         myReport.put(name,value);
     }
 
