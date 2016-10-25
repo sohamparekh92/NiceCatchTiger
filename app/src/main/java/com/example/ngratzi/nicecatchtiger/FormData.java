@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -16,10 +17,23 @@ import java.util.concurrent.ExecutionException;
 
 public class FormData {
 
+    private HashMap<String,String> myReport = new HashMap<>();
     static FormData instance = new FormData();
     private FormData(){}
     static FormData getInstance(){
         return instance;
+    }
+
+    public void addFormData(String name, String value){
+        myReport.put(name,value);
+    }
+
+    public String getFormElement(String key){
+        return myReport.get(key);
+    }
+
+    public boolean isFormComplete(){
+        return true;
     }
 
     public ArrayList<String> getFormData(String elements, String element){
@@ -41,4 +55,5 @@ public class FormData {
         }
         return resultList;
     }
+
 }

@@ -98,6 +98,8 @@ public class ReportPage2 extends AppCompatActivity {
         int error = 0;
         //data validation
 
+        /*
+
         if(!description.getText().toString().isEmpty()) {
             Description = description.getText().toString();
         }
@@ -124,7 +126,7 @@ public class ReportPage2 extends AppCompatActivity {
         }
         else {
             error = 1;
-        }
+        }*/
 
 
         if(error == 0) {

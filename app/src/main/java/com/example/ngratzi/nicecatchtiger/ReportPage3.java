@@ -36,8 +36,6 @@ public class ReportPage3 extends AppCompatActivity {
     String EMAIL;
     String PN;
 
-    JSONParser jsonParser = new JSONParser();
-
     int facultyID = 1;
     int staffID = 2;
     int studentID = 3;
@@ -133,7 +131,7 @@ public class ReportPage3 extends AppCompatActivity {
             //IN PHONE
             //new submitReport().execute();
             ExternalDBHandler externalDBHandler = new ExternalDBHandler();
-           // externalDBHandler.execute("submitReportClient", new JSONObject(getReportMap()).toString());
+            externalDBHandler.execute("submitReportURLConn", new JSONObject(getReportMap()).toString());
 
 
 
@@ -199,58 +197,4 @@ public class ReportPage3 extends AppCompatActivity {
         params.put("photoPath", "0");
         return params;
     }
-
-
-
-    class submitReport extends AsyncTask<String, String, Void> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        protected Void doInBackground(String... args) {
-            HashMap<String, String> params = new HashMap<String, String>();
-            params.put("personKindID", Integer.toString(Designation));
-            params.put("personName", NAME);
-            params.put("personPhone", PN);
-            params.put("personEmail", EMAIL);
-            params.put("buildingID", Integer.toString(Building));
-            params.put("room", roomNumber);
-            params.put("description", description);
-            params.put("involvementKindID", Integer.toString(involve));
-            params.put("reportKindID", Integer.toString(report));
-            params.put("departmentID", Integer.toString(Department));
-            params.put("latitude", "0");
-            params.put("logitude", "0");
-            params.put("photoPath", "0");
-
-           // ExternalDBHandler externalDBHandler = new ExternalDBHandler(params);
-           // externalDBHandler.execute("submitReport");
-
-
-            // String url = "http://people.cs.clemson.edu/~sdprovo/AndroidProject/API/submitReport.php";
-            /*String url = "https://people.cs.clemson.edu/~jacosta/api/v1/reports";
-            Log.i("Logged url", url);
-            JSONObject json = jsonParser.makeHttpRequest(url, "POST", params);
-
-            String msg = "Hi";
-            /*try {
-                //msg = json.getString("message");
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }*/
-            //Log.i("Note:", msg);*/
-            return null;
-
-        }
-
-        protected void onPostExecute(Void file_url) {
-
-        }
-
-
-    }
-
 }

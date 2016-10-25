@@ -63,24 +63,6 @@ public class ExternalDBHandler extends  AsyncTask< String ,Void,String> {
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
 
-
-    private String getParams() throws UnsupportedEncodingException {
-        String params=  URLEncoder.encode("description", "UTF-8")+"="+URLEncoder.encode("HeyBro","UTF-8")+"&"
-                +URLEncoder.encode("involvementKind","UTF-8")+"="+URLEncoder.encode("Equipment","UTF-8")+"&"
-                +URLEncoder.encode("reportKind","UTF-8")+"="+URLEncoder.encode("CloseCall","UTF-8")+"&"
-                +URLEncoder.encode("buildingName","UTF-8")+"="+URLEncoder.encode("BRC","UTF-8")+"&"
-                +URLEncoder.encode("room","UTF-8")+"="+URLEncoder.encode("12","UTF-8")+"&"
-                +URLEncoder.encode("name","UTF-8")+"="+URLEncoder.encode("josh","UTF-8")+"&"
-                +URLEncoder.encode("username","UTF-8")+"="+URLEncoder.encode("gta","UTF-8")+"&"
-                +URLEncoder.encode("phone","UTF-8")+"="+URLEncoder.encode("","UTF-8")+"&"
-                +URLEncoder.encode("department","UTF-8")+"="+URLEncoder.encode("Architecture","UTF-8")+"&"
-                +URLEncoder.encode("reportTime","UTF-8")+"="+URLEncoder.encode("2016-10-12 13:28:09","UTF-8")+"&"
-                +URLEncoder.encode("statusID","UTF-8")+"="+URLEncoder.encode("1","UTF-8")+"&"
-                +URLEncoder.encode("actionTaken","UTF-8")+"="+URLEncoder.encode("lol","UTF-8")+"&"
-                +URLEncoder.encode("incidentTime","UTF-8")+"="+URLEncoder.encode("2016-10-12 13:28:09","UTF-8")+"&"
-                +URLEncoder.encode("isIOS","UTF-8")+"="+URLEncoder.encode("0","UTF-8");
-        return params;
-    }
     @Override
     protected String doInBackground(String... params) {
         String method = params[0];
@@ -110,10 +92,12 @@ public class ExternalDBHandler extends  AsyncTask< String ,Void,String> {
 
                 jsonOuter.put("data", jsonParam);
 
+                FormData formInstance = FormData.getInstance();
+
                 String urlParameters =
-                        URLEncoder.encode("description", "UTF-8")+"="+URLEncoder.encode("Refined inputstream","UTF-8")+"&"
-                                +URLEncoder.encode("involvementKind","UTF-8")+"="+URLEncoder.encode("Equipment","UTF-8")+"&"
-                                +URLEncoder.encode("reportKind","UTF-8")+"="+URLEncoder.encode("Close Call","UTF-8")+"&"
+                        URLEncoder.encode("description", "UTF-8")+"="+URLEncoder.encode("Mid form submit Test","UTF-8")+"&"
+                                +URLEncoder.encode("involvementKind","UTF-8")+"="+URLEncoder.encode("Equipment","UTF-8")+"&" //done
+                                +URLEncoder.encode("reportKind","UTF-8")+"="+URLEncoder.encode("Close Call","UTF-8")+"&"  //done
                                 +URLEncoder.encode("buildingName","UTF-8")+"="+URLEncoder.encode("BRC","UTF-8")+"&"
                                 +URLEncoder.encode("room","UTF-8")+"="+URLEncoder.encode("12","UTF-8")+"&"
                                 +URLEncoder.encode("personKind","UTF-8")+"="+URLEncoder.encode("Faculty","UTF-8")+"&"
@@ -126,6 +110,24 @@ public class ExternalDBHandler extends  AsyncTask< String ,Void,String> {
                                 +URLEncoder.encode("actionTaken","UTF-8")+"="+URLEncoder.encode("action","UTF-8")+"&"
                                 +URLEncoder.encode("incidentTime","UTF-8")+"="+URLEncoder.encode("2016-10-12 13:28:09","UTF-8")+"&"
                                 +URLEncoder.encode("isIOS","UTF-8")+"="+URLEncoder.encode("0","UTF-8");
+
+                /*String urlParameters2 =
+                        URLEncoder.encode("description", "UTF-8")+"="+URLEncoder.encode(formInstance.getFormElement("description"),"UTF-8")+"&"
+                                +URLEncoder.encode("involvementKind","UTF-8")+"="+URLEncoder.encode(formInstance.getFormElement("involvementKind"),"UTF-8")+"&" //done
+                                +URLEncoder.encode("reportKind","UTF-8")+"="+URLEncoder.encode(formInstance.getFormElement("reportKind"),"UTF-8")+"&"  //done
+                                +URLEncoder.encode("buildingName","UTF-8")+"="+URLEncoder.encode(formInstance.getFormElement("buildingName"),"UTF-8")+"&"
+                                +URLEncoder.encode("room","UTF-8")+"="+URLEncoder.encode(formInstance.getFormElement("room"),"UTF-8")+"&"
+                                +URLEncoder.encode("personKind","UTF-8")+"="+URLEncoder.encode(formInstance.getFormElement("personKind"),"UTF-8")+"&"
+                                +URLEncoder.encode("name","UTF-8")+"="+URLEncoder.encode(formInstance.getFormElement("name"),"UTF-8")+"&"
+                                +URLEncoder.encode("username","UTF-8")+"="+URLEncoder.encode(formInstance.getFormElement("username"),"UTF-8")+"&"
+                                +URLEncoder.encode("phone","UTF-8")+"="+URLEncoder.encode(formInstance.getFormElement("phone"),"UTF-8")+"&"
+                                +URLEncoder.encode("department","UTF-8")+"="+URLEncoder.encode(formInstance.getFormElement("department"),"UTF-8")+"&"
+                                +URLEncoder.encode("reportTime","UTF-8")+"="+URLEncoder.encode(formInstance.getFormElement("reportTime"),"UTF-8")+"&"
+                                +URLEncoder.encode("statusID","UTF-8")+"="+URLEncoder.encode(formInstance.getFormElement("statusID"),"UTF-8")+"&"
+                                +URLEncoder.encode("actionTaken","UTF-8")+"="+URLEncoder.encode(formInstance.getFormElement("actionTaken"),"UTF-8")+"&"
+                                +URLEncoder.encode("incidentTime","UTF-8")+"="+URLEncoder.encode(formInstance.getFormElement("incidentTime"),"UTF-8")+"&"
+                                +URLEncoder.encode("isIOS","UTF-8")+"="+URLEncoder.encode("0","UTF-8"); //done
+                                */
 
                 //Sample string below works with no spaces, use for testing purpose
                 //String reportJSONString = "description=NoSpace&involvementKind=Equipment&reportKind=Equipment&buildingName=BRC&room=123&personKind=Faculty&name=Joey&username=jacosta&phone=&department=Architecture&reportTime=&statusID=1&actionTaken=&incidentTime=&isIOS=0";
@@ -159,79 +161,6 @@ public class ExternalDBHandler extends  AsyncTask< String ,Void,String> {
             }
 
         }
-
-
-        if(method.equals("submitReportClient")) {
-            String response = "";
-
-            try {
-
-                String reportJSONString = "description=123&involvementKind=Equipment&reportKind=Equipment&buildingName=BRC&room=123&personKind=Faculty&name=Joey&username=jacosta&phone=&department=Architecture&reportTime=&statusID=1&actionTaken=&incidentTime=&isIOS=0";
-
-                JSONObject obj2 = new JSONObject();
-                obj2.put("description","123");
-                obj2.put("involvementKind","Equipment");
-                obj2.put("reportKind","Close Call");
-                obj2.put("buildingName","BRC");
-                obj2.put("room","123");
-                obj2.put("personKind","Faculty");
-                obj2.put("name","Joey2");
-                obj2.put("username","jacosta");
-                obj2.put("phone","1234569874");
-                obj2.put("department","Architecture");
-                obj2.put("reportTime","2016-10-12 13:28:09");
-                obj2.put("statusID","1");
-                obj2.put("actionTaken","");
-                obj2.put("incidentTime","2016-10-12 13:28:01");
-                obj2.put("isIOS","0");
-
-                Log.i("JSON Object String", obj2.toString());
-
-                //ByteArrayEntity entity = new ByteArrayEntity(obj2.toString().getBytes("UTF-8"));
-                //entity.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-
-                HttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost(url);
-                httpPost.setHeader("Content-type", "application/json");
-                httpPost.setHeader("Accept", "application/json");
-                //httpPost.setEntity(new StringEntity(obj2.toString(), "UTF-8"));
-
-                String sample = "description=123&involvementKind=Work Practice/Procedure&reportKind=Close Call&buildingName=BRC&room=123&personKind=Faculty&name=Joey&username=jacosta&phone=&department=Architecture&reportTime=2016-10-12 13:28:09&statusID=1&actionTaken=&incidentTime=2016-10-12 13:28:01&isIOS=1";
-
-                List<NameValuePair> myList = new ArrayList<NameValuePair>();
-                myList.add( new BasicNameValuePair("description","bro"));
-                myList.add( new BasicNameValuePair("pi","brso"));
-                myList.add( new BasicNameValuePair("gi","brsao"));
-
-                StringEntity se =  new StringEntity(sample, "UTF-8");
-                StringEntity ne = new StringEntity(sample);
-                StringEntity je = new StringEntity(obj2.toString(), "UTF-8");
-                StringEntity nje = new StringEntity(obj2.toString());
-                StringEntity parax = new StringEntity(getParams(), "UTF-8");
-                StringEntity nparax = new StringEntity(getParams());
-
-
-                Log.i("String Entity",EntityUtils.toString(new UrlEncodedFormEntity(myList) ) );
-                httpPost.setEntity(nparax);
-
-                //httpPost.setEntity(entity);
-                HttpResponse httpResponse = httpClient.execute(httpPost);
-                HttpEntity httpEntity = httpResponse.getEntity();
-                response = EntityUtils.toString(httpEntity);
-                return response;
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            Log.d(LOGTAG, "POST Response >> " + response);
-            return response;
-        }
-
 
         if (method.equals("getData")){
             try {
