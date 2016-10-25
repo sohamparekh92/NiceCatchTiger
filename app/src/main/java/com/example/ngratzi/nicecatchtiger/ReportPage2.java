@@ -104,8 +104,8 @@ public class ReportPage2 extends AppCompatActivity {
 
         try{
             descriptionString = description.getText().toString();
-            departmentString = departmentSpinner.toString();
-            buildingString = buildingSpinner.toString();
+            departmentString = departmentSpinner.getSelectedItem().toString();
+            buildingString = buildingSpinner.getSelectedItem().toString();
             roomString = roomNumber.getText().toString();
         }
         catch (Exception e){

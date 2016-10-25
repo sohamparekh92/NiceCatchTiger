@@ -3,6 +3,7 @@ package com.example.ngratzi.nicecatchtiger;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +20,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ReportPage3 extends AppCompatActivity {
@@ -29,6 +31,7 @@ public class ReportPage3 extends AppCompatActivity {
     String roomNumber;
     int Department;
     int Building;
+    RadioGroup radioGroup;
 
     //Page 3
     int Designation;
@@ -55,10 +58,10 @@ public class ReportPage3 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_page3);
 
-        faculty = (RadioButton) findViewById(R.id.fauclty);
+        /*faculty = (RadioButton) findViewById(R.id.fauclty);
         staff = (RadioButton) findViewById(R.id.staff);
         student = (RadioButton) findViewById(R.id.student);
-        other = (RadioButton) findViewById(R.id.other);
+        other = (RadioButton) findViewById(R.id.other);*/
 
         Name = (EditText) findViewById(R.id.name);
         Email = (EditText) findViewById(R.id.email);
@@ -68,11 +71,28 @@ public class ReportPage3 extends AppCompatActivity {
         otherDesignation.setVisibility(View.INVISIBLE);
 
         //What does this involve?
-        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
+
+        ArrayList<RadioButton> designationButtons = new ArrayList<>();
+        ArrayList<String> designationList = new ArrayList<>();
+        designationList = FormData.getInstance().getFormData("personKinds","personKind");
+
+        for(int i=0; i<designationList.size();++i){
+            designationButtons.add(new RadioButton(this));
+            designationButtons.get(i).setText(designationList.get(i));
+        }
+
+        radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
+
+        for(int i=0; i<designationButtons.size();++i){
+            radioGroup.addView(designationButtons.get(i));
+        }
+
+
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (checkedId == R.id.other) {
+                RadioButton temp = (RadioButton) findViewById(checkedId);
+                if (temp.getText().toString().equals("Other")) {
                     otherDesignation.setVisibility(View.VISIBLE);
                 } else {
                     otherDesignation.setVisibility(View.INVISIBLE);
@@ -84,43 +104,10 @@ public class ReportPage3 extends AppCompatActivity {
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
-    public void clickSubmit(View view) throws JSONException {
+    public void clickSubmit(View view) {
 
         int error = 0;
 
-        if (faculty.isChecked()) {
-            designation = facultyID;
-        } else if (staff.isChecked()) {
-            designation = staffID;
-        } else if (student.isChecked()) {
-            designation = studentID;
-        } else if (other.isChecked()) {
-            designation = otherID;
-            if(!other.getText().toString().isEmpty()) {
-
-            }
-            else {
-                error = 1;
-            }
-        } else {
-            error = 1;
-        }
-
-
-
-        if(error != 0) {
-            Toast.makeText(getApplicationContext(), "Please Fill In All Fields.", Toast.LENGTH_SHORT).show();
-        }
-        else {
-            //Page 1
-            report = ReportPage1.Report;
-            involve = ReportPage1.Involve;
-
-            //Page 2
-            description = ReportPage2.Description;
-            roomNumber = ReportPage2.RNumber;
-            Department = ReportPage2.department;
-            Building = ReportPage2.building;
 
             //Page 3
             Designation = designation;
@@ -128,15 +115,47 @@ public class ReportPage3 extends AppCompatActivity {
             EMAIL = Email.getText().toString();
             PN = PhoneNumber.getText().toString();
 
-            //IN PHONE
-            //new submitReport().execute();
+            String designationString = "";
+            String nameString = "";
+            String emailString = "";
+            String phoneString = "";
+
+            EditText otherfield = (EditText) findViewById(R.id.other9);
+
+            if(otherfield.getText().toString().equals("")){
+                RadioButton temp = (RadioButton)findViewById(radioGroup.getCheckedRadioButtonId());
+                designationString = temp.getText().toString();
+            }
+            else{
+                designationString = otherfield.getText().toString();
+            }
+            nameString = Name.getText().toString();
+            emailString = Email.getText().toString();
+            phoneString = PhoneNumber.getText().toString();
+
+        if(designationString.equals("")){
+            error = 1;
+        }
+
+        if(error == 0) {
+
+            FormData.getInstance().addFormData("personKind",designationString);
+            FormData.getInstance().addFormData("username",emailString);
+            FormData.getInstance().addFormData("name",nameString);
+            FormData.getInstance().addFormData("phone",phoneString);
+
+
             ExternalDBHandler externalDBHandler = new ExternalDBHandler();
             externalDBHandler.execute("submitReportURLConn", new JSONObject(getReportMap()).toString());
-
-
-
             startActivity(new Intent(ReportPage3.this, SucessSubmit.class));
+
         }
+        else {
+            Toast.makeText(getApplicationContext(), "Please Fill In All The Required Fields.", Toast.LENGTH_SHORT).show();
+        }
+
+            //IN PHONE
+            //new submitReport().execute();
 
     }
 

@@ -19,7 +19,13 @@ public class FormData {
 
     private HashMap<String,String> myReport = new HashMap<>();
     static FormData instance = new FormData();
-    private FormData(){}
+    private FormData(){
+        myReport.put("incidentTime","2016-10-12 13:28:09");
+        myReport.put("reportTime","2016-10-12 13:28:09");
+        myReport.put("statusID","1");
+        myReport.put("actionTaken","none");
+        myReport.put("reportTime","2016-10-12 13:28:09");
+    }
     static FormData getInstance(){
         return instance;
     }
@@ -30,7 +36,15 @@ public class FormData {
     }
 
     public String getFormElement(String key){
-        return myReport.get(key);
+        String result = "";
+        try{
+            result = myReport.get(key);
+        }
+        catch (Exception e){
+            Log.i("Exception caught", "FormData null key");
+            result = "na";
+        }
+        return result;
     }
 
     public boolean isFormComplete(){
