@@ -20,7 +20,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 public class ReportPage3 extends AppCompatActivity {
@@ -108,7 +110,6 @@ public class ReportPage3 extends AppCompatActivity {
 
         int error = 0;
 
-
             //Page 3
             Designation = designation;
             NAME = Name.getText().toString();
@@ -144,6 +145,14 @@ public class ReportPage3 extends AppCompatActivity {
             FormData.getInstance().addFormData("name",nameString);
             FormData.getInstance().addFormData("phone",phoneString);
 
+            //SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String reportTime = sdf.format(new Date());
+
+            Log.i("Curr Date Time",reportTime);
+
+            FormData.getInstance().addFormData("reportTime",reportTime);
+
 
             ExternalDBHandler externalDBHandler = new ExternalDBHandler();
             externalDBHandler.execute("submitReportURLConn", new JSONObject(getReportMap()).toString());
@@ -153,10 +162,6 @@ public class ReportPage3 extends AppCompatActivity {
         else {
             Toast.makeText(getApplicationContext(), "Please Fill In All The Required Fields.", Toast.LENGTH_SHORT).show();
         }
-
-            //IN PHONE
-            //new submitReport().execute();
-
     }
 
     @Override
