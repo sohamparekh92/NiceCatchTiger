@@ -17,6 +17,7 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -107,7 +108,7 @@ public class ReportPage3 extends AppCompatActivity {
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
-    public void clickSubmit(View view) throws ExecutionException, InterruptedException {
+    public void clickSubmit(View view) throws ExecutionException, InterruptedException, JSONException {
 
         int error = 0;
 
@@ -158,6 +159,8 @@ public class ReportPage3 extends AppCompatActivity {
             ExternalDBHandler externalDBHandler = new ExternalDBHandler();
             String response = externalDBHandler.execute("submitReportURLConn", new JSONObject(getReportMap()).toString()).get();
             Log.i("Response Page 3", response);
+            JSONObject responseJSON = new JSONObject(response);
+            Log.i("Response Page 3", responseJSON.getJSONObject("data").getString("id"));
             startActivity(new Intent(ReportPage3.this, SucessSubmit.class));
 
         }

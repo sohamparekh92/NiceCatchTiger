@@ -137,7 +137,7 @@ public class ExternalDBHandler extends  AsyncTask< String ,Void,String> {
                 //String reportJSONString = "description=NoSpace&involvementKind=Equipment&reportKind=Equipment&buildingName=BRC&room=123&personKind=Faculty&name=Joey&username=jacosta&phone=&department=Architecture&reportTime=&statusID=1&actionTaken=&incidentTime=&isIOS=0";
 
                 printout = new DataOutputStream(urlConn.getOutputStream());
-                printout.writeBytes(urlParameters);
+                printout.writeBytes(urlParameters2);
                 printout.flush();
                 printout.close();
 
