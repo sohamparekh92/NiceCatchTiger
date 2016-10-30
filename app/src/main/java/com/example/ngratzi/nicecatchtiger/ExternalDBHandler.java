@@ -95,7 +95,7 @@ public class ExternalDBHandler extends  AsyncTask< String ,Void,String> {
                 FormData formInstance = FormData.getInstance();
 
                 String urlParameters =
-                        URLEncoder.encode("description", "UTF-8")+"="+URLEncoder.encode("Mid form submit Test","UTF-8")+"&" //done
+                        URLEncoder.encode("description", "UTF-8")+"="+URLEncoder.encode("Test New Report image","UTF-8")+"&" //done
                                 +URLEncoder.encode("involvementKind","UTF-8")+"="+URLEncoder.encode("Equipment","UTF-8")+"&" //done
                                 +URLEncoder.encode("reportKind","UTF-8")+"="+URLEncoder.encode("Close Call","UTF-8")+"&"  //done
                                 +URLEncoder.encode("buildingName","UTF-8")+"="+URLEncoder.encode("BRC","UTF-8")+"&" //done
@@ -105,10 +105,10 @@ public class ExternalDBHandler extends  AsyncTask< String ,Void,String> {
                                 +URLEncoder.encode("username","UTF-8")+"="+URLEncoder.encode("djtrump","UTF-8")+"&"//done
                                 +URLEncoder.encode("phone","UTF-8")+"="+URLEncoder.encode("123456789","UTF-8")+"&" //done
                                 +URLEncoder.encode("department","UTF-8")+"="+URLEncoder.encode("Architecture","UTF-8")+"&" //done
-                                +URLEncoder.encode("reportTime","UTF-8")+"="+URLEncoder.encode("2016-10-12 13:28:09","UTF-8")+"&"
+                                +URLEncoder.encode("reportTime","UTF-8")+"="+URLEncoder.encode("2016-11-12 13:28:09","UTF-8")+"&"
                                 +URLEncoder.encode("statusID","UTF-8")+"="+URLEncoder.encode("1","UTF-8")+"&"
                                 +URLEncoder.encode("actionTaken","UTF-8")+"="+URLEncoder.encode("action","UTF-8")+"&"
-                                +URLEncoder.encode("incidentTime","UTF-8")+"="+URLEncoder.encode("2016-10-12 13:28:09","UTF-8")+"&"
+                                +URLEncoder.encode("incidentTime","UTF-8")+"="+URLEncoder.encode("2016-11-12 13:28:09","UTF-8")+"&"
                                 +URLEncoder.encode("isIOS","UTF-8")+"="+URLEncoder.encode("0","UTF-8");
 
 
@@ -137,7 +137,7 @@ public class ExternalDBHandler extends  AsyncTask< String ,Void,String> {
                 //String reportJSONString = "description=NoSpace&involvementKind=Equipment&reportKind=Equipment&buildingName=BRC&room=123&personKind=Faculty&name=Joey&username=jacosta&phone=&department=Architecture&reportTime=&statusID=1&actionTaken=&incidentTime=&isIOS=0";
 
                 printout = new DataOutputStream(urlConn.getOutputStream());
-                printout.writeBytes(urlParameters2);
+                printout.writeBytes(urlParameters);
                 printout.flush();
                 printout.close();
 

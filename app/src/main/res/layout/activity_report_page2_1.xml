@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    tools:context="com.example.ngratzi.nicecatchtiger.ReportPage2"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
+
+            <TableRow>
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:src="@drawable/plus"
+                    android:layout_width="50dp"
+                    android:layout_height="100dp"/>
+            </TableRow>
+
+            <TableRow>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Add Image"
+                    android:id="@+id/imageButton"/>
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Description"
+                    android:textSize="25dp"/>
+            </TableRow>
+
+            <TableRow>
+                <EditText
+                    android:inputType="textImeMultiLine"
+                    android:id="@+id/description"/>
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:text="Department"
+                    android:textSize="25dp"/>
+            </TableRow>
+
+            <TableRow>
+                <Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/departmentOptions" />
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:text="Building"
+                    android:textSize="25dp"/>
+            </TableRow>
+
+            <TableRow>
+                <Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/buildingOptions"/>
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:text="Room Number"
+                    android:textSize="25dp"
+                    android:id="@+id/TextViewRoomNo"/>
+            </TableRow>
+
+            <TableRow>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/roomnumber" />
+            </TableRow>
+
+            <!--<TableRow>
+                <DatePicker>
+
+                </DatePicker>
+            </TableRow>-->
+
+            <TableRow>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="startPage3"
+                    android:id="@+id/nextButton"/>
+            </TableRow>
+
+        </TableLayout>
+
+    </ScrollView>
+
+</LinearLayout>

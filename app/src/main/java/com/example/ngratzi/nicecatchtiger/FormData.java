@@ -21,6 +21,7 @@ public class FormData {
     static FormData instance = new FormData();
     private FormData(){
         myReport.put("incidentTime","2016-10-12 13:28:09");
+        myReport.put("reportTime","2016-10-12 13:28:09");
         myReport.put("statusID","1");
         myReport.put("actionTaken","none");
     }

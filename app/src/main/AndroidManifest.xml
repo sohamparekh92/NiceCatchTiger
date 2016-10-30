@@ -33,8 +33,6 @@
         <activity android:name=".ReportPage1" />
         <activity android:name=".ReportPage2" />
         <activity android:name=".ReportPage3" />
-        <activity android:name=".AdminLogin" />
-        <activity android:name=".adminMain" />
         <activity android:name=".SucessSubmit" />
         <!--
              ATTENTION: This was auto-generated to add Google Play services to your project for
@@ -55,9 +53,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAF7oKO5s02Dsdk1CKxFiJCBNyZGJ2Peno" />
 
-        <activity
-            android:name=".MapsActivity"
-            android:label="@string/title_activity_maps" />
         <activity android:name=".info"></activity>
     </application>
 

@@ -54,7 +54,7 @@ public class ReportPage2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_report_page2);
+        setContentView(R.layout.activity_report_page2_1);
 
         //Adding a Photo
         btnSelect = (Button) findViewById(R.id.imageButton);
@@ -66,13 +66,11 @@ public class ReportPage2 extends AppCompatActivity {
             }
         });
         ivImage = (ImageView) findViewById(R.id.imageView);
-        myVideo = (VideoView) findViewById(R.id.videoView);
         //End
 
         //Description and room number
         description = (EditText) findViewById(R.id.description);
         roomNumber = (EditText) findViewById(R.id.roomnumber);
-
 
         //Spinner for Building and Departments
         departmentSpinner = (Spinner) findViewById(R.id.departmentOptions);
@@ -91,6 +89,10 @@ public class ReportPage2 extends AppCompatActivity {
                 android.R.layout.simple_list_item_1,buildingsList);
         buildingsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         buildingSpinner.setAdapter(buildingsAdapter);
+
+
+
+
     }
 
     public void startPage3(View view) {

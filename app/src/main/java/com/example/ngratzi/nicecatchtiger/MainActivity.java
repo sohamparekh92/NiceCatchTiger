@@ -17,15 +17,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(MainActivity.this, ReportPage1.class));
     }
 
-    public void startAdminLogin(View view) {
-        startActivity(new Intent(MainActivity.this, AdminLogin.class));
-    }
-
-    public void startMap(View view) {
-        startActivity(new Intent(MainActivity.this, MapsActivity.class));
-
-    }
-
     public void startInfo(View view) {
         startActivity(new Intent(MainActivity.this, info.class));
 

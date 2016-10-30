@@ -24,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
 
 public class ReportPage3 extends AppCompatActivity {
 
@@ -106,7 +107,7 @@ public class ReportPage3 extends AppCompatActivity {
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
-    public void clickSubmit(View view) {
+    public void clickSubmit(View view) throws ExecutionException, InterruptedException {
 
         int error = 0;
 
@@ -155,7 +156,8 @@ public class ReportPage3 extends AppCompatActivity {
 
 
             ExternalDBHandler externalDBHandler = new ExternalDBHandler();
-            externalDBHandler.execute("submitReportURLConn", new JSONObject(getReportMap()).toString());
+            String response = externalDBHandler.execute("submitReportURLConn", new JSONObject(getReportMap()).toString()).get();
+            Log.i("Response Page 3", response);
             startActivity(new Intent(ReportPage3.this, SucessSubmit.class));
 
         }

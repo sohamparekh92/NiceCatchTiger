@@ -7,36 +7,10 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.ngratzi.nicecatchtiger.ReportPage2"
+
     android:background="#fb7c05">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Location Information:"
-        android:id="@+id/textView3"
-        android:textSize="25dp"
-        android:textColor="#780df3"
-        android:layout_alignTop="@+id/description"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="70dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Department:"
-        android:id="@+id/department"
-        android:layout_below="@+id/textView3"
-        android:layout_marginTop="15dp"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:textColor="#ffffff" />
+    <!--tools:context="com.example.ngratzi.nicecatchtiger.ReportPage2"-->
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -45,62 +19,83 @@
         android:text="Next"
         android:id="@+id/button5"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:onClick="startPage3" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add Image"
-        android:id="@+id/imageButton"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/button5"
-        android:layout_toStartOf="@+id/button5"
-        android:layout_marginLeft="15dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add Video"
-        android:id="@+id/button8"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/button5"
-        android:layout_toEndOf="@+id/button5"
-        android:onClick="dispatchTakeVideoIntent" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Description"
-        android:id="@+id/descriptionTitle"
-        android:layout_below="@+id/button8"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textColor="#780df3"
-        android:textSize="25dp"
-        android:layout_marginTop="120dp" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:inputType="textMultiLine"
-        android:gravity="left|top"
-        android:hint="Enter A Description"
-        android:ems="10"
-        android:id="@+id/description"
-        android:layout_below="@+id/descriptionTitle"
+        android:onClick="startPage3"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="315dp" />
-
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/departmentOptions"
-        android:layout_below="@+id/department"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+
+    <ImageView
+        android:layout_width="110dp"
+        android:layout_height="113dp"
+        android:id="@+id/imageView"
+        android:layout_row="0"
+        android:layout_column="0"
+        android:src="@drawable/plus"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+
+
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:layout_below="@+id/textView12"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="17dp"
+        android:id="@+id/description"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:hint="Enter Description" />
+
+    <TextView
+        android:text="Date and Time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView18"
+        android:textSize="50px"
+        tools:text="Date and Time"
+        android:layout_below="@+id/description"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <DatePicker
+        android:layout_width="500px"
+        android:layout_height="75px"
+        android:id="@+id/datePicker"
+        android:layout_below="@+id/textView18"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:text="Description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView12"
+        android:textSize="50px"
+        tools:text="Description"
+        android:layout_alignBottom="@+id/imageView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:text="Add Image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/imageButton"
+        android:layout_toLeftOf="@+id/imageView"
+        android:layout_toStartOf="@+id/imageView" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -108,19 +103,66 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Building:"
         android:id="@+id/textView2"
-        android:layout_below="@+id/departmentOptions"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_above="@+id/textView15"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_marginBottom="14dp" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/departmentOptions"
+        android:layout_alignTop="@+id/department"
+        android:layout_alignRight="@+id/datePicker"
+        android:layout_alignEnd="@+id/datePicker"
+        android:layout_toRightOf="@+id/department"
+        android:layout_toEndOf="@+id/department" />
+
+    <TimePicker
+        android:layout_width="500px"
+        android:layout_height="75px"
+        android:id="@+id/timePicker2"
+        android:layout_below="@+id/datePicker"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="Location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView3"
+        android:textSize="50px"
+        tools:text="Location"
+        android:layout_below="@+id/timePicker2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="26dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Department:"
+        android:id="@+id/department"
         android:textSize="20dp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="#ffffff"
+        android:layout_below="@+id/textView3"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="21dp" />
 
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/buildingOptions"
-        android:layout_below="@+id/textView2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_below="@+id/departmentOptions"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@+id/department"
+        android:layout_toEndOf="@+id/department" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -128,48 +170,17 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Room Number:"
         android:id="@+id/textView15"
-        android:layout_below="@+id/buildingOptions"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp"
         android:textSize="20dp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_alignBottom="@+id/roomnumber"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="500px"
+        android:layout_height="50px"
         android:id="@+id/roomnumber"
-        android:layout_below="@+id/buildingOptions"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_toRightOf="@+id/button5"
-        android:layout_toEndOf="@+id/button5" />
-
-    <GridLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/imageButton"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="35dp">
-
-        <ImageView
-            android:layout_width="110dp"
-            android:layout_height="113dp"
-            android:id="@+id/imageView"
-            android:layout_row="0"
-            android:layout_column="0"
-            android:src="@drawable/plus"
-            android:layout_marginLeft="0dp"
-            android:layout_marginRight="0dp" />
-
-        <VideoView
-            android:layout_width="wrap_content"
-            android:layout_height="116dp"
-            android:id="@+id/videoView"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="150dp" />
-
-    </GridLayout>
+        android:layout_above="@+id/button5"
+        android:layout_toRightOf="@+id/textView18" />
 
 </RelativeLayout>
