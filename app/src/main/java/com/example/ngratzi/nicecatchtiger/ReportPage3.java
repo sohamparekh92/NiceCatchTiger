@@ -157,10 +157,13 @@ public class ReportPage3 extends AppCompatActivity {
 
 
             ExternalDBHandler externalDBHandler = new ExternalDBHandler();
-            String response = externalDBHandler.execute("submitReportURLConn", new JSONObject(getReportMap()).toString()).get();
-            Log.i("Response Page 3", response);
-            JSONObject responseJSON = new JSONObject(response);
-            Log.i("Response Page 3", responseJSON.getJSONObject("data").getString("id"));
+            //String response = externalDBHandler.execute("submitReportURLConn", new JSONObject(getReportMap()).toString()).get();
+            //Log.i("Response Page 3", response);
+            //JSONObject responseJSON = new JSONObject(response);
+            //String id = responseJSON.getJSONObject("data").getString("id");
+            ExternalDBHandler photoUploadHandler = new ExternalDBHandler();
+            photoUploadHandler.execute("uploadPhotoBase64","113");
+            Log.i("Response Page 3", "113");
             startActivity(new Intent(ReportPage3.this, SucessSubmit.class));
 
         }

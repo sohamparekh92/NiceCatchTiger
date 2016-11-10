@@ -12,6 +12,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -33,6 +34,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
 public class ReportPage2 extends AppCompatActivity {
@@ -211,7 +213,15 @@ public class ReportPage2 extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        Bitmap newImage = thumbnail;
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        newImage.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
+        String encodedImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
+        FormData.getInstance().addFormData("encodedImage",encodedImage);
+        //FormData.getInstance().addFormData("imageData", Arrays.toString(bytes.toByteArray()));
+        FormData.getInstance().addFormData("imageData", bytes.toByteArray().toString());
+        FormData.setImageBytes(bytes.toByteArray());
+        Log.i("imageData", bytes.toByteArray().toString());
         ivImage.setImageBitmap(thumbnail);
     }
 

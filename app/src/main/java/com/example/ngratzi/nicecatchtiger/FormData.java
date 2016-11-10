@@ -19,6 +19,7 @@ public class FormData {
 
     private HashMap<String,String> myReport = new HashMap<>();
     static FormData instance = new FormData();
+    private static byte [] imageBytes;
     private FormData(){
         myReport.put("incidentTime","2016-10-12 13:28:09");
         myReport.put("reportTime","2016-10-12 13:28:09");
@@ -27,6 +28,14 @@ public class FormData {
     }
     static FormData getInstance(){
         return instance;
+    }
+
+    static public void setImageBytes(byte[] bytes){
+        imageBytes = bytes;
+    }
+
+    static public byte [] getImageBytes(){
+        return imageBytes;
     }
 
     public void addFormData(String name, String value){

@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -166,6 +167,106 @@ public class ExternalDBHandler extends  AsyncTask< String ,Void,String> {
 
         }
 
+        if(method.equals("uploadPhotoBase64")){
+            try {
+
+                String urlBase64 = "https://people.cs.clemson.edu/~sohamap/testImg/";
+                String data = "";
+                URL uploadURL = new URL(urlBase64);
+                HttpURLConnection connection = (HttpURLConnection) uploadURL.openConnection();
+                connection.setDoOutput(true);
+                OutputStream outputStream = connection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                String imgData = URLEncoder.encode("imageData", "UTF-8")+"="+URLEncoder.encode(FormData.getInstance().getFormElement("encodedImage"), "UTF-8");
+                bufferedWriter.write(imgData);
+                bufferedWriter.close();
+                outputStream.flush();
+                outputStream.close();
+                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String inputLine = "";
+                String response = "";
+
+                while((inputLine = in.readLine()) != null) {
+                    response += inputLine;
+                }
+                in.close();
+
+                //Log.d("response", response);
+                return response;
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if(method.equals("uploadPhoto")){
+            try {
+                String id = params[1];
+                String lineEnd = "\r\n";
+                String boundary = "Boundary-"+id;
+                String BOUNDARY = "Boundary-113";
+                String CRLF = "\r\n";
+                String contentType = "image/png";
+                Log.i("Exe uploadPhoto with id",id);
+                String uploadURL = url +"/"+ id +"/"+"photo";
+                Log.i("Photo upload URL",uploadURL);
+                String tempURL = "http://people.cs.clemson.edu/~sohamap/testImg/";
+                //URL upload = new URL(uploadURL);
+                URL upload = new URL(tempURL);
+                HttpURLConnection connUpload = (HttpURLConnection) upload.openConnection();
+                connUpload.setRequestMethod("POST");
+                connUpload.setDoOutput(true);
+                //connUpload.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + BOUNDARY);
+                //connUpload.setRequestProperty("Charset", "UTF-8");
+                //connUpload.setRequestProperty("Accept", "text/json");
+                DataOutputStream uploadOutPutStream = new DataOutputStream(connUpload.getOutputStream());
+
+                StringBuffer uploadData = new StringBuffer();
+                /*uploadData.append("--"+boundary+lineEnd);
+                uploadData.append("Content-Disposition: form-data; name="+"photo"+";"+"filename="+"report-image.png"+"\r\n");
+                uploadData.append("Content-Type:"+"image/png"+"\r\n\r\n");
+                uploadData.append(FormData.getInstance().getFormElement("imageData"));
+                uploadData.append("\r\n");
+                uploadData.append("--"+boundary+lineEnd);*/
+
+
+                String finalData =   URLEncoder.encode("--"+boundary+lineEnd,"UTF-8")+
+                        URLEncoder.encode("Content-Type: image/png\\r\\n\\r\\n","UTF-8")+
+                        //URLEncoder.encode(FormData.getInstance().getFormElement("imageData"),"UTF-8")+
+                        FormData.getInstance().getFormElement("imageData").getBytes()+
+                        URLEncoder.encode("--"+boundary+lineEnd,"UTF-8");
+                String filename = "report-image.png";
+                //filename = URLEncoder.encode(filename,"UTF-8");
+                String header = "--" + BOUNDARY + CRLF + "Content-Disposition: form-data; name=\"photo\"; filename=\"" + filename + "\";" + CRLF;
+                String conType = "Content-Type: " + contentType + CRLF + CRLF;
+
+                header = URLEncoder.encode(header,"UTF-8");
+                contentType = URLEncoder.encode(contentType,"UTF-8");
+                String base64Image = Base64.encodeToString(FormData.getImageBytes(),Base64.DEFAULT);
+                CRLF = URLEncoder.encode(CRLF,"UTF-8");
+                Log.i("uploadData",header);
+                Log.i("uploadImageBytes",FormData.getImageBytes().toString());
+                uploadOutPutStream.write(header.getBytes());
+                uploadOutPutStream.write(contentType.getBytes());
+                //uploadOutPutStream.write(FormData.getImageBytes());
+
+                String base64ImageData = URLEncoder.encode("imageData","UTF-8")+"="+URLEncoder.encode(FormData.getInstance().getFormElement("encodedImage"),"UTF-8");
+                Log.i("Image Data Base64", base64ImageData);
+                //String base64ImageData = FormData.getInstance().getFormElement("encodedImage");
+                uploadOutPutStream.writeBytes(base64ImageData);
+                //uploadOutPutStream.write(CRLF.getBytes());
+                uploadOutPutStream.flush();
+                uploadOutPutStream.close();
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         if (method.equals("getData")){
             try {
                 String elementsType = params[1];
@@ -186,7 +287,6 @@ public class ExternalDBHandler extends  AsyncTask< String ,Void,String> {
                 bufferedReader.close();
                 IS.close();
                 httpsURLConnection.disconnect();
-                Log.i("End of","getData");
                 return response;
 
             } catch (MalformedURLException e) {
