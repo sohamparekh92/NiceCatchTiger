@@ -1,5 +1,6 @@
 package com.example.ngratzi.nicecatchtiger;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -7,7 +8,9 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -33,9 +36,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
+
+import static android.R.attr.path;
 
 public class ReportPage2 extends AppCompatActivity {
 
@@ -194,8 +200,10 @@ public class ReportPage2 extends AppCompatActivity {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     private void onCaptureImageResult(Intent data) {
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+        Bitmap newImage = thumbnail;
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
 
@@ -213,8 +221,28 @@ public class ReportPage2 extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Bitmap newImage = thumbnail;
+        File filesDir = this.getFilesDir();
+        File imageFile = new File(filesDir, "image.png");
+
+
+        OutputStream os;
+        try {
+            os = new FileOutputStream(imageFile);
+            newImage.compress(Bitmap.CompressFormat.PNG, 100, os);
+            os.flush();
+            os.close();
+        } catch (Exception e) {
+            Log.e(getClass().getSimpleName(), "Error writing bitmap", e);
+        }
+
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inScaled = false;
+        newImage = BitmapFactory.decodeFile(String.valueOf(imageFile),options);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+        newImage = scaleBitmap(newImage,1080,1920);
+
         newImage.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
         String encodedImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
         FormData.getInstance().addFormData("encodedImage",encodedImage);
@@ -222,8 +250,29 @@ public class ReportPage2 extends AppCompatActivity {
         FormData.getInstance().addFormData("imageData", bytes.toByteArray().toString());
         FormData.setImageBytes(bytes.toByteArray());
         Log.i("imageData", bytes.toByteArray().toString());
-        ivImage.setImageBitmap(thumbnail);
+        FormData.setPictureTaken(true);
+        ivImage.setImageBitmap(newImage);
+
+
     }
+
+
+    public static Bitmap scaleBitmap(Bitmap bitmapToScale, float newWidth, float newHeight) {
+        if(bitmapToScale == null)
+            return null;
+//get the original width and height
+        int width = bitmapToScale.getWidth();
+        int height = bitmapToScale.getHeight();
+// create a matrix for the manipulation
+        Matrix matrix = new Matrix();
+
+// resize the bit map
+        matrix.postScale(newWidth / width, newHeight / height);
+
+// recreate the new Bitmap and set it back
+        return Bitmap.createBitmap(bitmapToScale, 0, 0, bitmapToScale.getWidth(), bitmapToScale.getHeight(), matrix, true);  }
+
+
 
     @SuppressWarnings("deprecation")
     private void onSelectFromGalleryResult(Intent data) {
@@ -249,6 +298,19 @@ public class ReportPage2 extends AppCompatActivity {
         options.inJustDecodeBounds = false;
         bm = BitmapFactory.decodeFile(selectedImagePath, options);
 
+        Bitmap newImage = bm;
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+        newImage = scaleBitmap(newImage, 1920,1080);
+
+        newImage.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
+
+        String encodedImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
+        FormData.getInstance().addFormData("encodedImage",encodedImage);
+        //FormData.getInstance().addFormData("imageData", Arrays.toString(bytes.toByteArray()));
+        FormData.getInstance().addFormData("imageData", byteArrayOutputStream.toByteArray().toString());
+        FormData.setImageBytes(byteArrayOutputStream.toByteArray());
+        Log.i("imageData", byteArrayOutputStream.toByteArray().toString());
         ivImage.setImageBitmap(bm);
     }
 }
