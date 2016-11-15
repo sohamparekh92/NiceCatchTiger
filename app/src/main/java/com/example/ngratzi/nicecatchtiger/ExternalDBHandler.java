@@ -175,8 +175,8 @@ public class ExternalDBHandler extends  AsyncTask< String ,Void,String> {
                 String urlBase64 = "https://people.cs.clemson.edu/~sohamap/testImg/";
                 String data = "";
                 String id = params[1];
-                URL uploadURL = new URL(urlBase64);
-                //URL uploadURL = new URL(home_url_model);
+                //URL uploadURL = new URL(urlBase64);
+                URL uploadURL = new URL(home_url_model);
                 HttpURLConnection connection = (HttpURLConnection) uploadURL.openConnection();
                 connection.setDoOutput(true);
                 OutputStream outputStream = connection.getOutputStream();
