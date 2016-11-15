@@ -189,14 +189,9 @@ public class ReportPage2 extends AppCompatActivity {
 
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == SELECT_FILE)
-                onSelectFromGalleryResult(data);
+                selectFromGallery(data);
             else if (requestCode == REQUEST_CAMERA)
                 onCaptureImageResult(data);
-        }
-
-        if (requestCode == REQUEST_VIDEO_CAPTURE && resultCode == RESULT_OK) {
-            Uri videoUri = takeVideoIntent.getData();
-            myVideo.setVideoURI(videoUri);
         }
     }
 
@@ -256,6 +251,42 @@ public class ReportPage2 extends AppCompatActivity {
 
     }
 
+    private void selectFromGallery(Intent data){
+        Uri targetUri = data.getData();
+        //textTargetUri.setText(targetUri.toString());
+        Bitmap bitmap;
+        try {
+            bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(targetUri));
+            ivImage.setImageBitmap(bitmap);
+
+            //Store it in the Form
+            Bitmap newImage = bitmap;
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+            if(newImage == null){
+                Log.i("Bitmap Check", "Null");
+            }
+            else{
+                Log.i("Bitmap Check", "Not Null");
+            }
+
+            //newImage = scaleBitmap(newImage, 1920,1080);
+
+            newImage.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
+
+            String encodedImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
+            FormData.getInstance().addFormData("encodedImage",encodedImage);
+            //FormData.getInstance().addFormData("imageData", Arrays.toString(bytes.toByteArray()));
+            FormData.getInstance().addFormData("imageData", byteArrayOutputStream.toByteArray().toString());
+            FormData.setImageBytes(byteArrayOutputStream.toByteArray());
+            FormData.setPictureTaken(true);
+
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
 
     public static Bitmap scaleBitmap(Bitmap bitmapToScale, float newWidth, float newHeight) {
         if(bitmapToScale == null)
@@ -277,6 +308,17 @@ public class ReportPage2 extends AppCompatActivity {
     @SuppressWarnings("deprecation")
     private void onSelectFromGalleryResult(Intent data) {
         Uri selectedImageUri = data.getData();
+
+        if(selectedImageUri == null){
+            Log.i("selectedImageUri Check", "Null");
+        }
+        else{
+            Log.i("selectedImageUri Check", "Not Null");
+        }
+
+
+
+
         String[] projection = { MediaStore.MediaColumns.DATA };
         Cursor cursor = managedQuery(selectedImageUri, projection, null, null,
                 null);
@@ -297,9 +339,17 @@ public class ReportPage2 extends AppCompatActivity {
         options.inSampleSize = scale;
         options.inJustDecodeBounds = false;
         bm = BitmapFactory.decodeFile(selectedImagePath, options);
+        //bitmap = ((BitmapDrawable) imgPreview.getDrawable()).getBitmap();
 
         Bitmap newImage = bm;
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+        if(newImage == null){
+            Log.i("Bitmap Check", "Null");
+        }
+        else{
+            Log.i("Bitmap Check", "Not Null");
+        }
 
         newImage = scaleBitmap(newImage, 1920,1080);
 
