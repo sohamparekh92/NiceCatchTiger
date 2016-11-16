@@ -94,6 +94,12 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/roomnumber" />
             </TableRow>
+            <TableRow>
+                <TextView
+                    android:text="Date:"
+                    android:textSize="15dp"
+                    android:id="@+id/TextViewDate" />
+            </TableRow>
 
             <TableRow>
                 <Button
@@ -101,6 +107,14 @@
                     android:layout_height="wrap_content"
                     android:text="Select Date"
                     android:onClick="showDatePickerDialog" />
+            </TableRow>
+
+
+            <TableRow>
+                <TextView
+                    android:text="Time:"
+                    android:textSize="15dp"
+                    android:id="@+id/TextViewTime" />
             </TableRow>
 
             <TableRow>

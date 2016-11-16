@@ -33,6 +33,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -63,6 +64,8 @@ public class ReportPage2 extends AppCompatActivity {
     int REQUEST_CAMERA = 0, SELECT_FILE = 1, PICTURE_RESULT = 2;
     Button btnSelect;
     ImageView ivImage;
+    static TextView timeView;
+    static TextView dateView;
     VideoView myVideo;
     String mCurrentPhotoPath;
     EditText description, roomNumber;
@@ -74,6 +77,10 @@ public class ReportPage2 extends AppCompatActivity {
     public static String RNumber;
     public static int department;
     public static int building;
+
+    private static String timeString;
+    private static String dateString;
+    private static String dateTimeString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +98,10 @@ public class ReportPage2 extends AppCompatActivity {
         });
         ivImage = (ImageView) findViewById(R.id.imageView);
         //End
+
+        //Date and Time
+        dateView = (TextView)findViewById(R.id.TextViewDate);
+        timeView = (TextView)findViewById(R.id.TextViewTime);
 
         //Description and room number
         description = (EditText) findViewById(R.id.description);
@@ -145,12 +156,18 @@ public class ReportPage2 extends AppCompatActivity {
 
             error = 1;
         }
+        if(timeView.getText().equals("Time:") || dateView.getText().equals("Date:")){
+            error = 1;
+        }
 
         if(error == 0) {
             FormData.getInstance().addFormData("department",departmentString);
             FormData.getInstance().addFormData("description",descriptionString);
             FormData.getInstance().addFormData("room",roomString);
             FormData.getInstance().addFormData("buildingName",buildingString);
+            FormData.getInstance().addFormData("incidentTime", dateString+" "+timeString);
+            timeView.setText("Time:");
+            dateView.setText("Date:");
             startActivity(new Intent(ReportPage2.this, ReportPage3.class));
         }
         else {
@@ -160,13 +177,6 @@ public class ReportPage2 extends AppCompatActivity {
 
     static final int REQUEST_VIDEO_CAPTURE = 1;
     Intent takeVideoIntent;
-
-    public void dispatchTakeVideoIntent() {
-        takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-        if (takeVideoIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takeVideoIntent, REQUEST_VIDEO_CAPTURE);
-        }
-    }
 
     public void showDatePickerDialog(View v) {
         DialogFragment newFragment = new DatePickerFragment();
@@ -190,7 +200,30 @@ public class ReportPage2 extends AppCompatActivity {
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
             // Do something with the date chosen by the user
+            ReportPage2.setDate(year,month,day);
         }
+    }
+
+
+    public static void setDate(int year, int month, int day){
+        String monthString = "";
+        switch (month){
+            case 0: monthString = "Jan"; break;
+            case 1: monthString = "Feb"; break;
+            case 2: monthString = "Mar"; break;
+            case 3: monthString = "Apr"; break;
+            case 4: monthString = "May"; break;
+            case 5: monthString = "Jun"; break;
+            case 6: monthString = "Jul"; break;
+            case 7: monthString = "Aug"; break;
+            case 8: monthString = "Sep"; break;
+            case 9: monthString = "Oct"; break;
+            case 10: monthString = "Nov"; break;
+            case 11: monthString = "Dec"; break;
+        }
+        dateView.setText("Date: "+monthString + " "+day+" "+year);
+        month +=1;
+        dateString = year+"-"+month+"-"+day;
     }
 
     public void showTimePickerDialog(View v) {
@@ -216,7 +249,18 @@ public class ReportPage2 extends AppCompatActivity {
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             // Do something with the time chosen by the user
+            ReportPage2.setTime(hourOfDay,minute);
         }
+    }
+
+    public static void setTime(int hour, int minute){
+        if(hour>12) {
+            timeView.setText("Time: "+ (hour - 12) + ":" + minute + " PM");
+        }
+        else{
+            timeView.setText("Time: "+ hour + ":" + minute + " AM");
+        }
+        timeString = hour+":"+minute+":00";
     }
 
 
