@@ -3,6 +3,7 @@ package com.example.ngratzi.nicecatchtiger;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -12,7 +13,9 @@ import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.SystemClock;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -37,18 +40,23 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URI;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
 import static android.R.attr.path;
+import static android.R.attr.thumbnail;
 
 public class ReportPage2 extends AppCompatActivity {
 
-    int REQUEST_CAMERA = 0, SELECT_FILE = 1;
+    int REQUEST_CAMERA = 0, SELECT_FILE = 1, PICTURE_RESULT = 2;
     Button btnSelect;
     ImageView ivImage;
     VideoView myVideo;
+    String mCurrentPhotoPath;
     EditText description, roomNumber;
     Spinner departmentSpinner, buildingSpinner;
     ArrayList<Integer> departmentIDs, buildingIDs;
@@ -161,16 +169,34 @@ public class ReportPage2 extends AppCompatActivity {
         final CharSequence[] items = { "Take Photo", "Choose from Library", "Cancel" };
         AlertDialog.Builder builder = new AlertDialog.Builder(ReportPage2.this);
         builder.setTitle("Add Photo!");
-        builder.setItems(items, new DialogInterface.OnClickListener() {
+        AlertDialog.Builder cancel = builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
                 if (items[item].equals("Take Photo")) {
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(intent, REQUEST_CAMERA);
+                    //startActivityForResult(intent, PICTURE_RESULT);
+                    File photoFile = null;
+                    try {
+                        photoFile = createImageFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Log.i("Exception","No File");
+                    }
+                    //Uri photoURI = FileProvider.getUriForFile(getApplicationContext(),"com.example.ngratzi.nicecatchtiger",photoFile);
+                    Uri mImageUri = Uri.fromFile(photoFile);
+                    if(mImageUri==null){
+                        Log.d("Image URI Status", "NULL");
+                    }
+                    else{
+                        Log.d("Image URI Status", "NOT NULL");
+                    }
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
+                    startActivityForResult(intent, PICTURE_RESULT);
+
                 } else if (items[item].equals("Choose from Library")) {
                     Intent intent = new Intent(
                             Intent.ACTION_PICK,
-                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     intent.setType("image/*");
                     startActivityForResult(
                             Intent.createChooser(intent, "Select File"),
@@ -183,6 +209,23 @@ public class ReportPage2 extends AppCompatActivity {
         builder.show();
     }
 
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        mCurrentPhotoPath = image.getAbsolutePath();
+        Log.d("Photo Path", mCurrentPhotoPath);
+        return image;
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -190,63 +233,59 @@ public class ReportPage2 extends AppCompatActivity {
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == SELECT_FILE)
                 selectFromGallery(data);
-            else if (requestCode == REQUEST_CAMERA)
-                onCaptureImageResult(data);
+            else if (resultCode != RESULT_CANCELED) {
+                    if(requestCode == PICTURE_RESULT) {
+                        try {
+                            onCaptureImageResult(data);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+            }
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    private void onCaptureImageResult(Intent data) {
-        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-        Bitmap newImage = thumbnail;
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+    private void onCaptureImageResult(Intent data) throws IOException {
 
-        File destination = new File(Environment.getExternalStorageDirectory(),
-                System.currentTimeMillis() + ".jpg");
-
-        FileOutputStream fo;
-        try {
-            destination.createNewFile();
-            fo = new FileOutputStream(destination);
-            fo.write(bytes.toByteArray());
-            fo.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        //Uri newImage = BitmapFactory.decodeFile(mCurrentPhotoPath);
+        String originalPath = mCurrentPhotoPath;
+        mCurrentPhotoPath = "file:"+mCurrentPhotoPath;
+        Uri imageUri = Uri.parse(String.valueOf(new File(mCurrentPhotoPath)));
+        Log.d("OnCaptureImage Path", mCurrentPhotoPath);
+        if(imageUri == null){
+            Log.d("Thumbnail Check", "NULL");
         }
-        File filesDir = this.getFilesDir();
-        File imageFile = new File(filesDir, "image.png");
-
-
-        OutputStream os;
-        try {
-            os = new FileOutputStream(imageFile);
-            newImage.compress(Bitmap.CompressFormat.PNG, 100, os);
-            os.flush();
-            os.close();
-        } catch (Exception e) {
-            Log.e(getClass().getSimpleName(), "Error writing bitmap", e);
+        else{
+            Log.d("Thumbnail Check", "NOT NULL");
         }
-
-
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inScaled = false;
-        newImage = BitmapFactory.decodeFile(String.valueOf(imageFile),options);
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-
-        newImage = scaleBitmap(newImage,1080,1920);
-
-        newImage.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
-        String encodedImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
+        /*ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        newImage.compress(Bitmap.CompressFormat.PNG,100,bytes);
+        String encodedImage = Base64.encodeToString(bytes.toByteArray(), Base64.DEFAULT);
         FormData.getInstance().addFormData("encodedImage",encodedImage);
         //FormData.getInstance().addFormData("imageData", Arrays.toString(bytes.toByteArray()));
         FormData.getInstance().addFormData("imageData", bytes.toByteArray().toString());
         FormData.setImageBytes(bytes.toByteArray());
         Log.i("imageData", bytes.toByteArray().toString());
         FormData.setPictureTaken(true);
-        ivImage.setImageBitmap(newImage);
+        ivImage.setImageBitmap(newImage);*/
+        File file = new File(String.valueOf(imageUri));
+        SystemClock.sleep(6000);
+        //Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
+        Bitmap bitmap = BitmapFactory.decodeFile(originalPath);
+        if(bitmap == null){
+            Log.d("bitmap Check", "NULL");
+        }
+        else{
+            Log.d("bitmap Check", "NOT NULL");
+        }
+        // bitmap = scaleBitmap(bitmap,ivImage.getWidth(),ivImage.getHeight());
+
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100,bytes);
+        String encodedImage = Base64.encodeToString(bytes.toByteArray(), Base64.DEFAULT);
+        FormData.getInstance().addFormData("encodedImage",encodedImage);
+        FormData.setPictureTaken(true);
+        ivImage.setImageBitmap(bitmap);
 
 
     }
@@ -301,66 +340,6 @@ public class ReportPage2 extends AppCompatActivity {
         matrix.postScale(newWidth / width, newHeight / height);
 
 // recreate the new Bitmap and set it back
-        return Bitmap.createBitmap(bitmapToScale, 0, 0, bitmapToScale.getWidth(), bitmapToScale.getHeight(), matrix, true);  }
-
-
-
-    @SuppressWarnings("deprecation")
-    private void onSelectFromGalleryResult(Intent data) {
-        Uri selectedImageUri = data.getData();
-
-        if(selectedImageUri == null){
-            Log.i("selectedImageUri Check", "Null");
-        }
-        else{
-            Log.i("selectedImageUri Check", "Not Null");
-        }
-
-
-
-
-        String[] projection = { MediaStore.MediaColumns.DATA };
-        Cursor cursor = managedQuery(selectedImageUri, projection, null, null,
-                null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
-        cursor.moveToFirst();
-
-        String selectedImagePath = cursor.getString(column_index);
-
-        Bitmap bm;
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(selectedImagePath, options);
-        final int REQUIRED_SIZE = 200;
-        int scale = 1;
-        while (options.outWidth / scale / 2 >= REQUIRED_SIZE
-                && options.outHeight / scale / 2 >= REQUIRED_SIZE)
-            scale *= 2;
-        options.inSampleSize = scale;
-        options.inJustDecodeBounds = false;
-        bm = BitmapFactory.decodeFile(selectedImagePath, options);
-        //bitmap = ((BitmapDrawable) imgPreview.getDrawable()).getBitmap();
-
-        Bitmap newImage = bm;
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-
-        if(newImage == null){
-            Log.i("Bitmap Check", "Null");
-        }
-        else{
-            Log.i("Bitmap Check", "Not Null");
-        }
-
-        newImage = scaleBitmap(newImage, 1920,1080);
-
-        newImage.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
-
-        String encodedImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
-        FormData.getInstance().addFormData("encodedImage",encodedImage);
-        //FormData.getInstance().addFormData("imageData", Arrays.toString(bytes.toByteArray()));
-        FormData.getInstance().addFormData("imageData", byteArrayOutputStream.toByteArray().toString());
-        FormData.setImageBytes(byteArrayOutputStream.toByteArray());
-        Log.i("imageData", byteArrayOutputStream.toByteArray().toString());
-        ivImage.setImageBitmap(bm);
+        return Bitmap.createBitmap(bitmapToScale, 0, 0, bitmapToScale.getWidth(), bitmapToScale.getHeight(), matrix, true);
     }
 }
