@@ -18,6 +18,7 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp">
 
+
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -94,17 +95,28 @@
                     android:id="@+id/roomnumber" />
             </TableRow>
 
-            <!--<TableRow>
-                <DatePicker>
+            <TableRow>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Select Date"
+                    android:onClick="showDatePickerDialog" />
+            </TableRow>
 
-                </DatePicker>
-            </TableRow>-->
+            <TableRow>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Select Time"
+                    android:onClick="showTimePickerDialog" />
+            </TableRow>
 
             <TableRow>
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="startPage3"
+                    android:text="Next"
                     android:id="@+id/nextButton"/>
             </TableRow>
 

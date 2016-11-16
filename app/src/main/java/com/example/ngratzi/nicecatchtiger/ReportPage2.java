@@ -3,6 +3,10 @@ package com.example.ngratzi.nicecatchtiger;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.app.TimePickerDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,15 +22,18 @@ import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -44,6 +51,7 @@ import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
@@ -160,6 +168,57 @@ public class ReportPage2 extends AppCompatActivity {
         }
     }
 
+    public void showDatePickerDialog(View v) {
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getFragmentManager(), "datePicker");
+    }
+
+    public static class DatePickerFragment extends DialogFragment
+            implements DatePickerDialog.OnDateSetListener {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the current date as the default date in the picker
+            final Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+
+            // Create a new instance of DatePickerDialog and return it
+            return new DatePickerDialog(getActivity(), this, year, month, day);
+        }
+
+        public void onDateSet(DatePicker view, int year, int month, int day) {
+            // Do something with the date chosen by the user
+        }
+    }
+
+    public void showTimePickerDialog(View v) {
+        DialogFragment newFragment = new TimePickerFragment();
+        //newFragment.show(getSupportFragmentManager(), "timePicker");
+        newFragment.show(getFragmentManager(),"timePicker");
+    }
+
+    public static class TimePickerFragment extends DialogFragment
+            implements TimePickerDialog.OnTimeSetListener {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the current time as the default values for the picker
+            final Calendar c = Calendar.getInstance();
+            int hour = c.get(Calendar.HOUR_OF_DAY);
+            int minute = c.get(Calendar.MINUTE);
+
+            // Create a new instance of TimePickerDialog and return it
+            return new TimePickerDialog(getActivity(), this, hour, minute,
+                    DateFormat.is24HourFormat(getActivity()));
+        }
+
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            // Do something with the time chosen by the user
+        }
+    }
+
 
 
     /*
@@ -239,38 +298,30 @@ public class ReportPage2 extends AppCompatActivity {
                             onCaptureImageResult(data);
                         } catch (IOException e) {
                             e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
                         }
                     }
             }
         }
     }
 
-    private void onCaptureImageResult(Intent data) throws IOException {
-
-        //Uri newImage = BitmapFactory.decodeFile(mCurrentPhotoPath);
+    private void onCaptureImageResult(Intent data) throws IOException, InterruptedException {
         String originalPath = mCurrentPhotoPath;
         mCurrentPhotoPath = "file:"+mCurrentPhotoPath;
-        Uri imageUri = Uri.parse(String.valueOf(new File(mCurrentPhotoPath)));
-        Log.d("OnCaptureImage Path", mCurrentPhotoPath);
-        if(imageUri == null){
-            Log.d("Thumbnail Check", "NULL");
-        }
-        else{
-            Log.d("Thumbnail Check", "NOT NULL");
-        }
-        /*ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        newImage.compress(Bitmap.CompressFormat.PNG,100,bytes);
-        String encodedImage = Base64.encodeToString(bytes.toByteArray(), Base64.DEFAULT);
-        FormData.getInstance().addFormData("encodedImage",encodedImage);
-        //FormData.getInstance().addFormData("imageData", Arrays.toString(bytes.toByteArray()));
-        FormData.getInstance().addFormData("imageData", bytes.toByteArray().toString());
-        FormData.setImageBytes(bytes.toByteArray());
-        Log.i("imageData", bytes.toByteArray().toString());
-        FormData.setPictureTaken(true);
-        ivImage.setImageBitmap(newImage);*/
-        File file = new File(String.valueOf(imageUri));
-        SystemClock.sleep(6000);
-        //Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
+        //SystemClock.sleep(6000);
+        Thread halt = new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    sleep(6000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        halt.run();
         Bitmap bitmap = BitmapFactory.decodeFile(originalPath);
         if(bitmap == null){
             Log.d("bitmap Check", "NULL");
@@ -278,16 +329,12 @@ public class ReportPage2 extends AppCompatActivity {
         else{
             Log.d("bitmap Check", "NOT NULL");
         }
-        // bitmap = scaleBitmap(bitmap,ivImage.getWidth(),ivImage.getHeight());
-
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG,100,bytes);
         String encodedImage = Base64.encodeToString(bytes.toByteArray(), Base64.DEFAULT);
         FormData.getInstance().addFormData("encodedImage",encodedImage);
         FormData.setPictureTaken(true);
         ivImage.setImageBitmap(bitmap);
-
-
     }
 
     private void selectFromGallery(Intent data){
