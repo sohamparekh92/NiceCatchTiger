@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    tools:context="com.example.ngratzi.nicecatchtiger.ReportPage2"
+    android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Check the appropriate report"
+                    android:id="@+id/textView10"
+                    android:textSize="25dp" />
+            </TableRow>
+
+            <TableRow>
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/other1"
+                    android:id="@+id/ReportRG">
+                </RadioGroup>
+            </TableRow>
+            <TableRow>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/otherReport"
+                    android:layout_below="@+id/ReportRG"
+                    android:hint="Enter Other"
+                    android:layout_alignRight="@+id/textView16"
+                    android:layout_alignEnd="@+id/textView16" />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="What does this involve?"
+                    android:id="@+id/textView16"
+                    android:textSize="25dp" />
+            </TableRow>
+
+            <TableRow>
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/InvolveRG">
+                </RadioGroup>
+            </TableRow>
+
+            <TableRow>
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/otherInvolve"
+                    android:hint="Enter Other"
+                    android:layout_below="@+id/InvolveRG"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignRight="@+id/textView16"
+                    android:layout_alignEnd="@+id/textView16" />
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Description"
+                    android:textSize="25dp"/>
+            </TableRow>
+
+            <TableRow>
+                <EditText
+                    android:inputType="textImeMultiLine"
+                    android:windowSoftInputMode="stateHidden"
+                    android:id="@+id/description"/>
+            </TableRow>
+
+            <TableRow
+                android:gravity="center"
+                android:layout_width="match_parent">
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="Next"
+                    android:background="#7800c9"
+                    android:textColor="#ffffff"
+                    android:id="@+id/button4"
+                    android:onClick="startPage2" />
+            </TableRow>
+
+        </TableLayout>
+
+    </ScrollView>
+
+</LinearLayout>

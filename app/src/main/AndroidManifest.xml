@@ -29,6 +29,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity android:name=".MainActivity"
+            android:theme = "@style/Theme.AppCompat.Light.NoActionBar"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,10 +38,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".ReportPage1"
+            android:theme = "@style/Theme.AppCompat.Light.DarkActionBar"
             android:screenOrientation="portrait"/>
         <activity android:name=".ReportPage2"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme = "@style/Theme.AppCompat.Light.DarkActionBar"/>
         <activity android:name=".ReportPage3"
+            android:theme = "@style/Theme.AppCompat.Light.DarkActionBar"
             android:screenOrientation="portrait"/>
         <activity android:name=".SucessSubmit"
             android:screenOrientation="portrait"/>

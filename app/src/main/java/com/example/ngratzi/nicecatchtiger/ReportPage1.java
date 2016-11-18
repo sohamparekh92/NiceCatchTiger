@@ -3,7 +3,10 @@ package com.example.ngratzi.nicecatchtiger;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -44,12 +47,17 @@ public class ReportPage1 extends AppCompatActivity {
 
     RadioButton closeCallRb, lessonLearnedRb, safetyIssueRb, other1Rb, workPracticeProcedureRb,
             chemicalRb, equipmentRb, workSpaceConditionRb, radiationRb, biologicalRb, other2Rb;
-    EditText otherReport, otherInvolve;
+    EditText otherReport, otherInvolve, description;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_report_page1);
+        //setContentView(R.layout.activity_report_page1);
+        setContentView(R.layout.activity_report_page1_1);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#7800c9")));
+        actionBar.setTitle("Nice Catch Tiger!");
 
         otherReport = (EditText) findViewById(R.id.otherReport);
 
@@ -61,19 +69,13 @@ public class ReportPage1 extends AppCompatActivity {
             buttonsReport.get(i).setText(reportKindList.get(i));
         }
 
+        description = (EditText)findViewById(R.id.description);
+
 
         otherReport.setVisibility(View.INVISIBLE);
-        //What does this involve?
-        /*
-        workPracticeProcedureRb = (RadioButton) findViewById(R.id.workPractiveProcedure);
-        chemicalRb = (RadioButton) findViewById(R.id.chemical);
-        equipmentRb = (RadioButton) findViewById(R.id.equipment);
-        workSpaceConditionRb = (RadioButton) findViewById(R.id.workSpaceCondition);
-        radiationRb = (RadioButton) findViewById(R.id.radiation);
-        biologicalRb = (RadioButton) findViewById(R.id.biological);
-        other2Rb = (RadioButton) findViewById(R.id.other2); */
 
-         ArrayList<RadioButton> buttonsInvolve = new ArrayList<>();
+
+        ArrayList<RadioButton> buttonsInvolve = new ArrayList<>();
         ArrayList<String> involveKindList = FormData.getInstance().getFormData("involvements","involvementKind");
         //reportKindList.remove(0);
         for(int i=0; i<involveKindList.size();++i){
@@ -144,57 +146,12 @@ public class ReportPage1 extends AppCompatActivity {
         catch (Exception e){
             error = 1;
         }
-
-        /*
-
-        //Check the appropriate report
-        if (closeCallRb.isChecked()) {
-            Report = closeCall;
-        } else if (lessonLearnedRb.isChecked()) {
-            Report = lessonLearned;
-        } else if (safetyIssueRb.isChecked()) {
-            Report = safetyIssue;
-        }
-        //Need to make changes
-        else if (other1Rb.isChecked()) {
-            if (!otherReport.getText().toString().isEmpty()) {
-                //Report = otherReport.getText().toString();
-                Report = otherReportID;
-            } else {
-                error = 1;
-            }
-        }
-        else {
+        if(description.getText().toString().equals("")){
             error = 1;
         }
 
-        //What does this involve
-        if (workPracticeProcedureRb.isChecked()) {
-            Involve = work_practice_procedure;
-        } else if (chemicalRb.isChecked()) {
-            Involve = chemical;
-        } else if (equipmentRb.isChecked()) {
-            Involve = equipment;
-        } else if (workSpaceConditionRb.isChecked()) {
-            Involve = work_space_condition;
-        } else if (radiationRb.isChecked()) {
-            Involve = radiation;
-        } else if (biologicalRb.isChecked()) {
-            Involve = biological;
-        }
-        //Need to make changes
-        else if (other2Rb.isChecked()) {
-            if (!otherInvolve.getText().toString().isEmpty()) {
-                //Involve = otherInvolve.getText().toString();
-                Involve = otherInvolveID;
-            } else {
-                error = 1;
-            }
-        }
-        else {
-            error = 1;
-        }*/
         if (error == 0) {
+            FormData.getInstance().addFormData("description",description.getText().toString());
             FormData.getInstance().addFormData("involvementKind",checkedValueInvolved);
             FormData.getInstance().addFormData("reportKind",checkedValueReport);
             startActivity(new Intent(ReportPage1.this, ReportPage2.class));

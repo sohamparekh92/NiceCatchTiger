@@ -1,9 +1,12 @@
 package com.example.ngratzi.nicecatchtiger;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.SystemClock;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -61,6 +64,11 @@ public class ReportPage3 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_page3);
+
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#7800c9")));
+        actionBar.setTitle("Nice Catch Tiger!");
 
         /*faculty = (RadioButton) findViewById(R.id.fauclty);
         staff = (RadioButton) findViewById(R.id.staff);

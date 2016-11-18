@@ -3,10 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="match_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     android:paddingTop="10dp"
     android:paddingBottom="10dp"
+    android:background="#f9f9f9"
     tools:context="com.example.ngratzi.nicecatchtiger.ReportPage2"
     android:layout_height="match_parent">
 
@@ -41,7 +44,7 @@
                     android:id="@+id/imageButton"/>
             </TableRow>
 
-            <TableRow>
+            <!--<TableRow>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -53,7 +56,7 @@
                 <EditText
                     android:inputType="textImeMultiLine"
                     android:id="@+id/description"/>
-            </TableRow>
+            </TableRow>-->
 
             <TableRow>
                 <TextView
@@ -97,7 +100,7 @@
             <TableRow>
                 <TextView
                     android:text="Date:"
-                    android:textSize="15dp"
+                    android:textSize="20dp"
                     android:id="@+id/TextViewDate" />
             </TableRow>
 
@@ -113,7 +116,7 @@
             <TableRow>
                 <TextView
                     android:text="Time:"
-                    android:textSize="15dp"
+                    android:textSize="20dp"
                     android:id="@+id/TextViewTime" />
             </TableRow>
 
@@ -129,6 +132,8 @@
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="#ffffff"
+                    android:background="#7800c9"
                     android:onClick="startPage3"
                     android:text="Next"
                     android:id="@+id/nextButton"/>

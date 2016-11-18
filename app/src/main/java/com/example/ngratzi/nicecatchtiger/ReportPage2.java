@@ -13,13 +13,16 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -87,6 +90,11 @@ public class ReportPage2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_page2_1);
 
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#7800c9")));
+        actionBar.setTitle("Nice Catch Tiger!");
+
         //Adding a Photo
         btnSelect = (Button) findViewById(R.id.imageButton);
         btnSelect.setOnClickListener(new View.OnClickListener() {
@@ -140,7 +148,6 @@ public class ReportPage2 extends AppCompatActivity {
         String roomString = "";
 
         try{
-            descriptionString = description.getText().toString();
             departmentString = departmentSpinner.getSelectedItem().toString();
             buildingString = buildingSpinner.getSelectedItem().toString();
             roomString = roomNumber.getText().toString();
@@ -150,7 +157,6 @@ public class ReportPage2 extends AppCompatActivity {
         }
 
         if(departmentString.equals("") ||
-                descriptionString.equals("") ||
                 buildingString.equals("") ||
                 roomString.equals("")) {
 
@@ -162,7 +168,6 @@ public class ReportPage2 extends AppCompatActivity {
 
         if(error == 0) {
             FormData.getInstance().addFormData("department",departmentString);
-            FormData.getInstance().addFormData("description",descriptionString);
             FormData.getInstance().addFormData("room",roomString);
             FormData.getInstance().addFormData("buildingName",buildingString);
             FormData.getInstance().addFormData("incidentTime", dateString+" "+timeString);
@@ -339,6 +344,7 @@ public class ReportPage2 extends AppCompatActivity {
             else if (resultCode != RESULT_CANCELED) {
                     if(requestCode == PICTURE_RESULT) {
                         try {
+                            Toast.makeText(this,"Loading Image",Toast.LENGTH_LONG);
                             onCaptureImageResult(data);
                         } catch (IOException e) {
                             e.printStackTrace();
