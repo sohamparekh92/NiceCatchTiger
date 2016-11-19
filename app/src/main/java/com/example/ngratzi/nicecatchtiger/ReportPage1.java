@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -63,7 +64,6 @@ public class ReportPage1 extends AppCompatActivity {
 
         ArrayList<RadioButton> buttonsReport = new ArrayList<>();
         ArrayList<String> reportKindList = FormData.getInstance().getFormData("reportKinds","reportKind");
-        //reportKindList.remove(0);
         for(int i=0; i<reportKindList.size();++i){
             buttonsReport.add(new RadioButton(this));
             buttonsReport.get(i).setText(reportKindList.get(i));

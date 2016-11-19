@@ -52,6 +52,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,6 +74,7 @@ public class ReportPage2 extends AppCompatActivity {
     String mCurrentPhotoPath;
     EditText description, roomNumber;
     Spinner departmentSpinner, buildingSpinner;
+    private URI delteableURI;
     ArrayList<Integer> departmentIDs, buildingIDs;
 
 
@@ -138,7 +140,7 @@ public class ReportPage2 extends AppCompatActivity {
 
     }
 
-    public void startPage3(View view) {
+    public void startPage3(View view) throws URISyntaxException {
 
         int error = 0;
         //data validation
@@ -167,6 +169,15 @@ public class ReportPage2 extends AppCompatActivity {
         }
 
         if(error == 0) {
+            delteableURI = new URI(mCurrentPhotoPath);
+            File deletable = new File(delteableURI.getPath());
+            Boolean deleteCheck = deletable.delete();
+            if (deleteCheck){
+                Log.d("DeleteCheck","Deleted");
+            }
+            else{
+                Log.d("DeleteCheck","Did not delete");
+            }
             FormData.getInstance().addFormData("department",departmentString);
             FormData.getInstance().addFormData("room",roomString);
             FormData.getInstance().addFormData("buildingName",buildingString);
@@ -365,19 +376,22 @@ public class ReportPage2 extends AppCompatActivity {
             public void run() {
                 super.run();
                 try {
-                    sleep(6000);
+                    sleep(3000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         };
         halt.run();
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
         Bitmap bitmap = BitmapFactory.decodeFile(originalPath);
         if(bitmap == null){
             Log.d("bitmap Check", "NULL");
         }
         else{
             Log.d("bitmap Check", "NOT NULL");
+            Toast.makeText(this,"Loading Image",Toast.LENGTH_LONG).show();
         }
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG,100,bytes);
@@ -416,6 +430,7 @@ public class ReportPage2 extends AppCompatActivity {
             FormData.getInstance().addFormData("imageData", byteArrayOutputStream.toByteArray().toString());
             FormData.setImageBytes(byteArrayOutputStream.toByteArray());
             FormData.setPictureTaken(true);
+
 
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
