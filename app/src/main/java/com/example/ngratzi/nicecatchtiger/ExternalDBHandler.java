@@ -246,6 +246,9 @@ public class ExternalDBHandler extends  AsyncTask< String ,Void,String> {
         super.onPostExecute(s);
         if(s!=null){
             Log.i("Response Recieved",s);
+            if(s.equals("Saved")){
+                FormData.setUploadedPhoto(true);
+            }
         }
         if(s==null){
             Log.i("Response Recieved", "NULL");

@@ -72,6 +72,7 @@ public class ReportPage2 extends AppCompatActivity {
     static TextView dateView;
     VideoView myVideo;
     String mCurrentPhotoPath;
+    String mCurrentDirectory;
     EditText description, roomNumber;
     Spinner departmentSpinner, buildingSpinner;
     private URI delteableURI;
@@ -169,9 +170,12 @@ public class ReportPage2 extends AppCompatActivity {
         }
 
         if(error == 0) {
-            delteableURI = new URI(mCurrentPhotoPath);
-            File deletable = new File(delteableURI.getPath());
-            Boolean deleteCheck = deletable.delete();
+            Boolean deleteCheck = false;
+            if(mCurrentPhotoPath!=null){
+                delteableURI = new URI(mCurrentPhotoPath);
+                File deletable = new File(delteableURI.getPath());
+                deleteCheck = deletable.delete();
+            }
             if (deleteCheck){
                 Log.d("DeleteCheck","Deleted");
             }
@@ -190,9 +194,6 @@ public class ReportPage2 extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Please Fill In All The Fields.", Toast.LENGTH_SHORT).show();
         }
     }
-
-    static final int REQUEST_VIDEO_CAPTURE = 1;
-    Intent takeVideoIntent;
 
     public void showDatePickerDialog(View v) {
         DialogFragment newFragment = new DatePickerFragment();
@@ -341,6 +342,7 @@ public class ReportPage2 extends AppCompatActivity {
 
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentPhotoPath = image.getAbsolutePath();
+        mCurrentDirectory = storageDir.getAbsolutePath();
         Log.d("Photo Path", mCurrentPhotoPath);
         return image;
     }
@@ -368,37 +370,45 @@ public class ReportPage2 extends AppCompatActivity {
     }
 
     private void onCaptureImageResult(Intent data) throws IOException, InterruptedException {
-        String originalPath = mCurrentPhotoPath;
+
+        final String originalPath = mCurrentPhotoPath;
         mCurrentPhotoPath = "file:"+mCurrentPhotoPath;
-        //SystemClock.sleep(6000);
-        Thread halt = new Thread(){
+
+        final Bitmap[] originalBitmap = new Bitmap[1];
+        Thread decode = new Thread(){
             @Override
             public void run() {
                 super.run();
                 try {
-                    sleep(3000);
-                } catch (InterruptedException e) {
+                    while(originalBitmap[0]==null) {
+                        originalBitmap[0] = BitmapFactory.decodeFile(originalPath);
+                    }
+                } catch (Exception e){
                     e.printStackTrace();
                 }
             }
         };
-        halt.run();
-        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        bmOptions.inJustDecodeBounds = true;
-        Bitmap bitmap = BitmapFactory.decodeFile(originalPath);
-        if(bitmap == null){
-            Log.d("bitmap Check", "NULL");
+        decode.run();
+        Bitmap bitmap = originalBitmap[0];
+        try {
+            if (bitmap.getWidth() > bitmap.getHeight()) {
+                bitmap = Bitmap.createScaledBitmap(bitmap, 960, 640, false);
+            } else {
+                bitmap = Bitmap.createScaledBitmap(bitmap, 640, 960, false);
+            }
+
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, bytes);
+            String encodedImage = Base64.encodeToString(bytes.toByteArray(), Base64.DEFAULT);
+            FormData.getInstance().addFormData("encodedImage", encodedImage);
+            FormData.setPictureTaken(true);
+            ivImage.setImageBitmap(bitmap);
         }
-        else{
-            Log.d("bitmap Check", "NOT NULL");
-            Toast.makeText(this,"Loading Image",Toast.LENGTH_LONG).show();
+        catch (NullPointerException e){
+            e.printStackTrace();
+            Toast.makeText(this,"Could not upload Image",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Please try again",Toast.LENGTH_SHORT).show();
         }
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,100,bytes);
-        String encodedImage = Base64.encodeToString(bytes.toByteArray(), Base64.DEFAULT);
-        FormData.getInstance().addFormData("encodedImage",encodedImage);
-        FormData.setPictureTaken(true);
-        ivImage.setImageBitmap(bitmap);
     }
 
     private void selectFromGallery(Intent data){

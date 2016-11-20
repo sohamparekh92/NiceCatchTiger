@@ -144,7 +144,7 @@ public class ReportPage3 extends AppCompatActivity {
             emailString = Email.getText().toString();
             phoneString = PhoneNumber.getText().toString();
 
-        if(designationString.equals("")){
+        if(designationString.equals("") || nameString.equals("") || emailString.equals("")){
             error = 1;
         }
 
@@ -168,11 +168,28 @@ public class ReportPage3 extends AppCompatActivity {
             String response = externalDBHandler.execute("submitReportURLConn", new JSONObject(getReportMap()).toString()).get();
             Log.i("Response Page 3", response);
             JSONObject responseJSON = new JSONObject(response);
-            String id = responseJSON.getJSONObject("data").getString("id");
-            ExternalDBHandler photoUploadHandler = new ExternalDBHandler();
+            final String id = responseJSON.getJSONObject("data").getString("id");
+            final ExternalDBHandler photoUploadHandler = new ExternalDBHandler();
+            Toast.makeText(this,"Uploading Report",Toast.LENGTH_LONG).show();
             if(FormData.getPictureTaken()) {
+
+                Thread halt = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Toast.makeText(getApplicationContext(),"Thread Upload Photo Activated",Toast.LENGTH_LONG);
+                            photoUploadHandler.execute("uploadPhotoBase64", id);
+                            Thread.sleep(3000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+                //photoUploadHandler.execute("uploadPhotoBase64", id);
+                halt.run();
                 FormData.setPictureTaken(false);
-                photoUploadHandler.execute("uploadPhotoBase64", id);
+                FormData.setUploadedPhoto(false);
             }
             Log.i("Response Page 3", id);
             startActivity(new Intent(ReportPage3.this, SucessSubmit.class));

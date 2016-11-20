@@ -19,6 +19,7 @@ public class FormData {
 
     private HashMap<String,String> myReport = new HashMap<>();
     static FormData instance = new FormData();
+    private static boolean uploadedPhoto = false;
     private static byte [] imageBytes;
     private static boolean imageTaken = false;
 
@@ -28,6 +29,16 @@ public class FormData {
         myReport.put("statusID","1");
         myReport.put("actionTaken","none");
     }
+
+    public static void setUploadedPhoto(boolean value){
+        Log.i("Set Upload Photo Activated","True");
+        uploadedPhoto = value;
+    }
+
+    public static boolean getUploadedPhoto(){
+        return uploadedPhoto;
+    }
+
     static FormData getInstance(){
         return instance;
     }
