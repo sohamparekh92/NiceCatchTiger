@@ -88,6 +88,7 @@ public class ExternalDBHandler extends  AsyncTask< String ,Void,String> {
                 urlConn = (HttpURLConnection) urlObj.openConnection();
                 urlConn.setDoOutput(true);
                 urlConn.setRequestMethod("POST");
+                urlConn.setConnectTimeout(100);
                 urlConn.connect();
                 JSONObject jsonParam = new JSONObject();
                 JSONObject jsonOuter = new JSONObject();
@@ -181,6 +182,7 @@ public class ExternalDBHandler extends  AsyncTask< String ,Void,String> {
                 URL uploadURL = new URL(home_url_model);
                 HttpURLConnection connection = (HttpURLConnection) uploadURL.openConnection();
                 connection.setDoOutput(true);
+                connection.setConnectTimeout(100);
                 OutputStream outputStream = connection.getOutputStream();
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
                 String imgData = URLEncoder.encode("imageData", "UTF-8")+"="+URLEncoder.encode(FormData.getInstance().getFormElement("encodedImage"), "UTF-8") +"&"+
