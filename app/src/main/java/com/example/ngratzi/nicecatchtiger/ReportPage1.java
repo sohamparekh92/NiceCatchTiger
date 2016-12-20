@@ -52,14 +52,16 @@ public class ReportPage1 extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i("Before","Super oncreate");
         super.onCreate(savedInstanceState);
+        Log.i("Before","set content");
         //setContentView(R.layout.activity_report_page1);
         setContentView(R.layout.activity_report_page1_1);
-
+        Log.i("Before","Actionbar stuf");
         ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#7800c9")));
         actionBar.setTitle("Nice Catch Tiger!");
-
+        Log.i("Before","Page start");
         otherReport = (EditText) findViewById(R.id.otherReport);
 
         ArrayList<RadioButton> buttonsReport = new ArrayList<>();
@@ -122,6 +124,22 @@ public class ReportPage1 extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void showInfo(View view){
+        new AlertDialog.Builder(this)
+                .setTitle("Report Definitions")
+                .setMessage("Close Call - A situation that could have led to an injury or" +
+                        "property damage, but did not.\n\n" +
+                        "Lesson Learned - Knowledge gained from a positive or negative experience.\n\n" +
+                        "Safety Issue - Any action observed or participated in that can lead to an injury or" +
+                        "property damage.")
+                .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                }).show();
     }
 
 

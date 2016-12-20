@@ -85,6 +85,8 @@ public class FormData {
         ArrayList<String> resultList = new ArrayList<String>();
         try {
             String result = new ExternalDBHandler().execute("getData",elements).get();
+            //String result = new ExternalDBHandler().execute("getDataClient",elements).get();
+
             JSONObject buildingJSON = new JSONObject(result);
             JSONArray data = buildingJSON.getJSONArray("data");
             for(int i=0; i<data.length();++i){

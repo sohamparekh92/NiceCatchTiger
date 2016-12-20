@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+
     public void startReport(View view) {
         startActivity(new Intent(MainActivity.this, ReportPage1.class));
     }

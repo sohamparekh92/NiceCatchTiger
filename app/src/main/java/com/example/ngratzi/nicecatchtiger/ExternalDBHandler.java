@@ -8,12 +8,14 @@ import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.apache.http.HttpClientConnection;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.StringEntity;
@@ -207,6 +209,40 @@ public class ExternalDBHandler extends  AsyncTask< String ,Void,String> {
             }
         }
 
+        if (method.equals("getDataClient")) {
+            try {
+                String elementsType = params[1];
+                String final_url = home_url + elementsType;
+                URL url_get = new URL(final_url);
+                Log.i("Final URL", final_url);
+                HttpClient httpClient = new DefaultHttpClient();
+                HttpGet httpGet = new HttpGet(final_url);
+                HttpResponse response;
+                try{
+                    response = httpClient.execute(httpGet);
+                    HttpEntity httpEntity = response.getEntity();
+                    if(httpEntity!=null){
+                        InputStream inputStream = httpEntity.getContent();
+                        StringBuilder inputStringBuilder = new StringBuilder();
+                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+                        String line = bufferedReader.readLine();
+                        while(line != null){
+                            inputStringBuilder.append(line);inputStringBuilder.append('\n');
+                            line = bufferedReader.readLine();
+                        }
+                        inputStream.close();
+                        return inputStringBuilder.toString();
+                    }
+                }
+                catch (Exception e){
+
+                }
+            }
+            catch (Exception e){
+
+            }
+        }
+
         if (method.equals("getData")){
             try {
                 String elementsType = params[1];
@@ -216,7 +252,10 @@ public class ExternalDBHandler extends  AsyncTask< String ,Void,String> {
                 HttpsURLConnection httpsURLConnection = (HttpsURLConnection)url_get.openConnection();
                 httpsURLConnection.setRequestMethod("GET");
                 httpsURLConnection.setDoInput(true);
+                httpsURLConnection.setConnectTimeout(100);
+                Log.i("Before ", "Get inputstream");
                 InputStream IS = httpsURLConnection.getInputStream();
+                Log.i("Before ", "Get response code");
                 int status = httpsURLConnection.getResponseCode();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(IS, "iso-8859-1"));
                 String response = "";
