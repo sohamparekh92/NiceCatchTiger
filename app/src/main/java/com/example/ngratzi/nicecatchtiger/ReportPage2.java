@@ -28,8 +28,10 @@ import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Base64;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -70,6 +72,8 @@ public class ReportPage2 extends AppCompatActivity {
     ImageView ivImage;
     static TextView timeView;
     static TextView dateView;
+    InstaAutoComplete departmentAutoComplete;
+    InstaAutoComplete buildingAutoComplete;
     VideoView myVideo;
     String mCurrentPhotoPath;
     String mCurrentDirectory;
@@ -118,29 +122,48 @@ public class ReportPage2 extends AppCompatActivity {
         description = (EditText) findViewById(R.id.description);
         roomNumber = (EditText) findViewById(R.id.roomnumber);
 
+
         //Spinner for Building and Departments
-        departmentSpinner = (Spinner) findViewById(R.id.departmentOptions);
-        buildingSpinner = (Spinner) findViewById(R.id.buildingOptions);
+        //departmentSpinner = (Spinner) findViewById(R.id.departmentOptions);
 
         //Populate Departments Array: content
         ArrayList<String> departmentsList = FormData.getInstance().getFormData("departments","departmentName");
         ArrayAdapter<String> departmentsAdapter=new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,departmentsList);
         departmentsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        departmentSpinner.setAdapter(departmentsAdapter);
+       // departmentSpinner.setAdapter(departmentsAdapter);
 
+
+        //Auto-Complete stuff
+
+        departmentAutoComplete = (InstaAutoComplete) findViewById(R.id.departmentAutoComplete);
+        departmentAutoComplete.setAdapter(departmentsAdapter);
+        departmentAutoComplete.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                departmentAutoComplete.showDropDown();
+                return false;
+            }
+        });
         //Populate Building Array: content
         ArrayList<String> buildingsList = FormData.getInstance().getFormData("buildings","buildingName");
         ArrayAdapter<String> buildingsAdapter=new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,buildingsList);
         buildingsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        buildingSpinner.setAdapter(buildingsAdapter);
-
+        //Auto Complete Stuff building
+        buildingAutoComplete = (InstaAutoComplete) findViewById(R.id.buildingAutoComplete);
+        buildingAutoComplete.setAdapter(buildingsAdapter);
+        buildingAutoComplete.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                buildingAutoComplete.showDropDown();
+                return false;
+            }
+        });
 
 
 
     }
-
     public void startPage3(View view) throws URISyntaxException {
 
         int error = 0;
@@ -151,8 +174,10 @@ public class ReportPage2 extends AppCompatActivity {
         String roomString = "";
 
         try{
-            departmentString = departmentSpinner.getSelectedItem().toString();
-            buildingString = buildingSpinner.getSelectedItem().toString();
+            //departmentString = departmentSpinner.getSelectedItem().toString();
+            departmentString = departmentAutoComplete.getText().toString();
+            //buildingString = buildingSpinner.getSelectedItem().toString();
+            buildingString = buildingAutoComplete.getText().toString();
             roomString = roomNumber.getText().toString();
         }
         catch (Exception e){

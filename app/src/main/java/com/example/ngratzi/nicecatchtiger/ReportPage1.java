@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.PersistableBundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -132,7 +133,23 @@ public class ReportPage1 extends AppCompatActivity {
                 .setMessage("Close Call - A situation that could have led to an injury or" +
                         "property damage, but did not.\n\n" +
                         "Lesson Learned - Knowledge gained from a positive or negative experience.\n\n" +
-                        "Safety Issue - Any action observed or participated in that can lead to an injury or" +
+                        "Safety Issue - Any action observed or participated in that can lead to an injury or " +
+                        "property damage.")
+                .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                }).show();
+    }
+
+    public void showInfoInvolve(View view){
+        new AlertDialog.Builder(this)
+                .setTitle("Report Definitions")
+                .setMessage("Close Call - A situation that could have led to an injury or" +
+                        "property damage, but did not.\n\n" +
+                        "Lesson Learned - Knowledge gained from a positive or negative experience.\n\n" +
+                        "Safety Issue - Any action observed or participated in that can lead to an injury or " +
                         "property damage.")
                 .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                     @Override
@@ -179,4 +196,9 @@ public class ReportPage1 extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+
+    }
 }

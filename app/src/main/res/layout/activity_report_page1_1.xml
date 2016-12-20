@@ -60,6 +60,11 @@
                     android:text="What does this involve?"
                     android:id="@+id/textView16"
                     android:textSize="25dp" />
+                <ImageButton
+                    android:layout_height="27dp"
+                    android:layout_width="27dp"
+                    android:onClick="showInfoInvolve"
+                    android:background="@drawable/info_icon"/>
             </TableRow>
 
             <TableRow>

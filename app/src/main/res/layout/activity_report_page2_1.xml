@@ -65,10 +65,14 @@
             </TableRow>
 
             <TableRow>
-                <Spinner
+                <!--<Spinner
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/departmentOptions" />
+                    android:id="@+id/departmentOptions" />-->
+                <com.example.ngratzi.nicecatchtiger.InstaAutoComplete
+                    android:layout_width="350dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/departmentAutoComplete" />
             </TableRow>
 
             <TableRow>
@@ -78,10 +82,10 @@
             </TableRow>
 
             <TableRow>
-                <Spinner
-                    android:layout_width="wrap_content"
+                <com.example.ngratzi.nicecatchtiger.InstaAutoComplete
+                    android:layout_width="350dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/buildingOptions"/>
+                    android:id="@+id/buildingAutoComplete" />
             </TableRow>
 
             <TableRow>
