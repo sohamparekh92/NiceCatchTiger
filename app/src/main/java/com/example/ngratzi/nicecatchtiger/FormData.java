@@ -1,6 +1,9 @@
 package com.example.ngratzi.nicecatchtiger;
 
+import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -84,8 +87,9 @@ public class FormData {
 
         ArrayList<String> resultList = new ArrayList<String>();
         try {
-            String result = new ExternalDBHandler().execute("getData",elements).get();
-            //String result = new ExternalDBHandler().execute("getDataClient",elements).get();
+            String result = null;
+            //result = new ExternalDBHandler().execute("getData", elements).get();
+            result = new ExternalDBHandler().execute("getDataClient",elements).get();
 
             JSONObject buildingJSON = new JSONObject(result);
             JSONArray data = buildingJSON.getJSONArray("data");

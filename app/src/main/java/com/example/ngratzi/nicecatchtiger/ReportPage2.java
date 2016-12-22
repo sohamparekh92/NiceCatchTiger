@@ -101,6 +101,7 @@ public class ReportPage2 extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#7800c9")));
         actionBar.setTitle("Nice Catch Tiger!");
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         //Adding a Photo
         btnSelect = (Button) findViewById(R.id.imageButton);

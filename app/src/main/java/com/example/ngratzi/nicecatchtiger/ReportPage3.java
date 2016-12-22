@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.PersistableBundle;
 import android.os.SystemClock;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -69,6 +70,7 @@ public class ReportPage3 extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#7800c9")));
         actionBar.setTitle("Nice Catch Tiger!");
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         /*faculty = (RadioButton) findViewById(R.id.fauclty);
         staff = (RadioButton) findViewById(R.id.staff);
@@ -78,6 +80,13 @@ public class ReportPage3 extends AppCompatActivity {
         Name = (EditText) findViewById(R.id.name);
         Email = (EditText) findViewById(R.id.email);
         PhoneNumber = (EditText) findViewById(R.id.phoneNumber);
+
+        if(savedInstanceState!=null){
+            Name.setText(savedInstanceState.getString("name"));
+            Email.setText(savedInstanceState.getString("username"));
+            PhoneNumber.setText(savedInstanceState.getString("phone"));
+        }
+
 
         final EditText otherDesignation = (EditText) findViewById(R.id.other9);
         otherDesignation.setVisibility(View.INVISIBLE);
@@ -256,5 +265,26 @@ public class ReportPage3 extends AppCompatActivity {
         params.put("logitude", "0");
         params.put("photoPath", "0");
         return params;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+
+        Name.setText(savedInstanceState.getString("name"));
+        Email.setText(savedInstanceState.getString("username"));
+        PhoneNumber.setText(savedInstanceState.getString("phone"));
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+
+        Log.i("Called","Saved Instance");
+
+        savedInstanceState.putString("personKind",FormData.getInstance().getFormElement("personKind"));
+        savedInstanceState.putString("username",FormData.getInstance().getFormElement("username"));
+        savedInstanceState.putString("name",FormData.getInstance().getFormElement("name"));
+        savedInstanceState.putString("phone",FormData.getInstance().getFormElement("phone"));
+        super.onSaveInstanceState(savedInstanceState);
     }
 }

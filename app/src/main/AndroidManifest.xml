@@ -38,12 +38,15 @@
             </intent-filter>
         </activity>
         <activity android:name=".ReportPage1"
+            android:parentActivityName=".MainActivity"
             android:theme = "@style/Theme.AppCompat.Light.DarkActionBar"
             android:screenOrientation="portrait"/>
         <activity android:name=".ReportPage2"
+            android:parentActivityName=".ReportPage1"
             android:screenOrientation="portrait"
             android:theme = "@style/Theme.AppCompat.Light.DarkActionBar"/>
         <activity android:name=".ReportPage3"
+            android:parentActivityName=".ReportPage2"
             android:theme = "@style/Theme.AppCompat.Light.DarkActionBar"
             android:screenOrientation="portrait"/>
         <activity android:name=".SucessSubmit"

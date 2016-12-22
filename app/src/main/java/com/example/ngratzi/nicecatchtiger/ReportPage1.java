@@ -1,8 +1,10 @@
 package com.example.ngratzi.nicecatchtiger;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -12,16 +14,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 
 public class ReportPage1 extends AppCompatActivity {
+
+    //Managers
+    private InputMethodManager inputMethodManager;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor sharedPreferencesEditor;
 
     //Parameters
     public static int Report, Involve;
@@ -62,8 +71,11 @@ public class ReportPage1 extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#7800c9")));
         actionBar.setTitle("Nice Catch Tiger!");
+        actionBar.setDisplayHomeAsUpEnabled(true);
         Log.i("Before","Page start");
         otherReport = (EditText) findViewById(R.id.otherReport);
+
+        inputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
 
         ArrayList<RadioButton> buttonsReport = new ArrayList<>();
         ArrayList<String> reportKindList = FormData.getInstance().getFormData("reportKinds","reportKind");
@@ -79,14 +91,18 @@ public class ReportPage1 extends AppCompatActivity {
 
 
         ArrayList<RadioButton> buttonsInvolve = new ArrayList<>();
-        ArrayList<String> involveKindList = FormData.getInstance().getFormData("involvements","involvementKind");
+        ArrayList<String> involveKindList = FormData.getInstance().getFormData("involvements", "involvementKind");
+        if(involveKindList.isEmpty()){
+            Toast.makeText(this,"Please Check Your Internet Connection.",Toast.LENGTH_LONG).show();
+            startActivity(new Intent(this, MainActivity.class));
+        }
         //reportKindList.remove(0);
-        for(int i=0; i<involveKindList.size();++i){
+        for (int i = 0; i < involveKindList.size(); ++i) {
             buttonsInvolve.add(new RadioButton(this));
             buttonsInvolve.get(i).setText(involveKindList.get(i));
         }
         otherInvolve = (EditText) findViewById(R.id.otherInvolve);
-
+        inputMethodManager.hideSoftInputFromInputMethod(otherInvolve.getWindowToken(),0);
         otherInvolve.setVisibility(View.INVISIBLE);
 
 
@@ -196,9 +212,82 @@ public class ReportPage1 extends AppCompatActivity {
 
     }
 
+    private void saveRG(SharedPreferences.Editor se, RadioGroup rg){
+        int number = rg.getChildCount();
+        int i = 0;
+        while(number!=0) {
+            RadioButton currentButton = (RadioButton) rg.getChildAt(i);
+            se.putBoolean("A"+number, currentButton.isChecked());
+            number--;
+            i++;
+        }
+        se.commit();
+    }
+
+    private void restoreRG(SharedPreferences sp, RadioGroup rg ){
+        int number = rg.getChildCount();
+        int i = 0;
+        while(number!=0) {
+            RadioButton currentButton = (RadioButton) rg.getChildAt(i);
+            boolean value = sp.getBoolean("A"+number, false);
+            currentButton.setChecked(value);
+            number--;
+            i++;
+        }
+    }
+
     @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
+    protected void onPause() {
+        super.onPause();
+        //Save Involve Group
+        RadioGroup radioGroupInvolve = (RadioGroup) findViewById(R.id.InvolveRG);
+        sharedPreferences = getSharedPreferences("RadioInvolve",0);
+        sharedPreferencesEditor = sharedPreferences.edit();
+        saveRG(sharedPreferencesEditor,radioGroupInvolve);
+
+        //Save Other Involve
+        sharedPreferences = getSharedPreferences("OtherInvolve",0);
+        sharedPreferencesEditor = sharedPreferences.edit();
+        sharedPreferencesEditor.putString("otherInvolve",otherInvolve.getText().toString());
+        sharedPreferencesEditor.commit();
+
+        //Save Other Report
+        sharedPreferences = getSharedPreferences("OtherReport",0);
+        sharedPreferencesEditor = sharedPreferences.edit();
+        sharedPreferencesEditor.putString("otherReport",otherReport.getText().toString());
+        sharedPreferencesEditor.commit();
+
+
+        //Save Report Group
+        RadioGroup radioGroupReport = (RadioGroup) findViewById(R.id.ReportRG);
+        sharedPreferences = getSharedPreferences("RadioReport",0);
+        sharedPreferencesEditor = sharedPreferences.edit();
+        saveRG(sharedPreferencesEditor,radioGroupReport);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //Restore Involve Group
+        RadioGroup radioGroupInvolve = (RadioGroup) findViewById(R.id.InvolveRG);
+        sharedPreferences = getSharedPreferences("RadioInvolve",0);
+        restoreRG(sharedPreferences,radioGroupInvolve);
+
+        //Restore Other Involve
+        sharedPreferences = getSharedPreferences("OtherInvolve",0);
+        otherInvolve.setText(sharedPreferences.getString("otherInvolve",""), TextView.BufferType.EDITABLE);
+
+
+        //Restore Other Report
+        sharedPreferences = getSharedPreferences("OtherReport",0);
+        otherInvolve.setText(sharedPreferences.getString("otherReport",""), TextView.BufferType.EDITABLE);
+
+
+
+        RadioGroup radioGroupReport = (RadioGroup) findViewById(R.id.ReportRG);
+        sharedPreferences = getSharedPreferences("RadioReport",0);
+        restoreRG(sharedPreferences,radioGroupReport);
 
     }
+
 }
