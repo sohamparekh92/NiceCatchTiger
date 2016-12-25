@@ -8,8 +8,10 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,6 +22,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.os.SystemClock;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
@@ -30,6 +33,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -52,6 +56,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -78,14 +83,11 @@ public class ReportPage2 extends AppCompatActivity {
     String mCurrentPhotoPath;
     String mCurrentDirectory;
     EditText description, roomNumber;
-    Spinner departmentSpinner, buildingSpinner;
     private URI delteableURI;
-    ArrayList<Integer> departmentIDs, buildingIDs;
+    SharedPreferences sharedPreferences;
+    private boolean imageSet;
+    private String myImageString;
 
-
-    public static String Description;
-    public static String RNumber;
-    public static int department;
     public static int building;
 
     private static String timeString;
@@ -97,13 +99,14 @@ public class ReportPage2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_page2_1);
 
-
         ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#7800c9")));
         actionBar.setTitle("Nice Catch Tiger!");
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         FormData.getInstance().addActivity(this);
+        imageSet = false;
+        sharedPreferences  = PreferenceManager.getDefaultSharedPreferences(this);
 
         //Adding a Photo
         btnSelect = (Button) findViewById(R.id.imageButton);
@@ -122,7 +125,6 @@ public class ReportPage2 extends AppCompatActivity {
         timeView = (TextView)findViewById(R.id.TextViewTime);
 
         //Description and room number
-        description = (EditText) findViewById(R.id.description);
         roomNumber = (EditText) findViewById(R.id.roomnumber);
 
 
@@ -148,6 +150,7 @@ public class ReportPage2 extends AppCompatActivity {
                 return false;
             }
         });
+
         //Populate Building Array: content
         ArrayList<String> buildingsList = FormData.getInstance().getFormData("buildings","buildingName");
         ArrayAdapter<String> buildingsAdapter=new ArrayAdapter<String>(this,
@@ -277,6 +280,7 @@ public class ReportPage2 extends AppCompatActivity {
         newFragment.show(getFragmentManager(),"timePicker");
     }
 
+
     public static class TimePickerFragment extends DialogFragment
             implements TimePickerDialog.OnTimeSetListener {
 
@@ -288,7 +292,7 @@ public class ReportPage2 extends AppCompatActivity {
             int minute = c.get(Calendar.MINUTE);
 
             // Create a new instance of TimePickerDialog and return it
-            return new TimePickerDialog(getActivity(), this, hour, minute,
+            return new TimePickerDialog(getActivity(), AlertDialog.THEME_HOLO_LIGHT,this, hour, minute,
                     DateFormat.is24HourFormat(getActivity()));
         }
 
@@ -320,6 +324,7 @@ public class ReportPage2 extends AppCompatActivity {
         AlertDialog.Builder cancel = builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
+                imageSet = true;
                 if (items[item].equals("Take Photo")) {
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     //startActivityForResult(intent, PICTURE_RESULT);
@@ -351,6 +356,7 @@ public class ReportPage2 extends AppCompatActivity {
                             SELECT_FILE);
                 } else if (items[item].equals("Cancel")) {
                     dialog.dismiss();
+                    imageSet = false;
                 }
             }
         });
@@ -395,6 +401,30 @@ public class ReportPage2 extends AppCompatActivity {
                     }
             }
         }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                byte[] decodedString = null;
+                Bitmap decodedByte = null;
+                while (decodedByte==null) {
+                    try {
+                        Thread.sleep(100);
+                         decodedString = Base64.decode(myImageString, Base64.DEFAULT);
+                         decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                final Bitmap finalDecodedByte = decodedByte;
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ivImage.setImageBitmap(finalDecodedByte);
+                    }
+                });
+            }
+        }).start();
+
     }
 
     private void onCaptureImageResult(Intent data) throws IOException, InterruptedException {
@@ -445,7 +475,7 @@ public class ReportPage2 extends AppCompatActivity {
         Bitmap bitmap;
         try {
             bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(targetUri));
-            ivImage.setImageBitmap(bitmap);
+            //ivImage.setImageBitmap(bitmap);
 
             //Store it in the Form
             Bitmap newImage = bitmap;
@@ -459,10 +489,10 @@ public class ReportPage2 extends AppCompatActivity {
             }
 
             //newImage = scaleBitmap(newImage, 1920,1080);
-
             newImage.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
 
             String encodedImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
+            myImageString = encodedImage;
             FormData.getInstance().addFormData("encodedImage",encodedImage);
             //FormData.getInstance().addFormData("imageData", Arrays.toString(bytes.toByteArray()));
             FormData.getInstance().addFormData("imageData", byteArrayOutputStream.toByteArray().toString());
@@ -491,5 +521,56 @@ public class ReportPage2 extends AppCompatActivity {
 
 // recreate the new Bitmap and set it back
         return Bitmap.createBitmap(bitmapToScale, 0, 0, bitmapToScale.getWidth(), bitmapToScale.getHeight(), matrix, true);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        //Save Image
+        if(imageSet) {
+            sharedPreferences.edit().putBoolean("imageCheck",true).commit();
+            sharedPreferences.edit().putString("imageData", myImageString).commit();
+        }
+
+        //Save Department
+        sharedPreferences.edit().putString("department",departmentAutoComplete.getText().toString()).apply();
+
+        //Save Building
+        sharedPreferences.edit().putString("building", buildingAutoComplete.getText().toString()).apply();
+
+        //Save Room No.
+        sharedPreferences.edit().putString("room",roomNumber.getText().toString()).apply();
+
+        //Date
+        sharedPreferences.edit().putString("date", dateString);
+
+        //Time
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //Restore Image
+        if(sharedPreferences.getBoolean("imageCheck",false)) {
+            byte[] decodedString = Base64.decode(sharedPreferences.getString("imageData", ""), Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            ivImage.setImageBitmap(decodedByte);
+        }
+
+        //Restore Department
+        departmentAutoComplete.setText(sharedPreferences.getString("department",""));
+
+        //Restore Building
+        buildingAutoComplete.setText(sharedPreferences.getString("building",""));
+
+        //Restore Room No.
+        roomNumber.setText(sharedPreferences.getString("room",""));
+
+        //Restore Date
+
+        //Restore Time
+
     }
 }

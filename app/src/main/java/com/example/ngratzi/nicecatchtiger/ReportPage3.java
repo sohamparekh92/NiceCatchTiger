@@ -74,10 +74,7 @@ public class ReportPage3 extends AppCompatActivity {
         actionBar.setTitle("Nice Catch Tiger!");
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        /*faculty = (RadioButton) findViewById(R.id.fauclty);
-        staff = (RadioButton) findViewById(R.id.staff);
-        student = (RadioButton) findViewById(R.id.student);
-        other = (RadioButton) findViewById(R.id.other);*/
+        FormData.getInstance().addActivity(this);
 
         Name = (EditText) findViewById(R.id.name);
         Email = (EditText) findViewById(R.id.email);
