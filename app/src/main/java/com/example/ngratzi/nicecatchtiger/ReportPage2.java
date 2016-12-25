@@ -103,6 +103,8 @@ public class ReportPage2 extends AppCompatActivity {
         actionBar.setTitle("Nice Catch Tiger!");
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        FormData.getInstance().addActivity(this);
+
         //Adding a Photo
         btnSelect = (Button) findViewById(R.id.imageButton);
         btnSelect.setOnClickListener(new View.OnClickListener() {

@@ -2,6 +2,7 @@ package com.example.ngratzi.nicecatchtiger;
 
 import android.app.Activity;
 import android.content.Context;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -25,6 +26,7 @@ public class FormData {
     private static boolean uploadedPhoto = false;
     private static byte [] imageBytes;
     private static boolean imageTaken = false;
+    private static ArrayList<Context> activities = new ArrayList<>();
 
     private FormData(){
         myReport.put("incidentTime","2016-10-12 13:28:09");
@@ -36,6 +38,16 @@ public class FormData {
     public static void setUploadedPhoto(boolean value){
         Log.i("Set Upload Photo Activated","True");
         uploadedPhoto = value;
+    }
+
+    public void addActivity(Context context){
+        activities.add(context);
+    }
+
+    public void clearActivities(){
+        for(Context current: activities){
+            PreferenceManager.getDefaultSharedPreferences(current).edit().clear().commit();
+        }
     }
 
     public static boolean getUploadedPhoto(){

@@ -7,6 +7,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.PersistableBundle;
 import android.os.SystemClock;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -201,6 +203,7 @@ public class ReportPage3 extends AppCompatActivity {
                 FormData.setUploadedPhoto(false);
             }
             Log.i("Response Page 3", id);
+            PreferenceManager.getDefaultSharedPreferences(this).edit().clear().commit();
             startActivity(new Intent(ReportPage3.this, SucessSubmit.class));
 
         }

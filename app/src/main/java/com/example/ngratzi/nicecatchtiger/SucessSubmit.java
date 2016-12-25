@@ -10,6 +10,7 @@ public class SucessSubmit extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FormData.getInstance().clearActivities();
         setContentView(R.layout.activity_sucess_submit);
     }
 

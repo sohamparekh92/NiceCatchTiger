@@ -44,6 +44,8 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
         android:id="@+id/other9"
         android:hint="Enter Other"
         android:layout_below="@+id/radioGroup"
@@ -79,6 +81,8 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
         android:inputType="phone"
         android:ems="10"
         android:hint="Optional"
@@ -90,6 +94,8 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
         android:id="@+id/name"
         android:hint="Required"
         android:layout_marginTop="13dp"
@@ -113,6 +119,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
         android:text="Phone:"
         android:id="@+id/textView9"
         android:textStyle="bold"
@@ -124,6 +132,8 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
         android:inputType="textEmailAddress"
         android:hint="Required"
         android:ems="10"

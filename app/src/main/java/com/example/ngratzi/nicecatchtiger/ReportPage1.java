@@ -9,11 +9,14 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.PersistableBundle;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -62,19 +65,17 @@ public class ReportPage1 extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i("Before","Super oncreate");
         super.onCreate(savedInstanceState);
-        Log.i("Before","set content");
-        //setContentView(R.layout.activity_report_page1);
         setContentView(R.layout.activity_report_page1_1);
-        Log.i("Before","Actionbar stuf");
         ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#7800c9")));
         actionBar.setTitle("Nice Catch Tiger!");
         actionBar.setDisplayHomeAsUpEnabled(true);
-        Log.i("Before","Page start");
-        otherReport = (EditText) findViewById(R.id.otherReport);
 
+        FormData.getInstance().addActivity(this);
+
+        otherReport = (EditText) findViewById(R.id.otherReport);
+        otherReport.setImeOptions(EditorInfo.IME_ACTION_DONE);
         inputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
 
         ArrayList<RadioButton> buttonsReport = new ArrayList<>();
@@ -102,7 +103,6 @@ public class ReportPage1 extends AppCompatActivity {
             buttonsInvolve.get(i).setText(involveKindList.get(i));
         }
         otherInvolve = (EditText) findViewById(R.id.otherInvolve);
-        inputMethodManager.hideSoftInputFromInputMethod(otherInvolve.getWindowToken(),0);
         otherInvolve.setVisibility(View.INVISIBLE);
 
 
@@ -192,7 +192,19 @@ public class ReportPage1 extends AppCompatActivity {
 
         try {
             checkedValueInvolved = checkedButtonInvolve.getText().toString();
+            if(checkedValueInvolved.equals("Other")){
+                checkedValueInvolved = otherInvolve.getText().toString();
+                if(checkedValueInvolved.equals("")){
+                    error = 1;
+                }
+            }
             checkedValueReport = checkedButtonReport.getText().toString();
+            if(checkedValueReport.equals("Other")){
+                checkedValueReport = otherReport.getText().toString();
+                if(checkedValueReport.equals("")){
+                    error = 1;
+                }
+            }
         }
         catch (Exception e){
             error = 1;
@@ -212,24 +224,23 @@ public class ReportPage1 extends AppCompatActivity {
 
     }
 
-    private void saveRG(SharedPreferences.Editor se, RadioGroup rg){
+    private void saveRG(SharedPreferences se, RadioGroup rg, String identifier){
         int number = rg.getChildCount();
         int i = 0;
         while(number!=0) {
             RadioButton currentButton = (RadioButton) rg.getChildAt(i);
-            se.putBoolean("A"+number, currentButton.isChecked());
+            se.edit().putBoolean("A"+number+identifier, currentButton.isChecked()).commit();
             number--;
             i++;
         }
-        se.commit();
     }
 
-    private void restoreRG(SharedPreferences sp, RadioGroup rg ){
+    private void restoreRG(SharedPreferences sp, RadioGroup rg, String identifier ){
         int number = rg.getChildCount();
         int i = 0;
         while(number!=0) {
             RadioButton currentButton = (RadioButton) rg.getChildAt(i);
-            boolean value = sp.getBoolean("A"+number, false);
+            boolean value = sp.getBoolean("A"+number+identifier, false);
             currentButton.setChecked(value);
             number--;
             i++;
@@ -239,54 +250,55 @@ public class ReportPage1 extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+
         //Save Involve Group
         RadioGroup radioGroupInvolve = (RadioGroup) findViewById(R.id.InvolveRG);
-        sharedPreferences = getSharedPreferences("RadioInvolve",0);
-        sharedPreferencesEditor = sharedPreferences.edit();
-        saveRG(sharedPreferencesEditor,radioGroupInvolve);
-
-        //Save Other Involve
-        sharedPreferences = getSharedPreferences("OtherInvolve",0);
-        sharedPreferencesEditor = sharedPreferences.edit();
-        sharedPreferencesEditor.putString("otherInvolve",otherInvolve.getText().toString());
-        sharedPreferencesEditor.commit();
-
-        //Save Other Report
-        sharedPreferences = getSharedPreferences("OtherReport",0);
-        sharedPreferencesEditor = sharedPreferences.edit();
-        sharedPreferencesEditor.putString("otherReport",otherReport.getText().toString());
-        sharedPreferencesEditor.commit();
-
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        saveRG(sharedPreferences,radioGroupInvolve, "involveRG");
 
         //Save Report Group
         RadioGroup radioGroupReport = (RadioGroup) findViewById(R.id.ReportRG);
-        sharedPreferences = getSharedPreferences("RadioReport",0);
-        sharedPreferencesEditor = sharedPreferences.edit();
-        saveRG(sharedPreferencesEditor,radioGroupReport);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        saveRG(sharedPreferences,radioGroupInvolve, "reportRG");
+
+        //Save Other Involve
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences.edit().putString("otherInvolve", otherInvolve.getText().toString()).commit();
+
+        //Save Other Report
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences.edit().putString("otherReport", otherReport.getText().toString()).commit();
+
+        //Save Description
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences.edit().putString("description", description.getText().toString()).commit();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
         //Restore Involve Group
         RadioGroup radioGroupInvolve = (RadioGroup) findViewById(R.id.InvolveRG);
-        sharedPreferences = getSharedPreferences("RadioInvolve",0);
-        restoreRG(sharedPreferences,radioGroupInvolve);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        restoreRG(sharedPreferences,radioGroupInvolve, "involveRG");
+
+        //Restore Report Group
+        RadioGroup radioGroupReport = (RadioGroup) findViewById(R.id.ReportRG);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        restoreRG(sharedPreferences,radioGroupReport, "reportRG");
 
         //Restore Other Involve
-        sharedPreferences = getSharedPreferences("OtherInvolve",0);
-        otherInvolve.setText(sharedPreferences.getString("otherInvolve",""), TextView.BufferType.EDITABLE);
-
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        otherInvolve.setText(sharedPreferences.getString("otherInvolve",""));
 
         //Restore Other Report
-        sharedPreferences = getSharedPreferences("OtherReport",0);
-        otherInvolve.setText(sharedPreferences.getString("otherReport",""), TextView.BufferType.EDITABLE);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        otherReport.setText(sharedPreferences.getString("otherReport",""));
 
-
-
-        RadioGroup radioGroupReport = (RadioGroup) findViewById(R.id.ReportRG);
-        sharedPreferences = getSharedPreferences("RadioReport",0);
-        restoreRG(sharedPreferences,radioGroupReport);
+        //Restore Description
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        description.setText(sharedPreferences.getString("description",""));
 
     }
 
