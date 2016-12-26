@@ -217,8 +217,8 @@ public class ReportPage2 extends AppCompatActivity {
             FormData.getInstance().addFormData("room",roomString);
             FormData.getInstance().addFormData("buildingName",buildingString);
             FormData.getInstance().addFormData("incidentTime", dateString+" "+timeString);
-            timeView.setText("Time:");
-            dateView.setText("Date:");
+            //timeView.setText("Time:");
+            //dateView.setText("Date:");
             startActivity(new Intent(ReportPage2.this, ReportPage3.class));
         }
         else {
@@ -303,12 +303,34 @@ public class ReportPage2 extends AppCompatActivity {
     }
 
     public static void setTime(int hour, int minute){
-        if(hour>12) {
-            timeView.setText("Time: "+ (hour - 12) + ":" + minute + " PM");
+        String hourString = "";
+        String minString = "";
+        String period = "AM";
+        int newHour = hour;
+        if(hour>12){
+            newHour = hour - 12;
+            period = "PM";
+        }
+        if(hour<10){
+            hourString = "0"+newHour;
         }
         else{
-            timeView.setText("Time: "+ hour + ":" + minute + " AM");
+            hourString = ""+newHour;
         }
+
+        if(minute<10){
+            minString = "0"+minute;
+        }
+        else {
+            minString= ""+minute;
+        }
+        timeView.setText("Time: "+ hourString + ":" + minString +" "+ period);
+        /*if(hour>12) {
+            timeView.setText("Time: "+ (hour - 12) + ":" + minString + " PM");
+        }
+        else{
+            timeView.setText("Time: "+ hour + ":" + minString + " AM");
+        }*/
         timeString = hour+":"+minute+":00";
     }
 
@@ -542,10 +564,11 @@ public class ReportPage2 extends AppCompatActivity {
         //Save Room No.
         sharedPreferences.edit().putString("room",roomNumber.getText().toString()).apply();
 
-        //Date
-        sharedPreferences.edit().putString("date", dateString);
+        //Save Date
+        sharedPreferences.edit().putString("date", dateString).apply();
 
-        //Time
+        //Save Time
+        sharedPreferences.edit().putString("time",timeString).apply();
     }
 
     @Override
@@ -569,8 +592,28 @@ public class ReportPage2 extends AppCompatActivity {
         roomNumber.setText(sharedPreferences.getString("room",""));
 
         //Restore Date
+        String date = sharedPreferences.getString("date","");
+        int month;
+        int day;
+        int year;
+        if(!date.equals("")){
+            String [] dateArray = date.split("-");
+            year = Integer.parseInt(dateArray[0]);
+            day = Integer.parseInt(dateArray[2]);
+            month = Integer.parseInt(dateArray[1]);
+            setDate(year,month-1,day);
+        }
 
         //Restore Time
+        String time = sharedPreferences.getString("time","");
+        int hours;
+        int mins;
+        if(!time.equals("")) {
+            String[] timeArray = time.split(":");
+            hours = Integer.parseInt(timeArray[0]);
+            mins = Integer.parseInt(timeArray[1]);
+            setTime(hours,mins);
+        }
 
     }
 }

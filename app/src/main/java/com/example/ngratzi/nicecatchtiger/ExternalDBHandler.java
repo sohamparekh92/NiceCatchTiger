@@ -216,7 +216,7 @@ public class ExternalDBHandler extends  AsyncTask< String ,Void,String> {
         if (method.equals("getDataClient")) {
             int CONNECTION_TIMEOUT = 100;
             int WAIT_RESPONSE_TIMEOUT = 2000;
-            int counter = 50;
+            int counter = 100;
             while(counter!=0){
                 try {
                     String elementsType = params[1];
@@ -253,7 +253,7 @@ public class ExternalDBHandler extends  AsyncTask< String ,Void,String> {
                 catch (Exception e){
 
                 }
-                CONNECTION_TIMEOUT +=10;
+                CONNECTION_TIMEOUT +=5;
                 counter--;
             }
             return "fail";
