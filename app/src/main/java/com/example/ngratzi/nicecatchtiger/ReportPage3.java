@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.os.PersistableBundle;
 import android.os.SystemClock;
 import android.preference.Preference;
@@ -15,6 +16,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -76,11 +78,13 @@ public class ReportPage3 extends AppCompatActivity {
 
         FormData.getInstance().addActivity(this);
 
+        findViewById(R.id.loadingPanel).setVisibility(View.INVISIBLE);
+
         Name = (EditText) findViewById(R.id.name);
         Email = (EditText) findViewById(R.id.email);
         PhoneNumber = (EditText) findViewById(R.id.phoneNumber);
 
-        if(savedInstanceState!=null){
+        if (savedInstanceState != null) {
             Name.setText(savedInstanceState.getString("name"));
             Email.setText(savedInstanceState.getString("username"));
             PhoneNumber.setText(savedInstanceState.getString("phone"));
@@ -94,16 +98,16 @@ public class ReportPage3 extends AppCompatActivity {
 
         ArrayList<RadioButton> designationButtons = new ArrayList<>();
         ArrayList<String> designationList = new ArrayList<>();
-        designationList = FormData.getInstance().getFormData("personKinds","personKind");
+        designationList = FormData.getInstance().getFormData("personKinds", "personKind");
 
-        for(int i=0; i<designationList.size();++i){
+        for (int i = 0; i < designationList.size(); ++i) {
             designationButtons.add(new RadioButton(this));
             designationButtons.get(i).setText(designationList.get(i));
         }
 
         radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
 
-        for(int i=0; i<designationButtons.size();++i){
+        for (int i = 0; i < designationButtons.size(); ++i) {
             radioGroup.addView(designationButtons.get(i));
         }
 
@@ -128,87 +132,99 @@ public class ReportPage3 extends AppCompatActivity {
 
         int error = 0;
 
-            //Page 3
-            Designation = designation;
-            NAME = Name.getText().toString();
-            EMAIL = Email.getText().toString();
-            PN = PhoneNumber.getText().toString();
+        //Page 3
+        Designation = designation;
+        NAME = Name.getText().toString();
+        EMAIL = Email.getText().toString();
+        PN = PhoneNumber.getText().toString();
 
-            String designationString = "";
-            String nameString = "";
-            String emailString = "";
-            String phoneString = "";
+        String designationString = "";
+        String nameString = "";
+        String emailString = "";
+        String phoneString = "";
 
-            EditText otherfield = (EditText) findViewById(R.id.other9);
+        EditText otherfield = (EditText) findViewById(R.id.other9);
 
-            if(otherfield.getText().toString().equals("")){
-                RadioButton temp = (RadioButton)findViewById(radioGroup.getCheckedRadioButtonId());
-                designationString = temp.getText().toString();
-            }
-            else{
-                designationString = otherfield.getText().toString();
-            }
-            nameString = Name.getText().toString();
-            emailString = Email.getText().toString();
-            phoneString = PhoneNumber.getText().toString();
+        if (otherfield.getText().toString().equals("")) {
+            RadioButton temp = (RadioButton) findViewById(radioGroup.getCheckedRadioButtonId());
+            designationString = temp.getText().toString();
+        } else {
+            designationString = otherfield.getText().toString();
+        }
+        nameString = Name.getText().toString();
+        emailString = Email.getText().toString();
+        phoneString = PhoneNumber.getText().toString();
 
-        if(designationString.equals("") || nameString.equals("") || emailString.equals("")){
+        if (designationString.equals("") || nameString.equals("") || emailString.equals("")) {
             error = 1;
         }
 
-        if(error == 0) {
+        if (error == 0) {
 
-            FormData.getInstance().addFormData("personKind",designationString);
-            FormData.getInstance().addFormData("username",emailString);
-            FormData.getInstance().addFormData("name",nameString);
-            FormData.getInstance().addFormData("phone",phoneString);
+            int delayTime = 2000;
+
+            FormData.getInstance().addFormData("personKind", designationString);
+            FormData.getInstance().addFormData("username", emailString);
+            FormData.getInstance().addFormData("name", nameString);
+            FormData.getInstance().addFormData("phone", phoneString);
+
+            findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
 
             //SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String reportTime = sdf.format(new Date());
 
-            Log.i("Curr Date Time",reportTime);
+            Log.i("Curr Date Time", reportTime);
 
-            FormData.getInstance().addFormData("reportTime",reportTime);
+            FormData.getInstance().addFormData("reportTime", reportTime);
 
 
             ExternalDBHandler externalDBHandler = new ExternalDBHandler();
-            String response = externalDBHandler.execute("submitReportURLConn", new JSONObject(getReportMap()).toString()).get();
+            //String response = externalDBHandler.execute("submitReportURLConn", new JSONObject(getReportMap()).toString()).get();
+            String response = externalDBHandler.execute("submitReportURLConn").get();
             Log.i("Response Page 3", response);
             JSONObject responseJSON = new JSONObject(response);
             final String id = responseJSON.getJSONObject("data").getString("id");
             final ExternalDBHandler photoUploadHandler = new ExternalDBHandler();
-            Toast.makeText(this,"Uploading Report",Toast.LENGTH_LONG).show();
-            if(FormData.getPictureTaken()) {
+            Toast.makeText(this, "Uploading Report", Toast.LENGTH_LONG).show();
+
+            if (FormData.getPictureTaken()) {
+                delayTime +=15000;
 
                 Thread halt = new Thread(new Runnable() {
                     @Override
                     public void run() {
                         try {
-                            Toast.makeText(getApplicationContext(),"Thread Upload Photo Activated",Toast.LENGTH_LONG);
                             photoUploadHandler.execute("uploadPhotoBase64", id);
-                            Thread.sleep(3000);
-                        } catch (InterruptedException e) {
+
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
                 });
 
+                halt.start();
                 //photoUploadHandler.execute("uploadPhotoBase64", id);
-                halt.run();
                 FormData.setPictureTaken(false);
                 FormData.setUploadedPhoto(false);
+
             }
             Log.i("Response Page 3", id);
             PreferenceManager.getDefaultSharedPreferences(this).edit().clear().commit();
-            startActivity(new Intent(ReportPage3.this, SucessSubmit.class));
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //Do something after seconds
+                    startActivity(new Intent(ReportPage3.this, SucessSubmit.class));
+                }
+            }, delayTime);
 
-        }
-        else {
+        } else {
             Toast.makeText(getApplicationContext(), "Please Fill In All The Required Fields.", Toast.LENGTH_SHORT).show();
         }
     }
-
+/*
     @Override
     public void onStart() {
         super.onStart();
@@ -247,44 +263,6 @@ public class ReportPage3 extends AppCompatActivity {
         );
         AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
-    }
+    }*/
 
-    private HashMap<String, String> getReportMap(){
-        HashMap<String, String> params = new HashMap<String, String>();
-        params.put("personKindID", Integer.toString(Designation));
-        params.put("personName", NAME);
-        params.put("personPhone", PN);
-        params.put("personEmail", EMAIL);
-        params.put("buildingID", Integer.toString(Building));
-        params.put("room", roomNumber);
-        params.put("description", description);
-        params.put("involvementKindID", Integer.toString(involve));
-        params.put("reportKindID", Integer.toString(report));
-        params.put("departmentID", Integer.toString(Department));
-        params.put("latitude", "0");
-        params.put("logitude", "0");
-        params.put("photoPath", "0");
-        return params;
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-
-        Name.setText(savedInstanceState.getString("name"));
-        Email.setText(savedInstanceState.getString("username"));
-        PhoneNumber.setText(savedInstanceState.getString("phone"));
-        super.onRestoreInstanceState(savedInstanceState);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-
-        Log.i("Called","Saved Instance");
-
-        savedInstanceState.putString("personKind",FormData.getInstance().getFormElement("personKind"));
-        savedInstanceState.putString("username",FormData.getInstance().getFormElement("username"));
-        savedInstanceState.putString("name",FormData.getInstance().getFormElement("name"));
-        savedInstanceState.putString("phone",FormData.getInstance().getFormElement("phone"));
-        super.onSaveInstanceState(savedInstanceState);
-    }
 }

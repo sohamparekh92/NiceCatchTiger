@@ -81,6 +81,9 @@ public class ExternalDBHandler extends  AsyncTask< String ,Void,String> {
 
 
         if(method.equals("submitReportURLConn")) {
+            int TIME_OUT_RESPONSE = 100;
+            int count = 0;
+            while(count<10){
             try {
 
                 HttpURLConnection urlConn;
@@ -90,7 +93,7 @@ public class ExternalDBHandler extends  AsyncTask< String ,Void,String> {
                 urlConn = (HttpURLConnection) urlObj.openConnection();
                 urlConn.setDoOutput(true);
                 urlConn.setRequestMethod("POST");
-                urlConn.setConnectTimeout(100);
+                urlConn.setConnectTimeout(TIME_OUT_RESPONSE);
                 urlConn.connect();
                 JSONObject jsonParam = new JSONObject();
                 JSONObject jsonOuter = new JSONObject();
@@ -103,42 +106,42 @@ public class ExternalDBHandler extends  AsyncTask< String ,Void,String> {
                 FormData formInstance = FormData.getInstance();
 
                 String urlParameters =
-                        URLEncoder.encode("description", "UTF-8")+"="+URLEncoder.encode("Test New Report image","UTF-8")+"&" //done
-                                +URLEncoder.encode("involvementKind","UTF-8")+"="+URLEncoder.encode("Equipment","UTF-8")+"&" //done
-                                +URLEncoder.encode("reportKind","UTF-8")+"="+URLEncoder.encode("Close Call","UTF-8")+"&"  //done
-                                +URLEncoder.encode("buildingName","UTF-8")+"="+URLEncoder.encode("BRC","UTF-8")+"&" //done
-                                +URLEncoder.encode("room","UTF-8")+"="+URLEncoder.encode("12","UTF-8")+"&" //done
-                                +URLEncoder.encode("personKind","UTF-8")+"="+URLEncoder.encode("Faculty","UTF-8")+"&" //done
-                                +URLEncoder.encode("name","UTF-8")+"="+URLEncoder.encode("Donald Trump","UTF-8")+"&" //done
-                                +URLEncoder.encode("username","UTF-8")+"="+URLEncoder.encode("djtrump","UTF-8")+"&"//done
-                                +URLEncoder.encode("phone","UTF-8")+"="+URLEncoder.encode("123456789","UTF-8")+"&" //done
-                                +URLEncoder.encode("department","UTF-8")+"="+URLEncoder.encode("Architecture","UTF-8")+"&" //done
-                                +URLEncoder.encode("reportTime","UTF-8")+"="+URLEncoder.encode("2016-11-12 13:28:09","UTF-8")+"&"
-                                +URLEncoder.encode("statusID","UTF-8")+"="+URLEncoder.encode("1","UTF-8")+"&"
-                                +URLEncoder.encode("actionTaken","UTF-8")+"="+URLEncoder.encode("action","UTF-8")+"&"
-                                +URLEncoder.encode("incidentTime","UTF-8")+"="+URLEncoder.encode("2016-11-12 13:28:09","UTF-8")+"&"
-                                +URLEncoder.encode("isIOS","UTF-8")+"="+URLEncoder.encode("0","UTF-8");
+                        URLEncoder.encode("description", "UTF-8") + "=" + URLEncoder.encode("Test New Report image", "UTF-8") + "&" //done
+                                + URLEncoder.encode("involvementKind", "UTF-8") + "=" + URLEncoder.encode("Equipment", "UTF-8") + "&" //done
+                                + URLEncoder.encode("reportKind", "UTF-8") + "=" + URLEncoder.encode("Close Call", "UTF-8") + "&"  //done
+                                + URLEncoder.encode("buildingName", "UTF-8") + "=" + URLEncoder.encode("BRC", "UTF-8") + "&" //done
+                                + URLEncoder.encode("room", "UTF-8") + "=" + URLEncoder.encode("12", "UTF-8") + "&" //done
+                                + URLEncoder.encode("personKind", "UTF-8") + "=" + URLEncoder.encode("Faculty", "UTF-8") + "&" //done
+                                + URLEncoder.encode("name", "UTF-8") + "=" + URLEncoder.encode("Donald Trump", "UTF-8") + "&" //done
+                                + URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode("djtrump", "UTF-8") + "&"//done
+                                + URLEncoder.encode("phone", "UTF-8") + "=" + URLEncoder.encode("123456789", "UTF-8") + "&" //done
+                                + URLEncoder.encode("department", "UTF-8") + "=" + URLEncoder.encode("Architecture", "UTF-8") + "&" //done
+                                + URLEncoder.encode("reportTime", "UTF-8") + "=" + URLEncoder.encode("2016-11-12 13:28:09", "UTF-8") + "&"
+                                + URLEncoder.encode("statusID", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8") + "&"
+                                + URLEncoder.encode("actionTaken", "UTF-8") + "=" + URLEncoder.encode("action", "UTF-8") + "&"
+                                + URLEncoder.encode("incidentTime", "UTF-8") + "=" + URLEncoder.encode("2016-11-12 13:28:09", "UTF-8") + "&"
+                                + URLEncoder.encode("isIOS", "UTF-8") + "=" + URLEncoder.encode("0", "UTF-8");
 
 
                 String urlParameters2 =
-                        URLEncoder.encode("description", "UTF-8")+"="+URLEncoder.encode(formInstance.getFormElement("description"),"UTF-8")+"&"
-                                +URLEncoder.encode("involvementKind","UTF-8")+"="+URLEncoder.encode(formInstance.getFormElement("involvementKind"),"UTF-8")+"&" //done
-                                +URLEncoder.encode("reportKind","UTF-8")+"="+URLEncoder.encode(formInstance.getFormElement("reportKind"),"UTF-8")+"&"  //done
-                                +URLEncoder.encode("buildingName","UTF-8")+"="+URLEncoder.encode(formInstance.getFormElement("buildingName"),"UTF-8")+"&"
-                                +URLEncoder.encode("room","UTF-8")+"="+URLEncoder.encode(formInstance.getFormElement("room"),"UTF-8")+"&"
-                                +URLEncoder.encode("personKind","UTF-8")+"="+URLEncoder.encode(formInstance.getFormElement("personKind"),"UTF-8")+"&"
-                                +URLEncoder.encode("name","UTF-8")+"="+URLEncoder.encode(formInstance.getFormElement("name"),"UTF-8")+"&"
-                                +URLEncoder.encode("username","UTF-8")+"="+URLEncoder.encode(formInstance.getFormElement("username"),"UTF-8")+"&"
-                                +URLEncoder.encode("phone","UTF-8")+"="+URLEncoder.encode(formInstance.getFormElement("phone"),"UTF-8")+"&"
-                                +URLEncoder.encode("department","UTF-8")+"="+URLEncoder.encode(formInstance.getFormElement("department"),"UTF-8")+"&"
-                                +URLEncoder.encode("reportTime","UTF-8")+"="+URLEncoder.encode(formInstance.getFormElement("reportTime"),"UTF-8")+"&"
-                                +URLEncoder.encode("statusID","UTF-8")+"="+URLEncoder.encode(formInstance.getFormElement("statusID"),"UTF-8")+"&"
-                                +URLEncoder.encode("actionTaken","UTF-8")+"="+URLEncoder.encode(formInstance.getFormElement("actionTaken"),"UTF-8")+"&"
-                                +URLEncoder.encode("incidentTime","UTF-8")+"="+URLEncoder.encode(formInstance.getFormElement("incidentTime"),"UTF-8")+"&"
-                                +URLEncoder.encode("isIOS","UTF-8")+"="+URLEncoder.encode("0","UTF-8"); //done
+                        URLEncoder.encode("description", "UTF-8") + "=" + URLEncoder.encode(formInstance.getFormElement("description"), "UTF-8") + "&"
+                                + URLEncoder.encode("involvementKind", "UTF-8") + "=" + URLEncoder.encode(formInstance.getFormElement("involvementKind"), "UTF-8") + "&" //done
+                                + URLEncoder.encode("reportKind", "UTF-8") + "=" + URLEncoder.encode(formInstance.getFormElement("reportKind"), "UTF-8") + "&"  //done
+                                + URLEncoder.encode("buildingName", "UTF-8") + "=" + URLEncoder.encode(formInstance.getFormElement("buildingName"), "UTF-8") + "&"
+                                + URLEncoder.encode("room", "UTF-8") + "=" + URLEncoder.encode(formInstance.getFormElement("room"), "UTF-8") + "&"
+                                + URLEncoder.encode("personKind", "UTF-8") + "=" + URLEncoder.encode(formInstance.getFormElement("personKind"), "UTF-8") + "&"
+                                + URLEncoder.encode("name", "UTF-8") + "=" + URLEncoder.encode(formInstance.getFormElement("name"), "UTF-8") + "&"
+                                + URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(formInstance.getFormElement("username"), "UTF-8") + "&"
+                                + URLEncoder.encode("phone", "UTF-8") + "=" + URLEncoder.encode(formInstance.getFormElement("phone"), "UTF-8") + "&"
+                                + URLEncoder.encode("department", "UTF-8") + "=" + URLEncoder.encode(formInstance.getFormElement("department"), "UTF-8") + "&"
+                                + URLEncoder.encode("reportTime", "UTF-8") + "=" + URLEncoder.encode(formInstance.getFormElement("reportTime"), "UTF-8") + "&"
+                                + URLEncoder.encode("statusID", "UTF-8") + "=" + URLEncoder.encode(formInstance.getFormElement("statusID"), "UTF-8") + "&"
+                                + URLEncoder.encode("actionTaken", "UTF-8") + "=" + URLEncoder.encode(formInstance.getFormElement("actionTaken"), "UTF-8") + "&"
+                                + URLEncoder.encode("incidentTime", "UTF-8") + "=" + URLEncoder.encode(formInstance.getFormElement("incidentTime"), "UTF-8") + "&"
+                                + URLEncoder.encode("isIOS", "UTF-8") + "=" + URLEncoder.encode("0", "UTF-8"); //done
 
-                Log.i("URL Parameters2",urlParameters2);
-                Log.i("URL Parameters",urlParameters);
+                Log.i("URL Parameters2", urlParameters2);
+                Log.i("URL Parameters", urlParameters);
 
 
                 //Sample string below works with no spaces, use for testing purpose
@@ -150,28 +153,33 @@ public class ExternalDBHandler extends  AsyncTask< String ,Void,String> {
                 printout.close();
 
                 Log.i("Http Response message", urlConn.getResponseMessage());
-                Log.i("Http Response code", urlConn.getResponseCode()+"");
-                InputStream inputStream = urlConn.getInputStream() ;
-                if(inputStream==null){
+                Log.i("Http Response code", urlConn.getResponseCode() + "");
+                InputStream inputStream = urlConn.getInputStream();
+                if (inputStream == null) {
                     inputStream = urlConn.getErrorStream();
                 }
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
                 String response = "";
                 String line = "";
-                while( (line = bufferedReader.readLine())!=null ){
-                    response+=line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    response += line;
                 }
                 bufferedReader.close();
                 inputStream.close();
 
+                Log.d("Response from Submit",response);
+
                 return response;
+
+
 
             } catch (IOException e) {
                 e.printStackTrace();
+                TIME_OUT_RESPONSE += 3000;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
+         }
         }
 
         if(method.equals("uploadPhotoBase64")){
@@ -313,5 +321,6 @@ public class ExternalDBHandler extends  AsyncTask< String ,Void,String> {
     @Override
     protected void onProgressUpdate(Void... values) {
         super.onProgressUpdate(values);
+
     }
 }

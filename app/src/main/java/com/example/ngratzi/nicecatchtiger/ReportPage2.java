@@ -433,8 +433,14 @@ public class ReportPage2 extends AppCompatActivity {
                         Thread.sleep(100);
                          decodedString = Base64.decode(myImageString, Base64.DEFAULT);
                          decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                    } catch (InterruptedException e) {
+                    }
+                    catch (NullPointerException e){
                         e.printStackTrace();
+                        break;
+                    }
+                    catch (InterruptedException e) {
+                        e.printStackTrace();
+                        break;
                     }
                 }
                 final Bitmap finalDecodedByte = decodedByte;
@@ -481,8 +487,9 @@ public class ReportPage2 extends AppCompatActivity {
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, bytes);
             String encodedImage = Base64.encodeToString(bytes.toByteArray(), Base64.DEFAULT);
             FormData.getInstance().addFormData("encodedImage", encodedImage);
+            myImageString = encodedImage;
             FormData.setPictureTaken(true);
-            ivImage.setImageBitmap(bitmap);
+            //ivImage.setImageBitmap(bitmap);
         }
         catch (NullPointerException e){
             e.printStackTrace();
@@ -511,7 +518,7 @@ public class ReportPage2 extends AppCompatActivity {
             }
 
             //newImage = scaleBitmap(newImage, 1920,1080);
-            newImage.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
+            newImage.compress(Bitmap.CompressFormat.PNG,50,byteArrayOutputStream);
 
             String encodedImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
             myImageString = encodedImage;
@@ -522,10 +529,12 @@ public class ReportPage2 extends AppCompatActivity {
             FormData.setPictureTaken(true);
 
 
-        } catch (FileNotFoundException e) {
+        }
+        catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
     }
 
 

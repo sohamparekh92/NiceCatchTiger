@@ -46,7 +46,7 @@ public class FormData {
 
     public void clearActivities(){
         for(Context current: activities){
-            PreferenceManager.getDefaultSharedPreferences(current).edit().clear().commit();
+            PreferenceManager.getDefaultSharedPreferences(current).edit().clear().apply();
         }
     }
 
