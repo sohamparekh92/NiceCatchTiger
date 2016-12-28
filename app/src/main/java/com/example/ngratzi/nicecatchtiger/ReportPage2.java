@@ -484,7 +484,7 @@ public class ReportPage2 extends AppCompatActivity {
             }
 
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, bytes);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
             String encodedImage = Base64.encodeToString(bytes.toByteArray(), Base64.DEFAULT);
             FormData.getInstance().addFormData("encodedImage", encodedImage);
             myImageString = encodedImage;
@@ -504,9 +504,7 @@ public class ReportPage2 extends AppCompatActivity {
         Bitmap bitmap;
         try {
             bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(targetUri));
-            //ivImage.setImageBitmap(bitmap);
 
-            //Store it in the Form
             Bitmap newImage = bitmap;
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
@@ -518,7 +516,7 @@ public class ReportPage2 extends AppCompatActivity {
             }
 
             //newImage = scaleBitmap(newImage, 1920,1080);
-            newImage.compress(Bitmap.CompressFormat.PNG,50,byteArrayOutputStream);
+            newImage.compress(Bitmap.CompressFormat.JPEG,50,byteArrayOutputStream);
 
             String encodedImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
             myImageString = encodedImage;
