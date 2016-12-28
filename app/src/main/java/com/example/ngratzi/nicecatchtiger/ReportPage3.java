@@ -189,7 +189,7 @@ public class ReportPage3 extends AppCompatActivity {
             Toast.makeText(this, "Uploading Report", Toast.LENGTH_LONG).show();
 
             if (FormData.getPictureTaken()) {
-                delayTime +=15000;
+                delayTime +=2000;
 
                 Thread halt = new Thread(new Runnable() {
                     @Override

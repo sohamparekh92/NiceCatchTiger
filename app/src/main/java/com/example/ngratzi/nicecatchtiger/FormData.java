@@ -36,7 +36,7 @@ public class FormData {
     }
 
     public static void setUploadedPhoto(boolean value){
-        Log.i("Set Upload Photo Activated","True");
+        Log.i("Set Upload Photo Activated in From Data Class","True");
         uploadedPhoto = value;
     }
 
