@@ -5,14 +5,14 @@
     <!-- Accessing camera hardware -->
     <uses-feature android:name="android.hardware.camera" />
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="21"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="21" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
 
     <!-- Required to show current location -->
@@ -21,36 +21,40 @@
 
     <application
         android:allowBackup="true"
+        android:hardwareAccelerated="false"
         android:icon="@drawable/logop"
         android:label="@string/app_name"
-        android:hardwareAccelerated="false"
         android:largeHeap="true"
-
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".MainActivity"
-            android:theme = "@style/Theme.AppCompat.Light.NoActionBar"
-            android:screenOrientation="portrait">
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ReportPage1"
+        <activity
+            android:name=".ReportPage1"
             android:parentActivityName=".MainActivity"
-            android:theme = "@style/Theme.AppCompat.Light.DarkActionBar"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ReportPage2"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+        <activity
+            android:name=".ReportPage2"
             android:parentActivityName=".ReportPage1"
             android:screenOrientation="portrait"
-            android:theme = "@style/Theme.AppCompat.Light.DarkActionBar"/>
-        <activity android:name=".ReportPage3"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+        <activity
+            android:name=".ReportPage3"
             android:parentActivityName=".ReportPage2"
-            android:theme = "@style/Theme.AppCompat.Light.DarkActionBar"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".SucessSubmit"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+        <activity
+            android:name=".SucessSubmit"
+            android:screenOrientation="portrait" />
         <!--
              ATTENTION: This was auto-generated to add Google Play services to your project for
              App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -64,7 +68,12 @@
 
         <activity
             android:name=".info"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
+
+        <activity android:name=".AboutActivity"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".MainActivity"></activity>
     </application>
 
 </manifest>

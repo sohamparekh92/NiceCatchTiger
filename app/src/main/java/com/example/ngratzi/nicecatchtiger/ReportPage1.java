@@ -161,12 +161,15 @@ public class ReportPage1 extends AppCompatActivity {
 
     public void showInfoInvolve(View view){
         new AlertDialog.Builder(this)
-                .setTitle("Report Definitions")
-                .setMessage("Close Call - A situation that could have led to an injury or" +
-                        "property damage, but did not.\n\n" +
-                        "Lesson Learned - Knowledge gained from a positive or negative experience.\n\n" +
-                        "Safety Issue - Any action observed or participated in that can lead to an injury or " +
-                        "property damage.")
+                .setTitle("Involvement Definitions")
+                .setMessage("Work Practice/Procedure - Examples include the use of outdated procedures\n" +
+                        "and missing steps to complete the procedure/process safely and successfully.\n\n" +
+                        "Chemical - Examples include chemical spills and the use of improper Personal Protective Equipment\n" +
+                        " while handling chenicals.\n\n" +
+                        "Equipment - Examples include faulty equipment or the use of the wrong equipment for the task\n\n" +
+                        "Workplace Condition - Examples include poor housekeeping (clutter),\n" +
+                        "skipping/tripping hazards, and a limited\n" +
+                        "workplace to safely conduct a task. ")
                 .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
