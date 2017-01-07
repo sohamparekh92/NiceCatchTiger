@@ -1,12 +1,21 @@
 package com.example.ngratzi.nicecatchtiger;
 
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.Layout;
 import android.text.method.LinkMovementMethod;
+import android.view.Display;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 public class AboutActivity extends AppCompatActivity {
@@ -73,11 +82,38 @@ public class AboutActivity extends AppCompatActivity {
 
                 "</font></html>";
 
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = (int) (size.x*0.9);
+
+        android.widget.TableRow.LayoutParams layoutParams = (TableRow.LayoutParams) introText.getLayoutParams();
+        layoutParams.width = width;
         introText.setText(Html.fromHtml(intro));
+        introText.setLayoutParams(layoutParams);
+
+        layoutParams = (TableRow.LayoutParams) definition.getLayoutParams();
+        layoutParams.width = width;
         definition.setText(Html.fromHtml(definitionString));
+        definition.setLayoutParams(layoutParams);
+
+        layoutParams = (TableRow.LayoutParams) submitting.getLayoutParams();
+        layoutParams.width = width;
         submitting.setText(Html.fromHtml(submittingString));
+        submitting.setLayoutParams(layoutParams);
+
+        layoutParams = (TableRow.LayoutParams) italic.getLayoutParams();
+        layoutParams.width = width;
         italic.setText(Html.fromHtml(italicString));
+        italic.setLayoutParams(layoutParams);
+
+        layoutParams = (TableRow.LayoutParams) hotline.getLayoutParams();
+        layoutParams.width = width;
         hotline.setText(Html.fromHtml(hotlineString));
+        hotline.setLayoutParams(layoutParams);
         hotline.setMovementMethod(LinkMovementMethod.getInstance());
+
+
     }
+
 }

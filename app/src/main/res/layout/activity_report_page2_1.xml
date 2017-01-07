@@ -70,7 +70,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/departmentOptions" />-->
                 <com.example.ngratzi.nicecatchtiger.InstaAutoComplete
-                    android:layout_width="350dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionDone"
                     android:singleLine="true"

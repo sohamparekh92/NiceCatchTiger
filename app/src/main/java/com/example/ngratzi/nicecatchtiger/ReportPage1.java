@@ -262,7 +262,7 @@ public class ReportPage1 extends AppCompatActivity {
         //Save Report Group
         RadioGroup radioGroupReport = (RadioGroup) findViewById(R.id.ReportRG);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        saveRG(sharedPreferences,radioGroupInvolve, "reportRG");
+        saveRG(sharedPreferences,radioGroupReport, "reportRG");
 
         //Save Other Involve
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);

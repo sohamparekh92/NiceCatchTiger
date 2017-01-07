@@ -9,19 +9,21 @@
     android:paddingRight="10dp"
     android:paddingTop="10dp"
     android:paddingBottom="10dp"
+    android:id="@+id/relativeLayout"
     tools:context="com.example.ngratzi.nicecatchtiger.AboutActivity"
     android:layout_height="match_parent">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollContainer">
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TableRow
                 android:gravity="center">
                 <TextView
-                    android:layout_width="375dp"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:textSize="20dp"
                     android:id="@+id/intro"/>
@@ -29,7 +31,7 @@
             <TableRow
                 android:gravity="center">
                 <TextView
-                    android:layout_width="375dp"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:textSize="20dp"
                     android:id="@+id/introContent"/>
@@ -37,7 +39,7 @@
             <TableRow
                 android:gravity="center">
                 <TextView
-                    android:layout_width="375dp"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:textSize="20dp"
                     android:id="@+id/definition"/>
@@ -45,7 +47,7 @@
             <TableRow
                 android:gravity="center">
                 <TextView
-                    android:layout_width="375dp"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:textSize="20dp"
                     android:id="@+id/submitting"/>
@@ -53,7 +55,7 @@
             <TableRow
                 android:gravity="center">
                 <TextView
-                    android:layout_width="375dp"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:textSize="20dp"
                     android:id="@+id/italic"/>
@@ -62,7 +64,7 @@
                 android:layout_margin="5dp"
                 android:gravity="center">
                 <TextView
-                    android:layout_width="375dp"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:textSize="20dp"
                     android:id="@+id/hotline"/>
