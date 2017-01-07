@@ -8,4 +8,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="CustomTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/ClemsonPurple</item>
+        <item name="actionBarSize">90dp</item>
+        <item name="colorPrimaryDark">@color/ClemsonPurple</item>
+        <item name="colorAccent">@color/ClemsonPurple</item>
+    </style>
+
 </resources>
