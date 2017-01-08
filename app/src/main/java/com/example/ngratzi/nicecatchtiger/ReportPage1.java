@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.PersistableBundle;
@@ -15,6 +16,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -22,6 +24,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +41,6 @@ public class ReportPage1 extends AppCompatActivity {
 
     //Parameters
     public static int Report, Involve;
-
 
     //ID Values
     //Check the appropriate report
@@ -78,6 +81,11 @@ public class ReportPage1 extends AppCompatActivity {
         otherReport.setImeOptions(EditorInfo.IME_ACTION_DONE);
         inputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
 
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = (int) (size.x*0.8);
+
         ArrayList<RadioButton> buttonsReport = new ArrayList<>();
         ArrayList<String> reportKindList = FormData.getInstance().getFormData("reportKinds","reportKind");
         for(int i=0; i<reportKindList.size();++i){
@@ -87,9 +95,7 @@ public class ReportPage1 extends AppCompatActivity {
 
         description = (EditText)findViewById(R.id.description);
 
-
         otherReport.setVisibility(View.INVISIBLE);
-
 
         ArrayList<RadioButton> buttonsInvolve = new ArrayList<>();
         ArrayList<String> involveKindList = FormData.getInstance().getFormData("involvements", "involvementKind");
@@ -141,6 +147,16 @@ public class ReportPage1 extends AppCompatActivity {
                 }
             }
         });
+
+        TextView checkReportTExtView = (TextView) findViewById(R.id.checkReportTextView);
+        TextView checkInvolveTextView = (TextView) findViewById(R.id.checkInvolveTextView);
+
+        TableRow.LayoutParams layoutParams = (TableRow.LayoutParams) checkReportTExtView.getLayoutParams();
+        layoutParams.width = width;
+        checkReportTExtView.setLayoutParams(layoutParams);
+        layoutParams = (TableRow.LayoutParams) checkInvolveTextView.getLayoutParams();
+        layoutParams.width = width;
+        checkInvolveTextView.setLayoutParams(layoutParams);
     }
 
     public void showInfo(View view){

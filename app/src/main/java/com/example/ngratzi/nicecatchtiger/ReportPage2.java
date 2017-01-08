@@ -17,6 +17,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -31,6 +32,7 @@ import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -42,6 +44,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -167,9 +170,17 @@ public class ReportPage2 extends AppCompatActivity {
             }
         });
 
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = (int) (size.x*0.9);
 
+        TableRow.LayoutParams layoutParams = (TableRow.LayoutParams) buildingAutoComplete.getLayoutParams();
+        layoutParams.width = width;
+        buildingAutoComplete.setLayoutParams(layoutParams);
 
     }
+
     public void startPage3(View view) throws URISyntaxException {
 
         int error = 0;

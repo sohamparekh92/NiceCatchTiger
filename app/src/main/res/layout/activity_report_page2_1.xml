@@ -21,7 +21,6 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp">
 
-
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -32,7 +31,7 @@
                 <ImageView
                     android:id="@+id/imageView"
                     android:src="@drawable/plus"
-                    android:layout_width="50dp"
+                    android:layout_width="100dp"
                     android:layout_height="100dp"/>
             </TableRow>
 
@@ -44,20 +43,6 @@
                     android:id="@+id/imageButton"/>
             </TableRow>
 
-            <!--<TableRow>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Description"
-                    android:textSize="25dp"/>
-            </TableRow>
-
-            <TableRow>
-                <EditText
-                    android:inputType="textImeMultiLine"
-                    android:id="@+id/description"/>
-            </TableRow>-->
-
             <TableRow>
                 <TextView
                     android:text="Department"
@@ -65,10 +50,6 @@
             </TableRow>
 
             <TableRow>
-                <!--<Spinner
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/departmentOptions" />-->
                 <com.example.ngratzi.nicecatchtiger.InstaAutoComplete
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -85,7 +66,7 @@
 
             <TableRow>
                 <com.example.ngratzi.nicecatchtiger.InstaAutoComplete
-                    android:layout_width="350dp"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionDone"
                     android:singleLine="true"
@@ -107,6 +88,7 @@
                     android:singleLine="true"
                     android:id="@+id/roomnumber" />
             </TableRow>
+
             <TableRow>
                 <TextView
                     android:text="Date:"
@@ -121,7 +103,6 @@
                     android:text="Select Date"
                     android:onClick="showDatePickerDialog" />
             </TableRow>
-
 
             <TableRow>
                 <TextView

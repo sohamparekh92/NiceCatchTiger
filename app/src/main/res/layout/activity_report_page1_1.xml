@@ -9,7 +9,7 @@
     android:paddingRight="10dp"
     android:paddingTop="10dp"
     android:paddingBottom="10dp"
-    tools:context="com.example.ngratzi.nicecatchtiger.ReportPage2"
+    tools:context="com.example.ngratzi.nicecatchtiger.ReportPage1"
     android:layout_height="match_parent">
 
     <ScrollView
@@ -17,7 +17,8 @@
         android:layout_height="wrap_content">
         <TableLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:id="@+id/mainTable">
             <TableRow
                 android:layout_width="match_parent">
                 <TextView
@@ -25,7 +26,7 @@
                     android:layout_height="wrap_content"
                     android:padding="5dp"
                     android:text="Check the appropriate report"
-                    android:id="@+id/textView10"
+                    android:id="@+id/checkReportTextView"
                     android:textSize="25dp" />
 
                 <ImageButton
@@ -61,7 +62,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="What does this involve?"
-                    android:id="@+id/textView16"
+                    android:id="@+id/checkInvolveTextView"
                     android:textSize="25dp" />
                 <ImageButton
                     android:layout_height="27dp"

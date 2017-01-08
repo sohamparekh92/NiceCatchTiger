@@ -113,7 +113,6 @@ public class AboutActivity extends AppCompatActivity {
         hotline.setLayoutParams(layoutParams);
         hotline.setMovementMethod(LinkMovementMethod.getInstance());
 
-
     }
 
 }
