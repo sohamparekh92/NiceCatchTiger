@@ -277,16 +277,12 @@ public class ReportPage3 extends AppCompatActivity {
         sharedPreferences.edit().putString("email", Email.getText().toString()).apply();
         sharedPreferences.edit().putString("phone", PhoneNumber.getText().toString()).apply();
 
-        //Save Boolean
-        sharedPreferences.edit().putBoolean("saved",true);
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
-
 
         //Restore Designation
         restoreRG(sharedPreferences,radioGroup, "RG");
