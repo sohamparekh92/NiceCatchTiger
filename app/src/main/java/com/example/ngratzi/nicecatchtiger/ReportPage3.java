@@ -1,6 +1,7 @@
 package com.example.ngratzi.nicecatchtiger;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -14,7 +15,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
@@ -24,6 +28,7 @@ import android.widget.Toast;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.vision.barcode.Barcode;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,14 +56,12 @@ public class ReportPage3 extends AppCompatActivity {
     String EMAIL;
     String PN;
 
-    int facultyID = 1;
-    int staffID = 2;
-    int studentID = 3;
-    int otherID = 4;
     int designation;
 
+    private SharedPreferences sharedPreferences;
+
     RadioButton faculty, staff, student, other;
-    EditText Name, Email, PhoneNumber;
+    AutoCompleteTextView Name, Email, PhoneNumber;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -68,27 +71,24 @@ public class ReportPage3 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_report_page3);
+        //setContentView(R.layout.activity_report_page3);
+        setContentView(R.layout.activity_report_page3_1);
 
+        sharedPreferences = getSharedPreferences("Page3",0);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#7800c9")));
         actionBar.setTitle("Nice Catch Tiger!");
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        FormData.getInstance().addActivity(this);
+
 
         findViewById(R.id.loadingPanel).setVisibility(View.INVISIBLE);
 
-        Name = (EditText) findViewById(R.id.name);
-        Email = (EditText) findViewById(R.id.email);
-        PhoneNumber = (EditText) findViewById(R.id.phoneNumber);
+        Name = (InstaAutoComplete) findViewById(R.id.name);
+        Email = (InstaAutoComplete) findViewById(R.id.email);
+        PhoneNumber = (InstaAutoComplete) findViewById(R.id.phoneNumber);
 
-        if (savedInstanceState != null) {
-            Name.setText(savedInstanceState.getString("name"));
-            Email.setText(savedInstanceState.getString("username"));
-            PhoneNumber.setText(savedInstanceState.getString("phone"));
-        }
 
 
         final EditText otherDesignation = (EditText) findViewById(R.id.other9);
@@ -125,7 +125,6 @@ public class ReportPage3 extends AppCompatActivity {
         });
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     public void clickSubmit(View view) throws ExecutionException, InterruptedException, JSONException {
@@ -204,13 +203,10 @@ public class ReportPage3 extends AppCompatActivity {
                 });
 
                 halt.start();
-                //photoUploadHandler.execute("uploadPhotoBase64", id);
                 FormData.setPictureTaken(false);
                 FormData.setUploadedPhoto(false);
-
             }
             Log.i("Response Page 3", id);
-            PreferenceManager.getDefaultSharedPreferences(this).edit().clear().commit();
             final Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -224,45 +220,83 @@ public class ReportPage3 extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Please Fill In All The Required Fields.", Toast.LENGTH_SHORT).show();
         }
     }
-/*
-    @Override
-    public void onStart() {
-        super.onStart();
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "ReportPage3 Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app deep link URI is correct.
-                Uri.parse("android-app://com.example.ngratzi.nicecatchtiger/http/host/path")
-        );
-        AppIndex.AppIndexApi.start(client, viewAction);
+    private void setAutoComplete(final InstaAutoComplete autoComplete, String item){
+
+        ArrayList<String> myList = new ArrayList<>();
+        myList.add(item);
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1,myList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        autoComplete.setAdapter(adapter);
+        autoComplete.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                InstaAutoComplete current = (InstaAutoComplete) view;
+                if(!current.getText().toString().equals("")) {
+                    autoComplete.showDropDown();
+                }
+                return false;
+            }
+        });
+    }
+
+    private void saveRG(SharedPreferences se, RadioGroup rg, String identifier){
+        int number = rg.getChildCount();
+        int i = 0;
+        while(number!=0) {
+            RadioButton currentButton = (RadioButton) rg.getChildAt(i);
+            se.edit().putBoolean("A"+number+identifier, currentButton.isChecked()).commit();
+            number--;
+            i++;
+        }
+    }
+
+    private void restoreRG(SharedPreferences sp, RadioGroup rg, String identifier ){
+        int number = rg.getChildCount();
+        int i = 0;
+        while(number!=0) {
+            RadioButton currentButton = (RadioButton) rg.getChildAt(i);
+            boolean value = sp.getBoolean("A"+number+identifier, false);
+            currentButton.setChecked(value);
+            number--;
+            i++;
+        }
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "ReportPage3 Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app deep link URI is correct.
-                Uri.parse("android-app://com.example.ngratzi.nicecatchtiger/http/host/path")
-        );
-        AppIndex.AppIndexApi.end(client, viewAction);
-        client.disconnect();
-    }*/
+        //Save Designation
+        saveRG(sharedPreferences,radioGroup, "RG");
 
+        //Save Contact Info.
+        sharedPreferences.edit().putString("name",Name.getText().toString()).apply();
+        sharedPreferences.edit().putString("email", Email.getText().toString()).apply();
+        sharedPreferences.edit().putString("phone", PhoneNumber.getText().toString()).apply();
+
+        //Save Boolean
+        sharedPreferences.edit().putBoolean("saved",true);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
+
+        //Restore Designation
+        restoreRG(sharedPreferences,radioGroup, "RG");
+
+        //Restore Contact Info.
+        setAutoComplete((InstaAutoComplete) Name,sharedPreferences.getString("name",""));
+
+        setAutoComplete((InstaAutoComplete) Email,sharedPreferences.getString("email",""));
+
+        setAutoComplete((InstaAutoComplete) PhoneNumber,sharedPreferences.getString("phone",""));
+
+    }
 }

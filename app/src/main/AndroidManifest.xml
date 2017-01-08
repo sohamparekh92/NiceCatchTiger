@@ -41,17 +41,17 @@
             android:name=".ReportPage1"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+            android:theme="@style/CustomThemePage" />
         <activity
             android:name=".ReportPage2"
             android:parentActivityName=".ReportPage1"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+            android:theme="@style/CustomThemePage" />
         <activity
             android:name=".ReportPage3"
             android:parentActivityName=".ReportPage2"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+            android:theme="@style/CustomThemePage" />
         <activity
             android:name=".SucessSubmit"
             android:screenOrientation="portrait" />

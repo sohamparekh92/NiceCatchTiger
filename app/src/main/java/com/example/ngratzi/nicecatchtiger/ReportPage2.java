@@ -159,6 +159,7 @@ public class ReportPage2 extends AppCompatActivity {
         ArrayAdapter<String> buildingsAdapter=new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,buildingsList);
         buildingsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         //Auto Complete Stuff building
         buildingAutoComplete = (InstaAutoComplete) findViewById(R.id.buildingAutoComplete);
         buildingAutoComplete.setAdapter(buildingsAdapter);

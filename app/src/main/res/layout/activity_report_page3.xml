@@ -46,7 +46,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Required Personal Information:"
+        android:text="Required Personal Information"
         android:id="@+id/textView4"
         android:textSize="25dp"
         android:layout_alignParentTop="true"
@@ -90,7 +90,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <EditText
+    <com.example.ngratzi.nicecatchtiger.InstaAutoComplete
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:imeOptions="actionDone"
@@ -103,7 +103,7 @@
         android:layout_toRightOf="@+id/textView8"
         android:layout_toEndOf="@+id/textView8" />
 
-    <EditText
+    <com.example.ngratzi.nicecatchtiger.InstaAutoComplete
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:imeOptions="actionDone"
@@ -141,7 +141,7 @@
         android:layout_toLeftOf="@+id/phoneNumber"
         android:layout_toStartOf="@+id/phoneNumber" />
 
-    <EditText
+    <com.example.ngratzi.nicecatchtiger.InstaAutoComplete
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:imeOptions="actionDone"

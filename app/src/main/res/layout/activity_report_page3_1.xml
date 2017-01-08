@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:layout_gravity="center"
+    tools:context="com.example.ngratzi.nicecatchtiger.ReportPage3"
+    android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <GridLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:useDefaultMargins="true"
+            android:alignmentMode="alignBounds"
+            android:columnOrderPreserved="false"
+            android:columnCount="2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TableRow
+                android:layout_columnSpan="2">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Required Personal Information"
+                    android:id="@+id/textView4"
+                    android:textSize="25dp"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_columnSpan="2">
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textSize="20dp"
+                    android:text="Designation:"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_columnSpan="2"
+                android:id="@+id/thisone">
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radioGroup">
+                </RadioGroup>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_columnSpan="2">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true"
+                    android:id="@+id/other9"
+                    android:hint="Enter Other"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_columnSpan="2">
+                <RelativeLayout
+                    android:id="@+id/loadingPanel"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center" >
+
+                    <ProgressBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:indeterminate="true" />
+                </RelativeLayout>
+            </TableRow>
+
+            <TableRow
+                android:layout_gravity="center"
+                android:layout_columnSpan="2">
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textSize="25dp"
+                    android:text="Name:"/>
+
+                <com.example.ngratzi.nicecatchtiger.InstaAutoComplete
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true"
+                    android:inputType="textEmailAddress"
+                    android:hint="Required"
+                    android:ems="10"
+                    android:id="@+id/name"
+                    android:layout_below="@+id/name"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_gravity="center"
+                android:layout_columnSpan="2">
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textSize="25dp"
+                    android:text="Username:"/>
+
+                <com.example.ngratzi.nicecatchtiger.InstaAutoComplete
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true"
+                    android:inputType="textEmailAddress"
+                    android:hint="Required"
+                    android:ems="10"
+                    android:id="@+id/email"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_gravity="center"
+                android:layout_columnSpan="2">
+                <TextView
+                    android:layout_column="0"
+                    android:layout_width="wrap_content"
+                    android:textSize="25dp"
+                    android:text="Phone:"/>
+                <com.example.ngratzi.nicecatchtiger.InstaAutoComplete
+                    android:layout_column="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true"
+                    android:inputType="phone"
+                    android:ems="10"
+                    android:hint="Optional"
+                    android:id="@+id/phoneNumber"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_gravity="center"
+                android:layout_columnSpan="2">
+                <Button
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+                    android:text="Submit"
+                    android:background="#7800c9"
+                    android:textColor="#ffffff"
+                    android:id="@+id/button6"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:onClick="clickSubmit" />
+            </TableRow>
+
+        </GridLayout>
+
+    </ScrollView>
+
+</LinearLayout>
