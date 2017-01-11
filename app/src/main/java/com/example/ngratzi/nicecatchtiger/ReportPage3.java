@@ -82,13 +82,11 @@ public class ReportPage3 extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
 
-
         findViewById(R.id.loadingPanel).setVisibility(View.INVISIBLE);
 
         Name = (InstaAutoComplete) findViewById(R.id.name);
         Email = (InstaAutoComplete) findViewById(R.id.email);
         PhoneNumber = (InstaAutoComplete) findViewById(R.id.phoneNumber);
-
 
 
         final EditText otherDesignation = (EditText) findViewById(R.id.other9);
@@ -222,21 +220,17 @@ public class ReportPage3 extends AppCompatActivity {
     }
 
     private void setAutoComplete(final InstaAutoComplete autoComplete, String item){
-
         ArrayList<String> myList = new ArrayList<>();
         myList.add(item);
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,myList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         autoComplete.setAdapter(adapter);
         autoComplete.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 InstaAutoComplete current = (InstaAutoComplete) view;
-                if(!current.getText().toString().equals("")) {
-                    autoComplete.showDropDown();
-                }
+                autoComplete.showDropDown();
                 return false;
             }
         });
@@ -273,9 +267,12 @@ public class ReportPage3 extends AppCompatActivity {
         saveRG(sharedPreferences,radioGroup, "RG");
 
         //Save Contact Info.
-        sharedPreferences.edit().putString("name",Name.getText().toString()).apply();
+        sharedPreferences.edit().putString("name", Name.getText().toString()).apply();
+
         sharedPreferences.edit().putString("email", Email.getText().toString()).apply();
+
         sharedPreferences.edit().putString("phone", PhoneNumber.getText().toString()).apply();
+
 
 
     }
@@ -288,11 +285,13 @@ public class ReportPage3 extends AppCompatActivity {
         restoreRG(sharedPreferences,radioGroup, "RG");
 
         //Restore Contact Info.
-        setAutoComplete((InstaAutoComplete) Name,sharedPreferences.getString("name",""));
+        setAutoComplete((InstaAutoComplete) Name, sharedPreferences.getString("name", ""));
 
-        setAutoComplete((InstaAutoComplete) Email,sharedPreferences.getString("email",""));
 
-        setAutoComplete((InstaAutoComplete) PhoneNumber,sharedPreferences.getString("phone",""));
+        setAutoComplete((InstaAutoComplete) Email, sharedPreferences.getString("email", ""));
+
+
+        setAutoComplete((InstaAutoComplete) PhoneNumber, sharedPreferences.getString("phone", ""));
 
     }
 }

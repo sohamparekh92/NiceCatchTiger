@@ -60,7 +60,7 @@ public class AboutActivity extends AppCompatActivity {
                 "<p>" +  "<b>Once submitted, Research Safety will:</b><br><br></p>" +
                 "<ul>" +
                 "<li>  • Review and follow up submittals </li><br><br>" +
-                "<li>  • Share information and \"lesson learned\" with ressearchers across campus (without identifying specific" +
+                "<li>  • Share information and \"lesson learned\" with researchers across campus (without identifying specific" +
                 "lab or staff when requested) </li><br><br>" +
                 "<li>  • Appreciate your submittal and commitment to safety </li><br><br>" +
                 "</ul>"+
