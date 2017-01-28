@@ -23,4 +23,11 @@
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
+    <style name="CustomThemePageAbout" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/ClemsonPurple</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
 </resources>

@@ -88,7 +88,6 @@ public class ReportPage3 extends AppCompatActivity {
         Email = (InstaAutoComplete) findViewById(R.id.email);
         PhoneNumber = (InstaAutoComplete) findViewById(R.id.phoneNumber);
 
-
         final EditText otherDesignation = (EditText) findViewById(R.id.other9);
         otherDesignation.setVisibility(View.INVISIBLE);
 

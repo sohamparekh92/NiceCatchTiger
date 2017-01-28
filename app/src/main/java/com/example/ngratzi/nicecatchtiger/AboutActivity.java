@@ -52,7 +52,7 @@ public class AboutActivity extends AppCompatActivity {
         String definitionString = "<html><font color=\"#000000\"" +
 
                 "<p>" +  "<b>Definition of a Near Miss</b><br><br>" +
-                "Incidents or events that could have resulted in injuries or other adverse consequences but fortunately did not."+
+                "An incident or an event that could have resulted in injuries or other adverse consequences but fortunately did not."+
                 "</p><br>" +
                 "</font></html>";
         String submittingString = "<html><font color=\"#000000\"" +
@@ -79,6 +79,15 @@ public class AboutActivity extends AppCompatActivity {
                 "<p align="+ "\"" +"left" + "\""+ ">" +  "If you have a serious safety" +
                 " or ethical concern but do not feel comfortable sharing your identity," +
                 " please use the confidential <a href=\"http://www.clemson.edu/administration/internalaudit/ethicsline.html\">hotline</a>.</p>"+
+                "<br>"+
+                "<br>" +
+                "<br>" +
+                " From the Office of Research Safety & the Office of Research Compliance\n" +
+                "<br>" +
+                "<br>" +
+                "<a href=\"http://www.clemson.edu/research/compliance/\">http://www.clemson.edu/research/compliance/</a>.</p>"+
+                "<br>" +
+                "<a href=\"http://www.clemson.edu/research/safety/\">http://www.clemson.edu/research/safety/</a>.</p>"+
 
                 "</font></html>";
 
