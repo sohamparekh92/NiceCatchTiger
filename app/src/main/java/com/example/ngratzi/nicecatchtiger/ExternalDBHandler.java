@@ -72,11 +72,17 @@ public class ExternalDBHandler extends  AsyncTask< String ,Void,String> {
     @Override
     protected String doInBackground(String... params) {
         String method = params[0];
-        String url = "https://people.cs.clemson.edu/~jacosta/api/v1/reports";
+        String home_joey = "https://people.cs.clemson.edu/~jacosta";
+        String home_aws = "http://54.85.8.249/";
+
+        String base_url;
+        //base_url = home_joey;
+        base_url = home_aws;
+        //String url = base_url+"/api/v1/reports";
+        String url = base_url+"models/submitReport.php";
         //String url = "https://people.cs.clemson.edu/~sohamap/nct_test/nct.php";
-        String home_url = "https://people.cs.clemson.edu/~jacosta/api/v1/";
-        String home_url_model = "https://people.cs.clemson.edu/~jacosta/models/androidUpload.php";
-        String url_buildings = "buildings";
+        String home_url = base_url+"/api/v1/";
+        String home_url_model = base_url+"/models/androidUpload.php";
         URL urlObj;
 
 
