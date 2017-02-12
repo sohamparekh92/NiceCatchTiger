@@ -72,7 +72,7 @@ public class ExternalDBHandler extends  AsyncTask< String ,Void,String> {
     @Override
     protected String doInBackground(String... params) {
         String method = params[0];
-        String home_joey = "https://people.cs.clemson.edu/~jacosta";
+        //String home_joey = "https://people.cs.clemson.edu/~jacosta";
         String home_aws = "http://54.85.8.249/";
 
         String base_url;
@@ -314,7 +314,7 @@ public class ExternalDBHandler extends  AsyncTask< String ,Void,String> {
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
         if(s!=null){
-            Log.i("Response Recieved",s);
+            Log.i("Response Recieved ",s);
             if(s.equals("Saved")){
                 FormData.setUploadedPhoto(true);
             }

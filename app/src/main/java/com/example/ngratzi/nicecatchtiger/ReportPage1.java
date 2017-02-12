@@ -61,9 +61,6 @@ public class ReportPage1 extends AppCompatActivity {
 
 
     //Initialize
-
-    RadioButton closeCallRb, lessonLearnedRb, safetyIssueRb, other1Rb, workPracticeProcedureRb,
-            chemicalRb, equipmentRb, workSpaceConditionRb, radiationRb, biologicalRb, other2Rb;
     EditText otherReport, otherInvolve, description;
 
     @Override
