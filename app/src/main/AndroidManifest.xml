@@ -22,7 +22,7 @@
     <application
         android:allowBackup="true"
         android:hardwareAccelerated="false"
-        android:icon="@drawable/clemsonpaw"
+        android:icon="@drawable/clemsonpawpurple"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="true"
