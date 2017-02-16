@@ -10,7 +10,7 @@
     android:paddingTop="10dp"
     android:paddingBottom="10dp"
     android:id="@+id/relativeLayout"
-    tools:context="com.example.ngratzi.nicecatchtiger.AboutActivity"
+    tools:context="com.example.ngratzi.nicecatchtiger.edu.example.ngratzi.nicecatchtiger.AboutActivity"
     android:layout_height="match_parent">
 
     <ScrollView

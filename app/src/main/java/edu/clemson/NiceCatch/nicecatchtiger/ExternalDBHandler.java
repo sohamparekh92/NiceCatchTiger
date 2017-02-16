@@ -1,32 +1,17 @@
-package com.example.ngratzi.nicecatchtiger;
+package edu.clemson.NiceCatch.nicecatchtiger;
 
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.util.Base64;
 import android.util.Log;
-import android.widget.Toast;
 
-import org.apache.http.HttpClientConnection;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.ByteArrayEntity;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicHeader;
-import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
-import org.apache.http.protocol.HTTP;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -39,21 +24,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.TimeoutException;
 
 import javax.net.ssl.HttpsURLConnection;
-
-import static com.google.ads.AdRequest.LOGTAG;
 
 /**
  * Created by Soham on 10/5/2016.
@@ -73,13 +49,13 @@ public class ExternalDBHandler extends  AsyncTask< String ,Void,String> {
     protected String doInBackground(String... params) {
         String method = params[0];
         //String home_joey = "https://people.cs.clemson.edu/~jacosta";
-        String home_aws = "http://54.85.8.249/";
+        String home_aws = "http://54.85.8.249";
 
         String base_url;
         //base_url = home_joey;
         base_url = home_aws;
         //String url = base_url+"/api/v1/reports";
-        String url = base_url+"models/submitReport.php";
+        String url = base_url+"/models/submitReport.php";
         //String url = "https://people.cs.clemson.edu/~sohamap/nct_test/nct.php";
         String home_url = base_url+"/api/v1/";
         String home_url_model = base_url+"/models/androidUpload.php";

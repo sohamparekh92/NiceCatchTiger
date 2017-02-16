@@ -1,4 +1,4 @@
-package com.example.ngratzi.nicecatchtiger;
+package edu.clemson.NiceCatch.nicecatchtiger;
 
 import android.graphics.Color;
 import android.graphics.Point;
@@ -7,14 +7,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
-import android.text.Layout;
 import android.text.method.LinkMovementMethod;
 import android.view.Display;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TableRow;
 import android.widget.TextView;
 

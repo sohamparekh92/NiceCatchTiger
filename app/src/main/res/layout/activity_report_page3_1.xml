@@ -10,7 +10,7 @@
     android:paddingTop="10dp"
     android:paddingBottom="10dp"
     android:layout_gravity="center"
-    tools:context="com.example.ngratzi.nicecatchtiger.ReportPage3"
+    tools:context="com.example.ngratzi.nicecatchtiger.edu.example.ngratzi.nicecatchtiger.ReportPage3"
     android:layout_height="match_parent">
     <ScrollView
         android:layout_width="match_parent"
@@ -99,7 +99,7 @@
                     android:textSize="25dp"
                     android:text="Name:"/>
 
-                <com.example.ngratzi.nicecatchtiger.InstaAutoComplete
+                <edu.clemson.NiceCatch.nicecatchtiger.InstaAutoComplete
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionDone"
@@ -120,7 +120,7 @@
                     android:textSize="25dp"
                     android:text="Username:"/>
 
-                <com.example.ngratzi.nicecatchtiger.InstaAutoComplete
+                <edu.clemson.NiceCatch.nicecatchtiger.InstaAutoComplete
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionDone"
@@ -139,7 +139,7 @@
                     android:layout_width="wrap_content"
                     android:textSize="25dp"
                     android:text="Phone:"/>
-                <com.example.ngratzi.nicecatchtiger.InstaAutoComplete
+                <edu.clemson.NiceCatch.nicecatchtiger.InstaAutoComplete
                     android:layout_column="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

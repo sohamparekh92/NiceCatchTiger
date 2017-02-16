@@ -1,4 +1,4 @@
-package com.example.ngratzi.nicecatchtiger;
+package edu.clemson.NiceCatch.nicecatchtiger;
 
 import org.junit.Test;
 

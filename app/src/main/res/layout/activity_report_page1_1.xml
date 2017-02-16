@@ -9,7 +9,7 @@
     android:paddingRight="10dp"
     android:paddingTop="10dp"
     android:paddingBottom="10dp"
-    tools:context="com.example.ngratzi.nicecatchtiger.ReportPage1"
+    tools:context="com.example.ngratzi.nicecatchtiger.edu.example.ngratzi.nicecatchtiger.ReportPage1"
     android:layout_height="match_parent">
 
     <ScrollView

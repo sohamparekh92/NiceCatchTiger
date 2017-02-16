@@ -1,4 +1,4 @@
-package com.example.ngratzi.nicecatchtiger;
+package edu.clemson.NiceCatch.nicecatchtiger;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

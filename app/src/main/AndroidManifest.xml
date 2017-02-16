@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.ngratzi.nicecatchtiger">
+    package="edu.clemson.NiceCatch.nicecatchtiger">
 
     <!-- Accessing camera hardware -->
     <uses-feature android:name="android.hardware.camera" />
@@ -28,7 +28,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity
-            android:name=".MainActivity"
+            android:name="edu.clemson.NiceCatch.nicecatchtiger.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CustomTheme">
             <intent-filter>
@@ -38,32 +38,32 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ReportPage1"
-            android:parentActivityName=".MainActivity"
+            android:name="edu.clemson.NiceCatch.nicecatchtiger.ReportPage1"
+            android:parentActivityName="edu.clemson.NiceCatch.nicecatchtiger.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CustomThemePage" />
         <activity
-            android:name=".ReportPage2"
-            android:parentActivityName=".ReportPage1"
+            android:name="edu.clemson.NiceCatch.nicecatchtiger.ReportPage2"
+            android:parentActivityName="edu.clemson.NiceCatch.nicecatchtiger.ReportPage1"
             android:screenOrientation="portrait"
             android:theme="@style/CustomThemePage" />
         <activity
-            android:name=".ReportPage3"
-            android:parentActivityName=".ReportPage2"
+            android:name="edu.clemson.NiceCatch.nicecatchtiger.ReportPage3"
+            android:parentActivityName="edu.clemson.NiceCatch.nicecatchtiger.ReportPage2"
             android:screenOrientation="portrait"
             android:theme="@style/CustomThemePage" />
         <activity
-            android:name=".SucessSubmit"
+            android:name="edu.clemson.NiceCatch.nicecatchtiger.SucessSubmit"
             android:screenOrientation="portrait" />
         <!--
              ATTENTION: This was auto-generated to add Google Play services to your project for
              App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
         -->
 
-        <activity android:name=".AboutActivity"
+        <activity android:name="edu.clemson.NiceCatch.nicecatchtiger.AboutActivity"
             android:theme="@style/CustomThemePageAbout"
             android:screenOrientation="portrait"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName="edu.clemson.NiceCatch.nicecatchtiger.MainActivity"></activity>
     </application>
 
 </manifest>

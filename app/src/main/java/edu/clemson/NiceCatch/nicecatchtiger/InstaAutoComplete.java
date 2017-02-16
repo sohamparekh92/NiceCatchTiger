@@ -1,4 +1,4 @@
-package com.example.ngratzi.nicecatchtiger;
+package edu.clemson.NiceCatch.nicecatchtiger;
 
 import android.content.Context;
 import android.graphics.Rect;

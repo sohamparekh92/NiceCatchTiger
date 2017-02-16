@@ -10,7 +10,7 @@
     android:paddingTop="10dp"
     android:paddingBottom="10dp"
     android:background="#f9f9f9"
-    tools:context="com.example.ngratzi.nicecatchtiger.ReportPage2"
+    tools:context="com.example.ngratzi.nicecatchtiger.edu.example.ngratzi.nicecatchtiger.ReportPage2"
     android:layout_height="match_parent">
 
     <ScrollView
@@ -50,7 +50,7 @@
             </TableRow>
 
             <TableRow>
-                <com.example.ngratzi.nicecatchtiger.InstaAutoComplete
+                <edu.clemson.NiceCatch.nicecatchtiger.InstaAutoComplete
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionDone"
@@ -65,7 +65,7 @@
             </TableRow>
 
             <TableRow>
-                <com.example.ngratzi.nicecatchtiger.InstaAutoComplete
+                <edu.clemson.NiceCatch.nicecatchtiger.InstaAutoComplete
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionDone"
